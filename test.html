@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+        <title>Audio Test</title>
+        <script type="text/javascript" src="includes/audio.js"></script>
+        <script type="text/javascript">
+            var audBassDrum, audClap, audClosedHH, audOpenHH;
+            window.onload = function() {
+                audBassDrum = new AudioChannel({
+                    srcOgg: "samples/808-kick.ogg",
+                    srcMp3: "samples/808-clap.mp3"
+                });
+                audClosedHH = new AudioChannel({
+                    srcOgg: "samples/808-closedhh.ogg",
+                    srcMp3: "samples/808-closedhh.mp3"
+                });
+                audOpenHH = new AudioChannel({
+                    srcOgg: "samples/808-openhh.ogg",
+                    srcMp3: "samples/808-openhh.mp3"
+                });
+                audClap = new AudioChannel({
+                    srcOgg: "samples/808-clap.ogg",
+                    srcMp3: "samples/808-clap.mp3"
+                });
+                window.onkeydown = keyHandler;
+            };
+            
+            function keyHandler(e) {
+	            if(!e) {
+	                var e = window.event;
+	            }
+                //console.log(e.keyCode);
+                switch(e.keyCode) {
+                    case 59:
+                        audOpenHH.play();
+                        break;
+                    case 65:
+                        audBassDrum.play();
+                        break;
+                    case 68:
+                        audClap.play();
+                        break;
+                    case 75:
+                        audClosedHH.play();
+                        break;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <input type="button" value="Bass Drum" onclick="audBassDrum.play();" />
+        <input type="button" value="Clap" onclick="audBassClap.play();" />
+        <input type="button" value="Closed HH" onclick="audBassClosedHH.play();" />
+    </body>
+</html> 
