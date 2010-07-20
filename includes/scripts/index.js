@@ -1,5 +1,15 @@
 var audBassDrum, audClap, audClosedHH, audOpenHH, audCymbal, audSnare, audLowConga, audHiConga;
+var divPlayPause;
 var instrumentArr = [];
+var divStepArr = [];
+
+var playerState = 'paused';
+var currentStep = 1;
+var totalSteps = 16;
+var lastStep = totalSteps;
+var sequencerTimer;
+var tempo = 120;
+var sequencerTimeoutLength = (1000*((60/tempo)/4));
 
 window.onload = function() {
     audBassDrum = new AudioChannel({src: "samples/808-kick.ogg"});
@@ -13,10 +23,13 @@ window.onload = function() {
     window.onkeydown = keyDownHandler;
     window.onkeyup = keyUpHandler
 
+    divPlayPause = $('divPlayPause');
+
     for(var n=0; n<8; n++) {
         instrumentArr[n] = $('instrument' + n);
         instrumentArr[n].onmouseup = keyUpHandler;
     }
+    divStepArr = $("divStepWrapper").getElementsByTagName('div');
 };
 
 function keyDownHandler(e) {
@@ -68,6 +81,51 @@ function keyUpHandler() {
 
 function setInstrumentClass(el) {
     instrumentArr[el].className = 'clsInstrumentActive';
+}
+
+function togglePlay() {
+    playerState = (playerState == 'playing') ? 'paused' : 'playing';
+    togglePlayer(playerState);
+}
+
+function togglePlayer(state) {
+    if(state == 'playing') {
+        divPlayPause.innerHTML = "|&nbsp;|";
+        runSequencer();
+    }else if(state == 'paused') {
+        divPlayPause.innerHTML = ">";
+        clearTimeout(sequencerTimer);       
+    }
+}
+
+function runSequencer() {
+    removeClass(divStepArr[lastStep-1], 'clsStepCurrent');
+    addClass(divStepArr[currentStep-1], 'clsStepCurrent');
+    /*
+        1. Update GUI
+        2. Play sounds for current step
+    */
+    //console.log(lastStep + " " + currentStep);
+    lastStep = currentStep;
+    currentStep++
+    currentStep = (currentStep > totalSteps) ? 1 : currentStep;
+    sequencerTimer = setTimeout("runSequencer();", sequencerTimeoutLength);
+}
+
+function hasClass(ele,cls) {
+    return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+    if(!this.hasClass(ele,cls)) {
+        ele.className += " " + cls;
+    }
+}
+
+function removeClass(ele,cls) {
+    if (hasClass(ele,cls)) {
+        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+        ele.className=ele.className.replace(reg,' ');
+    }
 }
 
 function $(el) {

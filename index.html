@@ -20,11 +20,41 @@
                     <div id="instrument7" onmousedown="setInstrumentClass(7); audOpenHH.play(); return false;">Open HH<br />(L)</div>
                 </div>
                 <div id="divSequencer">
-                
+                    <div id="divStepWrapper">
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                    </div>
                 </div>
             </div>
             <div id="divRightCol">
-
+                Instrument
+                <select id="cmbInstrument">
+                    <option value="0">Bass Drum</option>
+                    <option value="1">Snare</option>
+                    <option value="2">Clap</option>
+                    <option value="3">Low Conga</option>
+                    <option value="4">Hi Conga</option>
+                    <option value="5">Cymbal</option>
+                    <option value="6">Closed HH</option>
+                    <option value="7">Open HH</option>
+                </select>
+                <div id="divPlayPause" onmousedown="togglePlay(); return false;">
+                    >
+                </div>
             </div>
         </div>
     </body>
