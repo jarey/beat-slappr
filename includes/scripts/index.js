@@ -1,14 +1,17 @@
 var audBassDrum, audClap, audClosedHH, audOpenHH, audCymbal, audSnare, audLowConga, audHiConga;
-var divPlayPause;
+var divPlayPause, cmbInstrument;
+
 var instrumentArr = [];
 var divStepArr = [];
+var sequenceArr = [];
 
 var playerState = 'paused';
+var instrumentChannels = 8;
 var currentStep = 1;
 var totalSteps = 16;
+var tempo = 95;
 var lastStep = totalSteps;
 var sequencerTimer;
-var tempo = 120;
 var sequencerTimeoutLength = (1000*((60/tempo)/4));
 
 window.onload = function() {
@@ -25,11 +28,17 @@ window.onload = function() {
 
     divPlayPause = $('divPlayPause');
 
-    for(var n=0; n<8; n++) {
+    for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n] = $('instrument' + n);
         instrumentArr[n].onmouseup = keyUpHandler;
     }
+
+    for(var n=0; n<totalSteps; n++) {
+        sequenceArr[n] = [];
+    }
+    
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    cmbInstrument = $("cmbInstrument");
 };
 
 function keyDownHandler(e) {
@@ -99,22 +108,51 @@ function togglePlayer(state) {
 }
 
 function runSequencer() {
+    //Update GUI
     removeClass(divStepArr[lastStep-1], 'clsStepCurrent');
     addClass(divStepArr[currentStep-1], 'clsStepCurrent');
-    /*
-        1. Update GUI
-        2. Play sounds for current step
-    */
-    //console.log(lastStep + " " + currentStep);
+
+    //2. Play sounds for current step
+    for(var n=0; n<sequenceArr[currentStep-1].length; n++) {
+        instrumentArr[sequenceArr[currentStep-1][n]].onmousedown();
+    }
+
     lastStep = currentStep;
     currentStep++
     currentStep = (currentStep > totalSteps) ? 1 : currentStep;
     sequencerTimer = setTimeout("runSequencer();", sequencerTimeoutLength);
 }
 
+function toggleInstrument(step) {
+    var instrument = cmbInstrument.value;
+    for(var n=0; n<sequenceArr[step-1].length; n++) {
+        if (sequenceArr[step-1][n] == instrument) {
+            sequenceArr[step-1].splice(n,1);
+            removeClass(divStepArr[step-1], 'clsStepOn');
+            return;
+        }
+    }
+    sequenceArr[step-1].push(instrument);
+    addClass(divStepArr[step-1], 'clsStepOn');
+}
+
+function selectInstrument() {
+    var instrument = cmbInstrument.value;
+    for(var n=0; n<totalSteps; n++) {
+        removeClass(divStepArr[n], 'clsStepOn');
+        for(var m=0; m<sequenceArr[n].length; m++) {
+            if(sequenceArr[n][m] == instrument) {
+                addClass(divStepArr[n], 'clsStepOn');
+                break;
+            }
+        }
+    }
+}
+
 function hasClass(ele,cls) {
     return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
 }
+
 function addClass(ele,cls) {
     if(!this.hasClass(ele,cls)) {
         ele.className += " " + cls;

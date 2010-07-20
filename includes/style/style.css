@@ -76,10 +76,15 @@ body {
     background-color: #333;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    cursor: pointer;
 }
 
 .clsStepOne {
     background-color: #595959;
+}
+
+.clsStepOn {
+    background-color: #610000;
 }
 
 .clsStepCurrent {
