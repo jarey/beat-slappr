@@ -1,6 +1,6 @@
-var audBassDrum, audClap, audClosedHH, audOpenHH, audCymbal, audSnare, audLowConga, audHiConga;
-var divPlayPause, cmbInstrument, txtTempo;
+var divPlayPause, cmbInstrument, txtTempo, cmdSetTempo;
 
+var channelArr = []
 var instrumentArr = [];
 var divStepArr = [];
 var sequenceArr = [];
@@ -15,35 +15,56 @@ var sequencerTimer;
 var sequencerTimeoutLength;
 
 window.onload = function() {
-    audBassDrum = new AudioChannel({src: "samples/808-kick.ogg"});
-    audClosedHH = new AudioChannel({src: "samples/808-closedhh.ogg"});
-    audOpenHH = new AudioChannel({src: "samples/808-openhh.ogg"});
-    audClap = new AudioChannel({src: "samples/808-clap.ogg"});
-    audCymbal = new AudioChannel({src: "samples/808-cymbal.ogg"});
-    audSnare = new AudioChannel({src: "samples/808-snare.ogg"});
-    audLowConga = new AudioChannel({src: "samples/808-lowconga.ogg"});
-    audHiConga = new AudioChannel({src: "samples/808-hiconga.ogg"});
+    channelArr = [
+        new AudioChannel({src: "samples/808-kick.ogg"}),
+        new AudioChannel({src: "samples/808-snare.ogg"}),
+        new AudioChannel({src: "samples/808-clap.ogg"}),
+        new AudioChannel({src: "samples/808-lowconga.ogg"}),
+        new AudioChannel({src: "samples/808-hiconga.ogg"}),
+        new AudioChannel({src: "samples/808-cymbal.ogg"}),
+        new AudioChannel({src: "samples/808-closedhh.ogg"}),
+        new AudioChannel({src: "samples/808-openhh.ogg"})
+    ];
+
     window.onkeydown = keyDownHandler;
-    window.onkeyup = keyUpHandler
+    window.onkeyup = releaseAll;
 
-    divPlayPause = $('divPlayPause');
-
+    instrumentArr = $("divInstrument").getElementsByTagName('div');
     for(var n=0; n<instrumentChannels; n++) {
-        instrumentArr[n] = $('instrument' + n);
-        instrumentArr[n].onmouseup = keyUpHandler;
+        instrumentArr[n].onmousedown = _playInstrument(n);
+        instrumentArr[n].onmouseup = releaseHandler(n);
     }
 
+    divStepArr = $("divStepWrapper").getElementsByTagName('div');
     for(var n=0; n<totalSteps; n++) {
         sequenceArr[n] = [];
+        divStepArr[n].onclick = _toggleInstrument(n);
     }
     
-    divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    divPlayPause = $('divPlayPause');
     cmbInstrument = $("cmbInstrument");
     txtTempo = $("txtTempo");
+    cmdSetTempo = $("cmdSetTempo");
+    
+    divPlayPause.onclick = function() {togglePlay(); return false;};
+    cmdSetTempo.onclick = setTempo;
+    cmbInstrument.onclick = selectInstrument;
     
     txtTempo.value = tempo;
     setTempo();
 };
+
+function _playInstrument(index) {
+    return function() {
+        playInstrument(index);
+        return false;
+    };
+}
+
+function playInstrument(index) {
+    setInstrumentClass(index);
+    channelArr[index].play();
+}
 
 function keyDownHandler(e) {
     if(!e) {
@@ -54,42 +75,40 @@ function keyDownHandler(e) {
             togglePlay();
             break;
         case 65:
-            setInstrumentClass(0);
-            audBassDrum.play();
+            playInstrument(0);
             break;
         case 68:
-            setInstrumentClass(2);
-            audClap.play();
+            playInstrument(2);
             break;
         case 70:
-            setInstrumentClass(3);
-            audLowConga.play();
+            playInstrument(3);
             break;
         case 71:
-            setInstrumentClass(4);
-            audHiConga.play();
+            playInstrument(4);
             break;
         case 74:
-            setInstrumentClass(5);
-            audCymbal.play();
+            playInstrument(5);
             break;
         case 75:
-            setInstrumentClass(6);
-            audClosedHH.play();
+            playInstrument(6);
             break;
         case 76:
-            setInstrumentClass(7);
-            audOpenHH.play();
+            playInstrument(7);
             break;
         case 83:
-            setInstrumentClass(1);
-            audSnare.play();
+            playInstrument(1);
             break;
     }
 }
 
-function keyUpHandler() {
-    for(var n=0; n<instrumentArr.length; n++) {
+function releaseHandler(index) {
+    return function() {
+        instrumentArr[index].className = '';
+    };
+}
+
+function releaseAll() {
+    for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].className = '';
     }
 }
@@ -120,7 +139,7 @@ function runSequencer() {
 
     //2. Play sounds for current step
     for(var n=0; n<sequenceArr[currentStep-1].length; n++) {
-        instrumentArr[sequenceArr[currentStep-1][n]].onmousedown();
+        channelArr[sequenceArr[currentStep-1][n]].play();
     }
 
     lastStep = currentStep;
@@ -129,17 +148,23 @@ function runSequencer() {
     sequencerTimer = setTimeout("runSequencer();", sequencerTimeoutLength);
 }
 
+function _toggleInstrument(index) {
+    return function() {
+        toggleInstrument(index);
+    };
+}
+
 function toggleInstrument(step) {
     var instrument = cmbInstrument.value;
-    for(var n=0; n<sequenceArr[step-1].length; n++) {
-        if (sequenceArr[step-1][n] == instrument) {
-            sequenceArr[step-1].splice(n,1);
-            removeClass(divStepArr[step-1], 'clsStepOn');
+    for(var n=0; n<sequenceArr[step].length; n++) {
+        if (sequenceArr[step][n] == instrument) {
+            sequenceArr[step].splice(n,1);
+            removeClass(divStepArr[step], 'clsStepOn');
             return;
         }
     }
-    sequenceArr[step-1].push(instrument);
-    addClass(divStepArr[step-1], 'clsStepOn');
+    sequenceArr[step].push(instrument);
+    addClass(divStepArr[step], 'clsStepOn');
 }
 
 function selectInstrument() {

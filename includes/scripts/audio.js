@@ -7,7 +7,7 @@ function AudioChannel(config) {
 
 AudioChannel.prototype = {
 
-    polyphony:  48,
+    polyphony:  64,
     _padTime:   5,
     
     createObjectElements: function() {

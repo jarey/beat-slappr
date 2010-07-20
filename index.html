@@ -10,39 +10,39 @@
         <div id="divWrapper">
             <div id="divLeftCol">
                 <div id="divInstrument">
-                    <div id="instrument0" onmousedown="setInstrumentClass(0); audBassDrum.play(); return false;">Bass Drum<br />(A)</div>
-                    <div id="instrument1" onmousedown="setInstrumentClass(1); audSnare.play(); return false;">Snare<br />(S)</div>
-                    <div id="instrument2" onmousedown="setInstrumentClass(2);  audClap.play(); return false;">Clap<br />(D)</div>
-                    <div id="instrument3" onmousedown="setInstrumentClass(3); audLowConga.play(); return false;">Low Conga<br />(F)</div>
-                    <div id="instrument4" onmousedown="setInstrumentClass(4); audHiConga.play(); return false;">Hi Conga<br />(G)</div>
-                    <div id="instrument5" onmousedown="setInstrumentClass(5); audCymbal.play(); return false;">Cymbal<br />(J)</div>
-                    <div id="instrument6" onmousedown="setInstrumentClass(6); audClosedHH.play(); return false;">Closed HH<br />(K)</div>
-                    <div id="instrument7" onmousedown="setInstrumentClass(7); audOpenHH.play(); return false;">Open HH<br />(L)</div>
+                    <div>Bass Drum<br />(A)</div>
+                    <div>Snare<br />(S)</div>
+                    <div>Clap<br />(D)</div>
+                    <div>Low Conga<br />(F)</div>
+                    <div>Hi Conga<br />(G)</div>
+                    <div>Cymbal<br />(J)</div>
+                    <div>Closed HH<br />(K)</div>
+                    <div>Open HH<br />(L)</div>
                 </div>
                 <div id="divSequencer">
                     <div id="divStepWrapper">
-                        <div class="clsStep clsStepOne" onclick="toggleInstrument(1);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(2);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(3);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(4);"></div>
-                        <div class="clsStep clsStepOne" onclick="toggleInstrument(5);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(6);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(7);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(8);"></div>
-                        <div class="clsStep clsStepOne" onclick="toggleInstrument(9);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(10);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(11);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(12);"></div>
-                        <div class="clsStep clsStepOne" onclick="toggleInstrument(13);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(14);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(15);"></div>
-                        <div class="clsStep" onclick="toggleInstrument(16);"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep clsStepOne"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
+                        <div class="clsStep"></div>
                     </div>
                 </div>
             </div>
             <div id="divRightCol">
                 Instrument
-                <select id="cmbInstrument" onclick="selectInstrument();">
+                <select id="cmbInstrument">
                     <option value="0">Bass Drum</option>
                     <option value="1">Snare</option>
                     <option value="2">Clap</option>
@@ -54,9 +54,9 @@
                 </select>
                 Tempo
                 <div id="divTempo">
-                    <input type="text" id="txtTempo" maxlength="3" /> <input type="button" id="cmdSetTempo" value="Set" onclick="setTempo();" />
+                    <input type="text" id="txtTempo" maxlength="3" /> <input type="button" id="cmdSetTempo" value="Set" />
                 </div>
-                <div id="divPlayPause" onmousedown="togglePlay(); return false;">
+                <div id="divPlayPause">
                     >
                 </div>
             </div>
