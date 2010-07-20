@@ -1,5 +1,5 @@
 var audBassDrum, audClap, audClosedHH, audOpenHH, audCymbal, audSnare, audLowConga, audHiConga;
-var divPlayPause, cmbInstrument;
+var divPlayPause, cmbInstrument, txtTempo;
 
 var instrumentArr = [];
 var divStepArr = [];
@@ -9,10 +9,10 @@ var playerState = 'paused';
 var instrumentChannels = 8;
 var currentStep = 1;
 var totalSteps = 16;
-var tempo = 95;
+var tempo = 120;
 var lastStep = totalSteps;
 var sequencerTimer;
-var sequencerTimeoutLength = (1000*((60/tempo)/4));
+var sequencerTimeoutLength;
 
 window.onload = function() {
     audBassDrum = new AudioChannel({src: "samples/808-kick.ogg"});
@@ -39,14 +39,20 @@ window.onload = function() {
     
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
     cmbInstrument = $("cmbInstrument");
+    txtTempo = $("txtTempo");
+    
+    txtTempo.value = tempo;
+    setTempo();
 };
 
 function keyDownHandler(e) {
     if(!e) {
         var e = window.event;
     }
-
     switch(e.keyCode) {
+        case 32:
+            togglePlay();
+            break;
         case 65:
             setInstrumentClass(0);
             audBassDrum.play();
@@ -147,6 +153,11 @@ function selectInstrument() {
             }
         }
     }
+}
+
+function setTempo() {
+    tempo = txtTempo.value;
+    sequencerTimeoutLength = (1000*((60/tempo)/4));
 }
 
 function hasClass(ele,cls) {

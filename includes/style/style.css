@@ -109,6 +109,17 @@ body {
     font-size: 10px;
 }
 
+
+#txtTempo {
+    font-size: 10px;
+    width: 25px;
+}
+
+#cmdSetTempo {
+    font-size: 10px;
+    padding: 0;
+}
+
 #divPlayPause {
     font-size: 24px;
     font-weight: bold;
