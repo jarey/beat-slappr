@@ -28,7 +28,6 @@ AudioChannel.prototype = {
                 var curTime = (new Date().getTime() / 1000);
                 if(curTime > this.elArr[n].busy) {
                     this.elArr[n].busy = false;
-                    n--;
                 }
             }else {
                 this.elArr[n].el.play();

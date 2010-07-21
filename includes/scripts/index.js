@@ -133,19 +133,26 @@ function togglePlayer(state) {
 }
 
 function runSequencer() {
+    var lastStepIndex = lastStep-1;
+    var currentStepIndex = currentStep-1;
+    var stepArr = sequenceArr[currentStepIndex];
+    
     //Update GUI
-    removeClass(divStepArr[lastStep-1], 'clsStepCurrent');
-    addClass(divStepArr[currentStep-1], 'clsStepCurrent');
+    removeClass(divStepArr[lastStepIndex], 'clsStepCurrent');
+    addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
 
     //2. Play sounds for current step
-    for(var n=0; n<sequenceArr[currentStep-1].length; n++) {
-        channelArr[sequenceArr[currentStep-1][n]].play();
+    for(var n=0; n<stepArr.length; n++) {
+        channelArr[stepArr[n]].play();
     }
 
     lastStep = currentStep;
     currentStep++
-    currentStep = (currentStep > totalSteps) ? 1 : currentStep;
-    sequencerTimer = setTimeout("runSequencer();", sequencerTimeoutLength);
+    if(currentStep > totalSteps) {
+        currentStep = 1;
+    }
+
+    sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
 }
 
 function _toggleInstrument(index) {
