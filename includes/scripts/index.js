@@ -6,7 +6,7 @@ var divStepArr = [];
 var sequenceArr = [];
 
 var playerState = 'paused';
-var instrumentChannels = 8;
+var instrumentChannels = 16;
 var currentStep = 1;
 var totalSteps = 16;
 var tempo = 120;
@@ -23,7 +23,16 @@ window.onload = function() {
         new AudioChannel({src: "samples/808-hiconga.ogg"}),
         new AudioChannel({src: "samples/808-cymbal.ogg"}),
         new AudioChannel({src: "samples/808-closedhh.ogg"}),
-        new AudioChannel({src: "samples/808-openhh.ogg"})
+        new AudioChannel({src: "samples/808-openhh.ogg"}),
+
+        new AudioChannel({src: "samples/mt_hit_dacado.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_domba.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_dunna.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_echofalls.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_glatch.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_glitchburn.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_glitchvoc.ogg"}),
+        new AudioChannel({src: "samples/mt_hit_hitack.ogg"})
     ];
 
     window.onkeydown = keyDownHandler;
@@ -75,28 +84,52 @@ function keyDownHandler(e) {
             togglePlay();
             break;
         case 65:
-            playInstrument(0);
+            playInstrument(8);
             break;
         case 68:
-            playInstrument(2);
+            playInstrument(10);
             break;
         case 70:
-            playInstrument(3);
+            playInstrument(11);
             break;
         case 71:
-            playInstrument(4);
+            playInstrument(12);
             break;
         case 74:
-            playInstrument(5);
+            playInstrument(13);
             break;
         case 75:
-            playInstrument(6);
+            playInstrument(14);
             break;
         case 76:
-            playInstrument(7);
+            playInstrument(15);
             break;
         case 83:
+            playInstrument(9);
+            break;
+        case 81:
+            playInstrument(0);
+            break;
+        case 87:
             playInstrument(1);
+            break;
+        case 69:
+            playInstrument(2);
+            break;
+        case 82:
+            playInstrument(3);
+            break;
+        case 84:
+            playInstrument(4);
+            break;
+        case 85:
+            playInstrument(5);
+            break;
+        case 73:
+            playInstrument(6);
+            break;
+        case 79:
+            playInstrument(7);
             break;
     }
 }
