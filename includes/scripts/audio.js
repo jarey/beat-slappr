@@ -7,8 +7,8 @@ function AudioChannel(config) {
 
 AudioChannel.prototype = {
 
-    polyphony:  64,
-    _padTime:   5,
+    polyphony:  100,
+    _padTime:   8,
     
     createObjectElements: function() {
         var elArr = [];
@@ -23,9 +23,9 @@ AudioChannel.prototype = {
     },
     
     play: function() {
+        var curTime = (new Date().getTime() / 1000);
         for(var n=0; n<this.polyphony; n++) {
             if(this.elArr[n].busy) {
-                var curTime = (new Date().getTime() / 1000);
                 if(curTime > this.elArr[n].busy) {
                     this.elArr[n].busy = false;
                 }
