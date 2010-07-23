@@ -1,4 +1,4 @@
-var divPlayPause, txtTempo, cmdSetTempo;
+var divPlayPause, divTempo, txtTempo;
 
 var channelArr = []
 var instrumentArr = [];
@@ -10,13 +10,17 @@ var playerState = 'paused';
 var instrumentChannels = 16;
 var currentStep = 1;
 var totalSteps = 16;
-var tempo = 120;
 var lastStep = totalSteps;
 var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
+var tempoSlider;
 
 window.onload = function() {
+    divPlayPause = $('divPlayPause');
+    divTempo = $("divTempo");
+    txtTempo = $("txtTempo");
+    
     channelArr = [
         new AudioChannel({src: "samples/808-kick.ogg"}),
         new AudioChannel({src: "samples/808-snare.ogg"}),
@@ -58,21 +62,27 @@ window.onload = function() {
         });
     }
 
+    tempoSlider = new Slider({
+    	minValue:       20,
+        maxValue:       200,
+        initValue:      120,
+        container:      divTempo,
+        containerClass: 'volumeSliderOutter',
+        sliderClass:    'volumeSliderInner',
+        onSlide:        setTempo
+    });
+    
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
     for(var n=0; n<totalSteps; n++) {
         sequenceArr[n] = [];
         divStepArr[n].onclick = _toggleInstrument(n);
     }
     
-    divPlayPause = $('divPlayPause');
-    txtTempo = $("txtTempo");
-    cmdSetTempo = $("cmdSetTempo");
-    
     divPlayPause.onclick = function() {togglePlay(); return false;};
-    cmdSetTempo.onclick = setTempo;
     
-    txtTempo.value = tempo;
-    setTempo();
+    setTempo(tempoSlider.getValue());
+    
+    txtTempo.onkeyup = keyInTempo;
 };
 
 function _setVolume(index) {
@@ -184,10 +194,10 @@ function togglePlay() {
 
 function togglePlayer(state) {
     if(state == 'playing') {
-        divPlayPause.innerHTML = "|&nbsp;|";
+        divPlayPause.style.backgroundPosition = "0 -40px";
         runSequencer();
     }else if(state == 'paused') {
-        divPlayPause.innerHTML = ">";
+        divPlayPause.style.backgroundPosition = "0 0";
         clearTimeout(sequencerTimer);       
     }
 }
@@ -247,9 +257,18 @@ function selectInstrument() {
     }
 }
 
-function setTempo() {
-    tempo = txtTempo.value;
-    sequencerTimeoutLength = (1000*((60/tempo)/4));
+function keyInTempo() {
+    var val = txtTempo.value;
+    
+    if(val >= tempoSlider.minValue && val <= tempoSlider.maxValue) {
+        tempoSlider.setValue(val);
+        setTempo(val);    
+    }
+}
+
+function setTempo(val) {
+    txtTempo.value = val;
+    sequencerTimeoutLength = (1000*((60/val)/4));
 }
 
 function hasClass(ele,cls) {
