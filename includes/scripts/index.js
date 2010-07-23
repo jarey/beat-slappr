@@ -85,6 +85,11 @@ window.onload = function() {
     txtTempo.onkeyup = keyInTempo;
 };
 
+window.onbeforeunload = function(){
+	var message = 'Any unsaved changes will be lost!';
+  	return message;
+};
+
 function _setVolume(index) {
     return function(val) {
         channelArr[index].vol = (val/100);

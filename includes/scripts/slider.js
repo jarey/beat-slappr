@@ -81,7 +81,7 @@ Slider.prototype = {
 			val = this.minValue;
 		} else {
 			var incrementPixels = (maxPos - minPos) / this.maxValue;
-			val = this.maxValue - Math.round((yPos - minPos) / incrementPixels);
+			val = this.maxValue - Math.round((yPos - minPos) / incrementPixels) + this.minValue;
 		}
 		this._currentValue = val;
 		this._innerDiv.style.top = (yPos - minPos) + "px";
