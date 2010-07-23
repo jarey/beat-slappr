@@ -6,11 +6,14 @@ body {
 #divWrapper {
     margin: 100px auto 0 auto;
     width: 980px;
-    height: 170px;
-    background-color: #222;
+    height: 250px;
+    background: url(../images/texture.gif);
     overflow: hidden;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    -moz-box-shadow: 5px 5px 5px black;
+    -webkit-box-shadow: 5px 5px 5px black;
+    box-shadow: 5px 5px 5px black;
 }
 
 #divLeftCol {
@@ -22,28 +25,37 @@ body {
 #divInstrument {
     overflow: hidden;
     width: 880px;
-    padding: 10px 0;
+    height: 165px;
+    padding-top: 5px;
 }
 
-#divInstrument div {
+#divInstrument > div {
     float: left;
     padding-top: 0px;
-    margin: 0 5px 5px 5px;
-    width: 100px;
-    height: 30px;
-    border: 1px;
+    margin: 0 3px 5px 3px;
+    border: #ccc 1px solid;
+    width: 50px;
+    height: 160px;
+    color: #ccc;
+    font-size: 8px;
+    text-align: center;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.drumPad {
+    width: 20px;
+    height: 20px;
+    margin: 5px auto 0 auto;
+    color: #333;
+    background-color: #ccc;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
+    line-height: 20px;
     cursor: pointer;
-    background-color: #ccc;
-    color: #24220B;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    -moz-box-shadow: 5px 5px 5px black;
-    -webkit-box-shadow: 5px 5px 5px black;
-    box-shadow: 5px 5px 5px black;
-
 }
 
 .clsInstrumentActive {
@@ -99,17 +111,11 @@ body {
     color: #ccc;
     font-size: 10px;
     width: 86px;
-    height: 143px;
+    height: 223px;
     padding: 5px 3px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
-
-#cmbInstrument {
-    font-size: 10px;
-    width: 85px;
-}
-
 
 #txtTempo {
     font-size: 10px;

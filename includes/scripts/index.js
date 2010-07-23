@@ -1,9 +1,10 @@
-var divPlayPause, cmbInstrument, txtTempo, cmdSetTempo;
+var divPlayPause, txtTempo, cmdSetTempo;
 
 var channelArr = []
 var instrumentArr = [];
 var divStepArr = [];
 var sequenceArr = [];
+var currentInstrument;
 
 var playerState = 'paused';
 var instrumentChannels = 16;
@@ -38,7 +39,7 @@ window.onload = function() {
     window.onkeydown = keyDownHandler;
     window.onkeyup = releaseAll;
 
-    instrumentArr = $("divInstrument").getElementsByTagName('div');
+    instrumentArr = getElementsByClassName('drumPad');
     for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].onmousedown = _playInstrument(n);
         instrumentArr[n].onmouseup = releaseHandler(n);
@@ -51,13 +52,11 @@ window.onload = function() {
     }
     
     divPlayPause = $('divPlayPause');
-    cmbInstrument = $("cmbInstrument");
     txtTempo = $("txtTempo");
     cmdSetTempo = $("cmdSetTempo");
     
     divPlayPause.onclick = function() {togglePlay(); return false;};
     cmdSetTempo.onclick = setTempo;
-    cmbInstrument.onclick = selectInstrument;
     
     txtTempo.value = tempo;
     setTempo();
@@ -66,6 +65,15 @@ window.onload = function() {
 function _playInstrument(index) {
     return function() {
         playInstrument(index);
+        for(var n=0; n<instrumentChannels; n++) {
+            if(n == index) {
+                addClass(instrumentArr[n].parentNode, 'clsStepOn');
+                currentInstrument = index;
+                selectInstrument();
+            }else {
+                removeClass(instrumentArr[n].parentNode, 'clsStepOn');
+            }
+        }
         return false;
     };
 }
@@ -136,18 +144,18 @@ function keyDownHandler(e) {
 
 function releaseHandler(index) {
     return function() {
-        instrumentArr[index].className = '';
+        removeClass(instrumentArr[index], 'clsInstrumentActive');
     };
 }
 
 function releaseAll() {
     for(var n=0; n<instrumentChannels; n++) {
-        instrumentArr[n].className = '';
+        removeClass(instrumentArr[n], 'clsInstrumentActive');
     }
 }
 
 function setInstrumentClass(el) {
-    instrumentArr[el].className = 'clsInstrumentActive';
+    addClass(instrumentArr[el], 'clsInstrumentActive');
 }
 
 function togglePlay() {
@@ -195,24 +203,24 @@ function _toggleInstrument(index) {
 }
 
 function toggleInstrument(step) {
-    var instrument = cmbInstrument.value;
-    for(var n=0; n<sequenceArr[step].length; n++) {
-        if (sequenceArr[step][n] == instrument) {
-            sequenceArr[step].splice(n,1);
-            removeClass(divStepArr[step], 'clsStepOn');
-            return;
+    if(currentInstrument >= 0) {
+        for(var n=0; n<sequenceArr[step].length; n++) {
+            if (sequenceArr[step][n] == currentInstrument) {
+                sequenceArr[step].splice(n,1);
+                removeClass(divStepArr[step], 'clsStepOn');
+                return;
+            }
         }
+        sequenceArr[step].push(currentInstrument);
+        addClass(divStepArr[step], 'clsStepOn');
     }
-    sequenceArr[step].push(instrument);
-    addClass(divStepArr[step], 'clsStepOn');
 }
 
 function selectInstrument() {
-    var instrument = cmbInstrument.value;
     for(var n=0; n<totalSteps; n++) {
         removeClass(divStepArr[n], 'clsStepOn');
         for(var m=0; m<sequenceArr[n].length; m++) {
-            if(sequenceArr[n][m] == instrument) {
+            if(sequenceArr[n][m] == currentInstrument) {
                 addClass(divStepArr[n], 'clsStepOn');
                 break;
             }
@@ -240,6 +248,17 @@ function removeClass(ele,cls) {
         var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
         ele.className=ele.className.replace(reg,' ');
     }
+}
+
+function getElementsByClassName(className) {
+    elArr = document.getElementsByTagName('*');
+    elClassArr = [];
+    for(var n=0; n<elArr.length; n++) {
+        if(elArr[n].className == className) {
+            elClassArr.push(elArr[n]);
+        }
+    }
+    return elClassArr;
 }
 
 function $(el) {
