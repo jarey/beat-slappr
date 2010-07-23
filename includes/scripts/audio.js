@@ -8,6 +8,7 @@ function AudioChannel(config) {
 AudioChannel.prototype = {
 
     polyphony:  100,
+    vol:        0.75,
     _padTime:   8,
     
     createObjectElements: function() {
@@ -30,6 +31,7 @@ AudioChannel.prototype = {
                     this.elArr[n].busy = false;
                 }
             }else {
+                this.elArr[n].el.volume = this.vol;
                 this.elArr[n].el.play();
                 this.elArr[n].busy = (new Date().getTime() / 1000) + this.elArr[0].el.duration + this._padTime;
                 return;

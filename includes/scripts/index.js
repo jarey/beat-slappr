@@ -4,7 +4,7 @@ var channelArr = []
 var instrumentArr = [];
 var divStepArr = [];
 var sequenceArr = [];
-var currentInstrument;
+var volumeSliderArr = [];
 
 var playerState = 'paused';
 var instrumentChannels = 16;
@@ -14,6 +14,7 @@ var tempo = 120;
 var lastStep = totalSteps;
 var sequencerTimer;
 var sequencerTimeoutLength;
+var currentInstrument;
 
 window.onload = function() {
     channelArr = [
@@ -40,9 +41,21 @@ window.onload = function() {
     window.onkeyup = releaseAll;
 
     instrumentArr = getElementsByClassName('drumPad');
+    volumeSliderArr = getElementsByClassName('divVolumeSlider');
+
     for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].onmousedown = _playInstrument(n);
         instrumentArr[n].onmouseup = releaseHandler(n);
+
+        volumeSliderArr[n] = new Slider({
+        	minValue:       0,
+	        maxValue:       100,
+	        initValue:      75,
+	        container:      volumeSliderArr[n],
+	        containerClass: 'volumeSliderOutter',
+	        sliderClass:    'volumeSliderInner',
+	        onSlide:        _setVolume(n)
+        });
     }
 
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
@@ -61,6 +74,12 @@ window.onload = function() {
     txtTempo.value = tempo;
     setTempo();
 };
+
+function _setVolume(index) {
+    return function(val) {
+        channelArr[index].vol = (val/100);
+    }
+}
 
 function _playInstrument(index) {
     return function() {
