@@ -60,6 +60,26 @@ body {
     -webkit-border-radius: 3px;
 }
 
+.channelMute {
+    width: 12px;
+    height: 12px;
+    color: #333;
+    background-color: #ccc;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 12px;
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+}
+
+.channelMuteOn {
+    color: #ccc;
+    background-color:  #610000;
+}
+
 .divVolumeSlider {
     width: 30px;
     margin: 5px auto 0 auto;

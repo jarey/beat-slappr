@@ -5,6 +5,7 @@ var instrumentArr = [];
 var divStepArr = [];
 var sequenceArr = [];
 var volumeSliderArr = [];
+var muteBtnArr = [];
 
 var playerState = 'paused';
 var instrumentChannels = 16;
@@ -46,11 +47,13 @@ window.onload = function() {
 
     instrumentArr = getElementsByClassName('drumPad');
     volumeSliderArr = getElementsByClassName('divVolumeSlider');
+    muteBtnArr = getElementsByClassName('channelMute');
 
     for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].onmousedown = _playInstrument(n);
         instrumentArr[n].onmouseup = releaseHandler(n);
 
+        muteBtnArr[n].onclick = _toggleMute(n);
         volumeSliderArr[n] = new Slider({
         	minValue:       0,
 	        maxValue:       100,
@@ -237,6 +240,25 @@ function runSequencer() {
     }
 
     sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
+}
+
+function _toggleMute(index) {
+    return function() {
+        toggleMute(index);
+    };
+}
+
+function toggleMute(index) {
+    var muteBtn = muteBtnArr[index];
+    var channel = channelArr[index];
+    var muted = channel.muted;
+    if(muted) {
+        channel.muted = false;
+        removeClass(muteBtn, 'channelMuteOn');
+    }else {
+        channel.muted = true;
+        addClass(muteBtn, 'channelMuteOn');
+    }
 }
 
 function _toggleInstrument(index) {
