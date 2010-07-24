@@ -51,6 +51,7 @@ Slider.prototype = {
 	container:      '',
 	containerClass: '',
 	sliderClass:    '',
+	titleText:      '',
 	onSlide:        function() {},
 	_currentValue:   0,
 	_slideRangePx:   0,
@@ -63,29 +64,38 @@ Slider.prototype = {
 
 	setValue: function(val) {
 		this._currentValue = val;
+		this._setTitleText();
 		this._setSliderPos(val);
 	},
 	
 	_mouseHandler: function(e){
 		var yPos = e.clientY;					
-		var sliderMargin = this._innerDiv.offsetHeight / 2;
-		var minPos = this._documentPos.min + sliderMargin; // Top			
-		var maxPos = this._documentPos.max - sliderMargin; // Bottom
+        var docPos = this._documentPos;
 		var val = 0;
-
-		if(yPos < minPos ){
-			yPos = minPos;
+		
+		if(yPos < docPos.min){
+			yPos = docPos.min;
 			val = this.maxValue;
-		} else if(yPos > maxPos){
-			yPos = maxPos;
+		} else if(yPos > docPos.max){
+			yPos = docPos.max;
 			val = this.minValue;
 		} else {
-			var incrementPixels = (maxPos - minPos) / this.maxValue;
-			val = this.maxValue - Math.round((yPos - minPos) / incrementPixels) + this.minValue;
+			val = this.maxValue - Math.round((yPos - docPos.min) / docPos.incrementPixels);
 		}
+
 		this._currentValue = val;
-		this._innerDiv.style.top = (yPos - minPos) + "px";
+		this._setTitleText();
+		this._innerDiv.style.top = (yPos - docPos.min) + "px";
 		this.onSlide(this._currentValue);
+	},
+	
+	_setTitleText: function() {
+	    var titleText = "";
+	    if(this.titleText) {
+	        titleText = this.titleText + ": ";
+	    }
+	    
+        this._innerDiv.title = titleText + this._currentValue;
 	},
 	
 	_setSliderPos: function(val){
@@ -110,10 +120,16 @@ Slider.prototype = {
 	},
 	
 	_getDocumentPos: function(scope) {
+		var sliderMargin = this._innerDiv.offsetHeight / 2;
 		scope._documentPos = scope._findElPos(scope._outterDiv);
+
+        var minPos = scope._documentPos.elTop - window.scrollY + sliderMargin;
+        var maxPos = scope._outterDiv.clientHeight + scope._documentPos.elTop - sliderMargin - window.scrollY;
+        
 		scope._documentPos = {
-			min: scope._documentPos.elTop - window.scrollY,
-			max: scope._outterDiv.clientHeight + scope._documentPos.elTop - window.scrollY
+			min:                minPos,
+			max:                maxPos,
+			incrementPixels:    (maxPos - minPos) / (scope.maxValue - scope.minValue)
 		};
 	},
 	

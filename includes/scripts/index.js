@@ -58,6 +58,7 @@ window.onload = function() {
 	        container:      volumeSliderArr[n],
 	        containerClass: 'volumeSliderOutter',
 	        sliderClass:    'volumeSliderInner',
+	        titleText:      'Volume',
 	        onSlide:        _setVolume(n)
         });
     }
@@ -69,6 +70,7 @@ window.onload = function() {
         container:      divTempo,
         containerClass: 'volumeSliderOutter',
         sliderClass:    'volumeSliderInner',
+        titleText:      'Tempo',
         onSlide:        setTempo
     });
     
