@@ -210,17 +210,24 @@ function togglePlayer(state) {
 function runSequencer() {
     var lastStepIndex = lastStep-1;
     var currentStepIndex = currentStep-1;
+    var lastStepArr = sequenceArr[lastStepIndex];
     var stepArr = sequenceArr[currentStepIndex];
     
     //Update GUI
     removeClass(divStepArr[lastStepIndex], 'clsStepCurrent');
     addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
 
+    //Clear trigger illumination from previous step
+    for(var n=0; n<lastStepArr.length; n++) {
+        releaseHandler(lastStepArr[n])();
+    }
+    
     //2. Play sounds for current step
     for(var n=0; n<stepArr.length; n++) {
+        setInstrumentClass(stepArr[n]);
         channelArr[stepArr[n]].play();
     }
-
+    
     lastStep = currentStep;
     currentStep++
     if(currentStep > totalSteps) {

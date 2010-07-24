@@ -7,9 +7,9 @@ function AudioChannel(config) {
 
 AudioChannel.prototype = {
 
-    polyphony:  100,
+    polyphony:  128,
+    _padTime:   10,
     vol:        0.75,
-    _padTime:   8,
     
     createObjectElements: function() {
         var elArr = [];
@@ -24,16 +24,17 @@ AudioChannel.prototype = {
     },
     
     play: function() {
-        var curTime = (new Date().getTime() / 1000);
+        var curTime = (new Date().getTime() / 1000);      
         for(var n=0; n<this.polyphony; n++) {
-            if(this.elArr[n].busy) {
-                if(curTime > this.elArr[n].busy) {
-                    this.elArr[n].busy = false;
+            var channel = this.elArr[n];
+            if(channel.busy) {
+                if(curTime > channel.busy) {
+                    channel.busy = false;
                 }
             }else {
-                this.elArr[n].el.volume = this.vol;
-                this.elArr[n].el.play();
-                this.elArr[n].busy = (new Date().getTime() / 1000) + this.elArr[0].el.duration + this._padTime;
+                channel.el.volume = this.vol;
+                channel.el.play();
+                channel.busy = (new Date().getTime() / 1000) + channel.el.duration + this._padTime;
                 return;
             }
         }
