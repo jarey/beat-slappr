@@ -10,6 +10,7 @@ AudioChannel.prototype = {
     polyphony:  128,
     _padTime:   10,
     vol:        0.75,
+    muted:      false,
     
     createObjectElements: function() {
         var elArr = [];
@@ -33,6 +34,7 @@ AudioChannel.prototype = {
                 }
             }else {
                 channel.el.volume = this.vol;
+                channel.el.muted = this.muted;
                 channel.el.play();
                 channel.busy = (new Date().getTime() / 1000) + channel.el.duration + this._padTime;
                 return;
