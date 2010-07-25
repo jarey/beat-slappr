@@ -6,6 +6,7 @@ var divStepArr = [];
 var sequenceArr = [];
 var volumeSliderArr = [];
 var muteBtnArr = [];
+var soloBtnArr = [];
 
 var playerState = 'paused';
 var instrumentChannels = 16;
@@ -16,6 +17,7 @@ var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
 var tempoSlider;
+var soloCount = 0;
 
 window.onload = function() {
     divPlayPause = $('divPlayPause');
@@ -48,12 +50,14 @@ window.onload = function() {
     instrumentArr = getElementsByClassName('drumPad');
     volumeSliderArr = getElementsByClassName('divVolumeSlider');
     muteBtnArr = getElementsByClassName('channelMute');
+    soloBtnArr = getElementsByClassName('channelSolo');
 
     for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].onmousedown = _playInstrument(n);
         instrumentArr[n].onmouseup = releaseHandler(n);
 
-        muteBtnArr[n].onclick = _toggleMute(n);
+        muteBtnArr[n].onmousedown = _toggleMute(n);
+        soloBtnArr[n].onmousedown = _toggleSolo(n);
         volumeSliderArr[n] = new Slider({
         	minValue:       0,
 	        maxValue:       100,
@@ -242,22 +246,65 @@ function runSequencer() {
     sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
 }
 
+function _toggleSolo(index) {
+    return function() {
+        toggleSolo(index);
+        return false;
+    };
+}
+
+function toggleSolo(index) {
+    var soloBtn = soloBtnArr[index];
+
+    if(hasClass(soloBtn, 'channelSoloOn')) {
+        removeClass(soloBtn, 'channelSoloOn');
+        soloCount--;
+    }else {
+        addClass(soloBtn, 'channelSoloOn');
+        soloCount++;
+    }
+
+    _setChannelPlayState();
+}
+
 function _toggleMute(index) {
     return function() {
         toggleMute(index);
+        return false;
     };
 }
 
 function toggleMute(index) {
     var muteBtn = muteBtnArr[index];
-    var channel = channelArr[index];
-    var muted = channel.muted;
-    if(muted) {
-        channel.muted = false;
-        removeClass(muteBtn, 'channelMuteOn');
+        if(hasClass(muteBtn, 'channelMuteOn')) {
+            removeClass(muteBtn, 'channelMuteOn');
+        }else {
+            addClass(muteBtn, 'channelMuteOn');
+        }
+    _setChannelPlayState();
+}
+
+function _setChannelPlayState() {
+    if(soloCount) {
+        for(var n=0; n<instrumentChannels; n++) {
+            if(hasClass(soloBtnArr[n], 'channelSoloOn')) {
+                if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
+                    channelArr[n].muted = true;
+                }else {
+                    channelArr[n].muted = false;
+                }
+            }else {
+                channelArr[n].muted = true;
+            }
+        }
     }else {
-        channel.muted = true;
-        addClass(muteBtn, 'channelMuteOn');
+        for(var n=0; n<instrumentChannels; n++) {
+            if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
+                channelArr[n].muted = true;
+            }else {
+                channelArr[n].muted = false;
+            }
+        }
     }
 }
 
@@ -328,7 +375,7 @@ function getElementsByClassName(className) {
     elArr = document.getElementsByTagName('*');
     elClassArr = [];
     for(var n=0; n<elArr.length; n++) {
-        if(elArr[n].className == className) {
+        if(hasClass(elArr[n], className)) {
             elClassArr.push(elArr[n]);
         }
     }

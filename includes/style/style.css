@@ -105,6 +105,11 @@ body {
     background-color:  #610000;
 }
 
+.channelSoloOn {
+    color: #ccc;
+    background-color:  #006100;
+}
+
 .divVolumeSlider {
     width: 30px;
     margin: 5px auto 0 auto;
