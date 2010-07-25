@@ -6,7 +6,7 @@ body {
 #divWrapper {
     margin: 100px auto 0 auto;
     width: 960px;
-    height: 250px;
+    height: 275px;
     background: url(../images/texture.gif);
     overflow: hidden;
     -moz-border-radius: 5px;
@@ -25,7 +25,7 @@ body {
 #divInstrument {
     overflow: hidden;
     width: 870px;
-    height: 155px;
+    height: 180px;
     margin: 5px;
     padding-top: 5px;
     border: #838181 1px solid;
@@ -38,7 +38,7 @@ body {
     padding-top: 0px;
     margin: 0 3px 5px 3px;
     width: 47px;
-    height: 150px;
+    height: 178px;
     color: #ccc;
     font-size: 8px;
     text-align: center;
@@ -60,7 +60,18 @@ body {
     -webkit-border-radius: 3px;
 }
 
+.channelContentWrapper {
+    width: 35px;
+    margin: 5px auto 0 auto;
+    padding: 3px;
+    overflow: hidden;
+    background-color: #2b2c2c;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
 .channelMute {
+    float: left;
     width: 12px;
     height: 12px;
     color: #333;
@@ -72,7 +83,21 @@ body {
     cursor: pointer;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+}
 
+.channelSolo {
+    float: right;
+    width: 12px;
+    height: 12px;
+    color: #333;
+    background-color: #ccc;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 12px;
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 .channelMuteOn {
@@ -109,8 +134,8 @@ body {
     width: 870px;
     margin-left: 5px;
     height: 73px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 
 }
 
@@ -152,10 +177,10 @@ body {
     color: #ccc;
     font-size: 10px;
     width: 66px;
-    height: 230px;
+    height: 255px;
     padding: 5px 3px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 #txtTempo {
