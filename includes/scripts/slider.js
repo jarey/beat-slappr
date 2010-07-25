@@ -51,7 +51,7 @@ Slider.prototype = {
 	container:      '',
 	containerClass: '',
 	sliderClass:    '',
-	titleText:      '',
+	title:          function() {},
 	onSlide:        function() {},
 	_currentValue:   0,
 	_slideRangePx:   0,
@@ -90,12 +90,11 @@ Slider.prototype = {
 	},
 	
 	_setTitleText: function() {
-	    var titleText = "";
-	    if(this.titleText) {
-	        titleText = this.titleText + ": ";
+	    var titleText = this.title(this._currentValue);
+        
+	    if(titleText) {
+            this._innerDiv.title = titleText;
 	    }
-	    
-        this._innerDiv.title = titleText + this._currentValue;
 	},
 	
 	_setSliderPos: function(val){

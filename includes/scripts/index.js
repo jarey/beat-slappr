@@ -65,7 +65,7 @@ window.onload = function() {
 	        container:      volumeSliderArr[n],
 	        containerClass: 'volumeSliderOutter',
 	        sliderClass:    'volumeSliderInner',
-	        titleText:      'Volume',
+	        title:          function(val) {return "Volume: " + val;},
 	        onSlide:        _setVolume(n)
         });
     }
@@ -77,7 +77,7 @@ window.onload = function() {
         container:      divTempo,
         containerClass: 'volumeSliderOutter',
         sliderClass:    'volumeSliderInner',
-        titleText:      'Tempo',
+        title:          function(val) {return "Tempo: " + val + "BPM";},
         onSlide:        setTempo
     });
     
