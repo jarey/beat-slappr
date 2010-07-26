@@ -1,44 +1,97 @@
+/*
+    Class AudioChannel
+    Creates a polyphonic audio channel for playing an instrument
+
+    -------------------------------------------------
+    config properties:
+    -------------------------------------------------
+    src:        The source of the sound clip to play.
+                Default: ''
+    polyphony:  The number of channels to generate.
+                Default: 4.
+*/
+
 function AudioChannel(config) {
+    var polyphony;
+    
     if(config) {
-        this.src = config.src;
-        this.elArr = this.createObjectElements();
+        if(config.src) {
+            this.setSrc(config.src);
+        }
+        polyphony = config.polyphony;
     }
+    this.init(polyphony);
 }
 
 AudioChannel.prototype = {
 
-    polyphony:  128,
-    _padTime:   10,
-    vol:        0.75,
-    muted:      false,
+    /************************/
+    /***Private Properties***/
+    /************************/
+
+    _polyphony:      4,
+    _curChannel:     0,
+    _src:           '',
+    _vol:         0.75,
+    _muted:      false,
     
-    createObjectElements: function() {
-        var elArr = [];
-        
-        for(var n=0; n<this.polyphony; n++) {
-            elArr.push({
-                el:     new Audio(this.src),
-                busy:   false
-            });
+
+    /********************/
+    /***Public Methods***/
+    /********************/
+
+    init: function(polyphony) {
+        if(polyphony) {
+            this._polyphony = polyphony;
         }
-        return elArr;
+        this._channelArr = [];
+        for(var n=0; n<this._polyphony; n++) {
+            this._channelArr.push(new Audio());
+        }
+    },
+    
+    setVolume: function(val) {
+        this._vol = val;
+    },
+    
+    getVolume: function() {
+        return this._vol;
+    },
+    
+    setMute: function(state) {
+        this._muted = state;
+    },
+    
+    setSrc: function(src) {
+        this._src = src;    
+    },
+
+    getValidFormats: function() {
+        var playTypes = {};
+        var channel = this._channelArr[this._curChannel];
+        if(channel.canPlayType) {
+            //Currently canPlayType(type) returns: "no", "maybe" or "probably"
+            playTypes.ogg = (channel.canPlayType("audio/ogg") != "no") && (channel.canPlayType("audio/ogg") != "");
+            playTypes.mp3 = (channel.canPlayType("audio/mpeg") != "no") && (channel.canPlayType("audio/mpeg") != "");
+            playTypes.wav = (channel.canPlayType("audio/wav") != "no") && (channel.canPlayType("audio/wav") != "");
+
+            return playTypes;
+        }
+        return false;
     },
     
     play: function() {
-        var curTime = (new Date().getTime() / 1000);      
-        for(var n=0; n<this.polyphony; n++) {
-            var channel = this.elArr[n];
-            if(channel.busy) {
-                if(curTime > channel.busy) {
-                    channel.busy = false;
-                }
-            }else {
-                channel.el.volume = this.vol;
-                channel.el.muted = this.muted;
-                channel.el.play();
-                channel.busy = (new Date().getTime() / 1000) + channel.el.duration + this._padTime;
-                return;
+            var channel = this._channelArr[this._curChannel];
+
+            channel.src = this._src;
+            channel.load();
+            channel.volume = this._vol;
+            channel.muted = this._muted;
+            channel.play();
+
+            this._curChannel++;
+            if(this._curChannel == this._polyphony) {
+                this._curChannel = 0;
             }
-        }
     }
 };

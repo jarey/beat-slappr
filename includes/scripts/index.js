@@ -23,6 +23,8 @@ window.onload = function() {
     divPlayPause = $('divPlayPause');
     divTempo = $("divTempo");
     txtTempo = $("txtTempo");
+
+    var validAudioFormats = new AudioChannel().getValidFormats();
     
     channelArr = [
         new AudioChannel({src: "samples/808-kick.ogg"}),
@@ -101,7 +103,7 @@ window.onbeforeunload = function(){
 
 function _setVolume(index) {
     return function(val) {
-        channelArr[index].vol = (val/100);
+        channelArr[index].setVolume((val/100));
     }
 }
 
@@ -289,20 +291,20 @@ function _setChannelPlayState() {
         for(var n=0; n<instrumentChannels; n++) {
             if(hasClass(soloBtnArr[n], 'channelSoloOn')) {
                 if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
-                    channelArr[n].muted = true;
+                    channelArr[n].setMute(true);
                 }else {
-                    channelArr[n].muted = false;
+                    channelArr[n].setMute(false);
                 }
             }else {
-                channelArr[n].muted = true;
+                channelArr[n].setMute(true);
             }
         }
     }else {
         for(var n=0; n<instrumentChannels; n++) {
             if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
-                channelArr[n].muted = true;
+                channelArr[n].setMute(true);
             }else {
-                channelArr[n].muted = false;
+                channelArr[n].setMute(false);
             }
         }
     }
