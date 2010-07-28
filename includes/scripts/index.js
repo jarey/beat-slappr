@@ -10,8 +10,14 @@ var soloBtnArr = [];
 
 var playerState = 'paused';
 var instrumentChannels = 16;
-var currentStep = 1;
-var totalSteps = 16;
+
+var currentStep    =  1;
+var totalSteps     = 16;
+var totalMeasures  =  1;
+
+var currentMeasure =  1;
+var measureLength  = 16;
+
 var lastStep = totalSteps;
 var sequencerTimer;
 var sequencerTimeoutLength;
@@ -162,11 +168,7 @@ window.onload = function() {
         onSlide:        setTempo
     });
     
-    divStepArr = $("divStepWrapper").getElementsByTagName('div');
-    for(var n=0; n<totalSteps; n++) {
-        sequenceArr[n] = [];
-        divStepArr[n].onclick = _toggleInstrument(n);
-    }
+    setStepEvents();
     
     divPlayPause.onclick = function() {togglePlay(); return false;};
     
@@ -174,6 +176,20 @@ window.onload = function() {
     
     txtTempo.onkeyup = keyInTempo;
 };
+
+function setStepEvents() {
+    divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    for(var n=0; n<totalSteps; n++) {
+        if(!sequenceArr[n]) {
+            sequenceArr[n] = [];
+        }
+    }
+    for(n=0; n<measureLength; n++) {
+        if(divStepArr[n]) {
+            divStepArr[n].onclick = _toggleInstrument(n + ((currentMeasure-1) * measureLength));
+        }
+    }
+}
 
 window.onbeforeunload = function(){
 	var message = 'Any unsaved changes will be lost!';
@@ -297,15 +313,64 @@ function togglePlayer(state) {
     }
 }
 
+function setTotalSteps(val) {
+    var currentStepIndex = _getCurrentStepIndex();
+
+    currentStep = 1;
+    currentMeasure = 1;
+    
+    removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
+        
+    totalSteps = val;
+    totalMeasures = Math.ceil(totalSteps/measureLength);
+    lastStep = totalSteps;
+
+    setStepEvents();
+    selectInstrument();
+}
+
+function setCurrentMeasure(val) {
+    if(val <= totalMeasures) {
+        var lastStepMeasure = _getLastStepMeasure();
+        var currentStepIndex = _getCurrentStepIndex();
+        currentMeasure = val;
+        setStepEvents();
+        selectInstrument();
+
+        if(lastStepMeasure != val) {
+            removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');
+        }else {
+            addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
+        }
+    }
+}
+
+function _getLastStepMeasure() {
+    return lastStepMeasure = Math.ceil(lastStep / measureLength);
+}
+
+function _getCurrentStepIndex() {
+    var lastStepMeasure = _getLastStepMeasure();
+    return (lastStep - 1) - ((lastStepMeasure - 1) * measureLength);
+}
+
 function runSequencer() {
+    var lastStepMeasure = _getLastStepMeasure();
+    var currentStepMeasure = Math.ceil(currentStep / measureLength);
+
     var lastStepIndex = lastStep-1;
     var currentStepIndex = currentStep-1;
     var lastStepArr = sequenceArr[lastStepIndex];
-    var stepArr = sequenceArr[currentStepIndex];
-    
+    var stepArr = sequenceArr[currentStepIndex];    
+
     //Update GUI
-    removeClass(divStepArr[lastStepIndex], 'clsStepCurrent');
-    addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
+
+    if(lastStepMeasure == currentMeasure) {
+        removeClass(divStepArr[lastStepIndex - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
+    if(currentStepMeasure == currentMeasure) {
+        addClass(divStepArr[currentStepIndex - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
 
     //Clear trigger illumination from previous step
     for(var n=0; n<lastStepArr.length; n++) {
@@ -396,26 +461,36 @@ function _toggleInstrument(index) {
 }
 
 function toggleInstrument(step) {
-    if(currentInstrument >= 0) {
+    var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
+    if((currentInstrument >= 0) && (step < totalSteps)) {
         for(var n=0; n<sequenceArr[step].length; n++) {
             if (sequenceArr[step][n] == currentInstrument) {
                 sequenceArr[step].splice(n,1);
-                removeClass(divStepArr[step], 'clsStepOn');
+                removeClass(divStepArr[measureStep], 'clsStepOn');
                 return;
             }
         }
         sequenceArr[step].push(currentInstrument);
-        addClass(divStepArr[step], 'clsStepOn');
+        addClass(divStepArr[measureStep], 'clsStepOn');
     }
 }
 
 function selectInstrument() {
-    for(var n=0; n<totalSteps; n++) {
+    var start = ((currentMeasure-1) * measureLength);
+    var sequenceStep;
+    
+    for(var n=0; n<measureLength; n++) {
         removeClass(divStepArr[n], 'clsStepOn');
-        for(var m=0; m<sequenceArr[n].length; m++) {
-            if(sequenceArr[n][m] == currentInstrument) {
-                addClass(divStepArr[n], 'clsStepOn');
-                break;
+        removeClass(divStepArr[n], 'clsStepDisabled');
+        sequenceStep = (n + start);
+        if(sequenceStep >= totalSteps) {
+            addClass(divStepArr[n], 'clsStepDisabled');
+        }else {
+            for(var m=0; m<sequenceArr[sequenceStep].length; m++) {
+                if(sequenceArr[sequenceStep][m] == currentInstrument) {
+                    addClass(divStepArr[n], 'clsStepOn');
+                    break;
+                }
             }
         }
     }

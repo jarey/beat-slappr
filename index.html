@@ -186,5 +186,13 @@
                 <div id="divPlayPause"></div>
             </div>
         </div>
+        <div style="width: 300px; margin: 20px auto 0 auto;">
+            <span style="color: #610000; font-weight: bold;">Debug Controls</span><br />
+            View Bar: 
+            <input type="button" value="1" onclick="setCurrentMeasure(1);" />
+            <input type="button" value="2" onclick="setCurrentMeasure(2);" /><br />
+            Steps: <input type="text" style="width: 30px;" value="16" id="txtSteps" />
+            <input type="button" value="Set" onclick="setTotalSteps(document.getElementById('txtSteps').value);" />
+        </div>
     </body>
 </html> 
