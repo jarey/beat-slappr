@@ -13,7 +13,6 @@ body {
     -webkit-border-radius: 5px;
     -moz-box-shadow: 5px 5px 5px black;
     -webkit-box-shadow: 5px 5px 5px black;
-    box-shadow: 5px 5px 5px black;
 }
 
 #divLeftCol {
@@ -219,8 +218,31 @@ body {
     margin-right: 10px;
 }
 
+#divViewBarOutterWrapper {
+    margin: 5px 0 0 5px;
+}
+
+#divViewBarInnerWrapper {
+    overflow: hidden;
+}
+
+.viewBar {
+    float: left;
+    margin-right: 5px;
+}
+
+.barCurrent {
+    color: #ccc;
+    background-color: #610000;
+}
+
+.barDisabled {
+    background-color: #1f1f1f;
+    cursor: default;
+}
+
 #divPlayPause {
-    margin: 45px auto 0 auto;
+    margin: 20px auto 0 auto;
     text-align: center;
     width: 65px;
     height: 40px;

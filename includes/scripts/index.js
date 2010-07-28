@@ -7,6 +7,7 @@ var sequenceArr = [];
 var volumeSliderArr = [];
 var muteBtnArr = [];
 var soloBtnArr = [];
+var divViewBarArr = [];
 
 var playerState = 'paused';
 var instrumentChannels = 16;
@@ -182,7 +183,14 @@ window.onload = function() {
         onSlide:        setSteps
     });
     
+    divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
+    for(var n=0; n<divViewBarArr.length; n++) {
+        divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
+    }
+
     setStepEvents();
+    setCurrentMeasure(currentMeasure);
     
     divPlayPause.onclick = function() {togglePlay(); return false;};
     
@@ -194,7 +202,6 @@ window.onload = function() {
 };
 
 function setStepEvents() {
-    divStepArr = $("divStepWrapper").getElementsByTagName('div');
     for(var n=0; n<totalSteps; n++) {
         if(!sequenceArr[n]) {
             sequenceArr[n] = [];
@@ -334,6 +341,7 @@ function setTotalSteps(val) {
 
     currentStep = 1;
     currentMeasure = 1;
+    setCurrentMeasure(currentMeasure);
     
     removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
         
@@ -345,11 +353,28 @@ function setTotalSteps(val) {
     selectInstrument();
 }
 
+function _setCurrentMeasure(val) {
+    return function() {
+        setCurrentMeasure(val);
+        return false;
+    };
+}
+
 function setCurrentMeasure(val) {
     if(val <= totalMeasures) {
         var lastStepMeasure = _getLastStepMeasure();
         var currentStepIndex = _getCurrentStepIndex();
+
         currentMeasure = val;
+        for(var n=0; n<divViewBarArr.length; n++) {
+            el = divViewBarArr[n];
+            if((n+1) == val) {
+                addClass(el, 'barCurrent');
+            }else {
+                removeClass(el, 'barCurrent');
+            }
+        }
+
         setStepEvents();
         selectInstrument();
 
@@ -539,13 +564,12 @@ function setSteps(val) {
     txtSteps.value = val;
     setTotalSteps(val);
 
-    var el, n;
-    for(n=1; n<=4; n++) {
-        el = $("bar" + n);
-        if(n <= totalMeasures) {
-            el.disabled = false;
+    for(var n=0; n<divViewBarArr.length; n++) {
+        el = divViewBarArr[n];
+        if((n+1) <= totalMeasures) {
+            removeClass(el, 'barDisabled');
         }else {
-            el.disabled = true;
+            addClass(el, 'barDisabled');
         }
     }
 }

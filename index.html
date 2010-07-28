@@ -207,17 +207,25 @@
                         <input type="text" id="txtSteps" maxlength="3" />
                     </div>
                 </div>                
+
+                <div id="divViewBarOutterWrapper">
+                    Edit Bar:
+                    <div id="divViewBarInnerWrapper"> 
+                        <div class="drumPad viewBar">1</div>
+                        <div class="drumPad viewBar">2</div>
+                        <div class="drumPad viewBar">3</div>
+                        <div class="drumPad viewBar">4</div>
+                    </div>
+                </div>
+<!--
+                    <input onclick="setCurrentMeasure(1);" />
+                    <input onclick="setCurrentMeasure(2);" />
+                    <input onclick="setCurrentMeasure(3);" />
+                    <input onclick="setCurrentMeasure(4);" />
+-->
                 
                 <div id="divPlayPause"></div>
             </div>
-        </div>
-        <div style="width: 300px; margin: 30px auto 0 auto;">
-            <span style="color: #610000; font-weight: bold;">Debug Controls</span><br />
-            View Bar: 
-            <input type="button" id="bar1" value="1" onclick="setCurrentMeasure(1);" />
-            <input type="button" id="bar2" value="2" onclick="setCurrentMeasure(2);" />
-            <input type="button" id="bar3" value="3" onclick="setCurrentMeasure(3);" />
-            <input type="button" id="bar4" value="4" onclick="setCurrentMeasure(4);" />
         </div>
     </body>
 </html> 
