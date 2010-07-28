@@ -1,4 +1,4 @@
-var divPlayPause, divTempo, txtTempo, divSteps, txtSteps;
+var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps;
 
 var channelArr = []
 var instrumentArr = [];
@@ -29,6 +29,8 @@ var soloCount = 0;
 
 window.onload = function() {
     divPlayPause = $('divPlayPause');
+    divJumpToStart = $('divJumpToStart');
+    
     divTempo = $("divTempo");
     txtTempo = $("txtTempo");
     divSteps = $("divSteps");
@@ -193,7 +195,8 @@ window.onload = function() {
     setCurrentMeasure(currentMeasure);
     
     divPlayPause.onclick = function() {togglePlay(); return false;};
-    
+    divJumpToStart.onclick = initLoopPosition;
+
     setTempo(tempoSlider.getValue());
     setSteps(stepsSlider.getValue());
 
@@ -328,21 +331,28 @@ function togglePlay() {
 
 function togglePlayer(state) {
     if(state == 'playing') {
-        divPlayPause.style.backgroundPosition = "0 -40px";
+        addClass(divPlayPause, 'btnPause');
+        removeClass(divPlayPause, 'btnPlay');
+        //divPlayPause.style.backgroundPosition = "0 -40px";
         runSequencer();
     }else if(state == 'paused') {
-        divPlayPause.style.backgroundPosition = "0 0";
+        addClass(divPlayPause, 'btnPlay');
+        removeClass(divPlayPause, 'btnPause');
+        //divPlayPause.style.backgroundPosition = "0 0";
         clearTimeout(sequencerTimer);       
     }
+}
+
+function initLoopPosition() {
+    currentStep = 1;
+    currentMeasure = 1;
+    setCurrentMeasure(currentMeasure);
 }
 
 function setTotalSteps(val) {
     var currentStepIndex = _getCurrentStepIndex();
 
-    currentStep = 1;
-    currentMeasure = 1;
-    setCurrentMeasure(currentMeasure);
-    
+    initLoopPosition();
     removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
         
     totalSteps = val;
