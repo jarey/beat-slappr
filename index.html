@@ -18,6 +18,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -27,6 +28,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -36,6 +38,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -45,6 +48,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -54,6 +58,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -63,6 +68,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -72,6 +78,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -81,6 +88,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -90,6 +98,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -99,6 +108,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -108,6 +118,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -117,6 +128,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -126,6 +138,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -135,6 +148,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div>
@@ -144,6 +158,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                     <div style="border-right: 0;">
@@ -153,6 +168,7 @@
                             <div class="channelMute" title="Mute">M</div>
                             <div class="channelSolo" title="Solo">S</div>
                         </div>
+                        Vol
                         <div class="divVolumeSlider"></div>
                     </div>
                 </div>
@@ -178,21 +194,30 @@
                 </div>
             </div>
             <div id="divRightCol">
-                <div id="divTempoWrapper">
-                    Tempo
-                    <div id="divTempo"></div>
-                    <input type="text" id="txtTempo" maxlength="3" />
-                </div>
+                <div id="shuttleSliderWrapper">
+                    <div class="sliderWrapper">
+                        Tempo
+                        <div id="divTempo"></div>
+                        <input type="text" id="txtTempo" maxlength="3" />
+                    </div>
+
+                    <div class="sliderWrapper">
+                        Steps
+                        <div id="divSteps"></div>
+                        <input type="text" id="txtSteps" maxlength="3" />
+                    </div>
+                </div>                
+                
                 <div id="divPlayPause"></div>
             </div>
         </div>
-        <div style="width: 300px; margin: 20px auto 0 auto;">
+        <div style="width: 300px; margin: 30px auto 0 auto;">
             <span style="color: #610000; font-weight: bold;">Debug Controls</span><br />
             View Bar: 
-            <input type="button" value="1" onclick="setCurrentMeasure(1);" />
-            <input type="button" value="2" onclick="setCurrentMeasure(2);" /><br />
-            Steps: <input type="text" style="width: 30px;" value="16" id="txtSteps" />
-            <input type="button" value="Set" onclick="setTotalSteps(document.getElementById('txtSteps').value);" />
+            <input type="button" id="bar1" value="1" onclick="setCurrentMeasure(1);" />
+            <input type="button" id="bar2" value="2" onclick="setCurrentMeasure(2);" />
+            <input type="button" id="bar3" value="3" onclick="setCurrentMeasure(3);" />
+            <input type="button" id="bar4" value="4" onclick="setCurrentMeasure(4);" />
         </div>
     </body>
 </html> 

@@ -1,4 +1,4 @@
-var divPlayPause, divTempo, txtTempo;
+var divPlayPause, divTempo, txtTempo, divSteps, txtSteps;
 
 var channelArr = []
 var instrumentArr = [];
@@ -23,12 +23,15 @@ var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
 var tempoSlider;
+var stepsSlider;
 var soloCount = 0;
 
 window.onload = function() {
     divPlayPause = $('divPlayPause');
     divTempo = $("divTempo");
     txtTempo = $("txtTempo");
+    divSteps = $("divSteps");
+    txtSteps = $("txtSteps");
 
     var validAudioFormats = new AudioChannel().getValidFormats();
     
@@ -150,8 +153,8 @@ window.onload = function() {
 	        maxValue:       100,
 	        initValue:      75,
 	        container:      volumeSliderArr[n],
-	        containerClass: 'volumeSliderOutter',
-	        sliderClass:    'volumeSliderInner',
+	        containerClass: 'sliderOutter',
+	        sliderClass:    'sliderInner',
 	        title:          function(val) {return "Volume: " + val;},
 	        onSlide:        _setVolume(n)
         });
@@ -162,10 +165,21 @@ window.onload = function() {
         maxValue:       200,
         initValue:      120,
         container:      divTempo,
-        containerClass: 'volumeSliderOutter',
-        sliderClass:    'volumeSliderInner',
+        containerClass: 'sliderOutter',
+        sliderClass:    'sliderInner',
         title:          function(val) {return "Tempo: " + val + "BPM";},
         onSlide:        setTempo
+    });
+    
+    stepsSlider = new Slider({
+    	minValue:       1,
+        maxValue:       64,
+        initValue:      16,
+        container:      divSteps,
+        containerClass: 'sliderOutter',
+        sliderClass:    'sliderInner',
+        title:          function(val) {return "Steps: " + val;},
+        onSlide:        setSteps
     });
     
     setStepEvents();
@@ -173,8 +187,10 @@ window.onload = function() {
     divPlayPause.onclick = function() {togglePlay(); return false;};
     
     setTempo(tempoSlider.getValue());
-    
+    setSteps(stepsSlider.getValue());
+
     txtTempo.onkeyup = keyInTempo;
+    txtSteps.onkeyup = keyInSteps;
 };
 
 function setStepEvents() {
@@ -508,6 +524,30 @@ function keyInTempo() {
 function setTempo(val) {
     txtTempo.value = val;
     sequencerTimeoutLength = (1000*((60/val)/4));
+}
+
+function keyInSteps() {
+    var val = txtSteps.value;
+    
+    if(val >= stepsSlider.minValue && val <= stepsSlider.maxValue) {
+        stepsSlider.setValue(val);
+        setSteps(val);    
+    }
+}
+
+function setSteps(val) {
+    txtSteps.value = val;
+    setTotalSteps(val);
+
+    var el, n;
+    for(n=1; n<=4; n++) {
+        el = $("bar" + n);
+        if(n <= totalMeasures) {
+            el.disabled = false;
+        }else {
+            el.disabled = true;
+        }
+    }
 }
 
 function hasClass(ele,cls) {
