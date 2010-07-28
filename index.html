@@ -198,18 +198,17 @@
                     <div class="sliderWrapper">
                         Tempo
                         <div id="divTempo"></div>
-                        <input type="text" id="txtTempo" maxlength="3" />
+                        <input type="text" id="txtTempo" class="digitalDisplay" maxlength="3" />
                     </div>
 
                     <div class="sliderWrapper">
                         Steps
                         <div id="divSteps"></div>
-                        <input type="text" id="txtSteps" maxlength="3" />
+                        <input type="text" id="txtSteps" class="digitalDisplay" maxlength="3" />
                     </div>
                 </div>                
-
                 <div id="divViewBarOutterWrapper">
-                    Edit Bar:
+                    Edit Bar
                     <div id="divViewBarInnerWrapper"> 
                         <div class="drumPad viewBar">1</div>
                         <div class="drumPad viewBar">2</div>
@@ -217,9 +216,12 @@
                         <div class="drumPad viewBar">4</div>
                     </div>
                 </div>
+                <div id="divLoopPositionWrapper">
+                    Position: <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
+                </div>
                 <div id="divShuttleButtonWrapper">
-                    <div id="divJumpToStart" class="shuttleButton btnStart"></div>
-                    <div id="divPlayPause" class="shuttleButton btnPlay"></div>
+                    <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
+                    <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
                 </div>
             </div>
         </div>

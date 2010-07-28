@@ -192,7 +192,7 @@ body {
     -webkit-border-radius: 3px;
 }
 
-#txtTempo, #txtSteps {
+.digitalDisplay {
     margin-top:5px;
     border:1px solid #888;
     color:#cc0000;
@@ -204,6 +204,8 @@ body {
     font-weight:bold;
     line-height:16px;
     text-align:center;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 #shuttleSliderWrapper {
@@ -241,6 +243,20 @@ body {
     cursor: default;
 }
 
+#divLoopPositionWrapper {
+    overflow: hidden;
+    margin-top: 5px;
+    line-height: 24px;
+}
+
+.shuttle {
+    float: right;
+    margin: 5px 5px 0 0;
+    padding-right: 2px;
+    width: 50px;
+    text-align: right;
+}
+
 #divShuttleButtonWrapper {
     overflow: hidden;
     margin: 5px 0 0 5px;
@@ -259,18 +275,16 @@ body {
 }
 
 .btnStart {
+    float: left;
     background-position: 0 -80px;
 }
 
 .btnPlay {
+    float: right;
     background-position: 0 0;
 }
 
 .btnPause {
+    float: right;
     background-position: 0 -40px;
-}
-
-#divPlayPause:hover {
-    background-color: #ccc;
-    color: #24220B;
 }

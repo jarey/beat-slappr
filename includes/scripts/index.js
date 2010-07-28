@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps;
+var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition;
 
 var channelArr = []
 var instrumentArr = [];
@@ -14,10 +14,13 @@ var instrumentChannels = 16;
 
 var currentStep    =  1;
 var totalSteps     = 16;
-var totalMeasures  =  1;
 
 var currentMeasure =  1;
+var totalMeasures  =  1;
+
+var beatLength     =  4;
 var measureLength  = 16;
+var beatsPerMeasure = (measureLength / beatLength);
 
 var lastStep = totalSteps;
 var sequencerTimer;
@@ -35,7 +38,8 @@ window.onload = function() {
     txtTempo = $("txtTempo");
     divSteps = $("divSteps");
     txtSteps = $("txtSteps");
-
+    divLoopPosition = $("divLoopPosition");
+    
     var validAudioFormats = new AudioChannel().getValidFormats();
     
     channelArr = [
@@ -333,14 +337,22 @@ function togglePlayer(state) {
     if(state == 'playing') {
         addClass(divPlayPause, 'btnPause');
         removeClass(divPlayPause, 'btnPlay');
-        //divPlayPause.style.backgroundPosition = "0 -40px";
+        divPlayPause.title = "Pause";
         runSequencer();
     }else if(state == 'paused') {
         addClass(divPlayPause, 'btnPlay');
         removeClass(divPlayPause, 'btnPause');
-        //divPlayPause.style.backgroundPosition = "0 0";
+        divPlayPause.title = "Play";
         clearTimeout(sequencerTimer);       
     }
+}
+
+function updateShuttlePosition() {
+    var measure = Math.ceil(currentStep / measureLength);
+    var beat = (Math.ceil(currentStep / beatLength)) - ((measure-1) * beatsPerMeasure);
+    var step = currentStep - ((measure-1) * measureLength) - ((beat-1) * beatLength);
+
+    divLoopPosition.innerHTML = measure + "." + beat + "." + step;
 }
 
 function initLoopPosition() {
@@ -414,6 +426,8 @@ function runSequencer() {
     var lastStepArr = sequenceArr[lastStepIndex];
     var stepArr = sequenceArr[currentStepIndex];    
 
+    updateShuttlePosition();
+    
     //Update GUI
 
     if(lastStepMeasure == currentMeasure) {
