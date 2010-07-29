@@ -209,7 +209,7 @@ body {
 }
 
 #shuttleSliderWrapper {
-    width: 80px;
+    width: 120px;
     margin: 0 5px;
     overflow: hidden;
 }
@@ -217,6 +217,7 @@ body {
 .sliderWrapper {
     float: left;
     width: 30px;
+    text-align: center;
     margin-right: 10px;
 }
 

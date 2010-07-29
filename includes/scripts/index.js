@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition;
+var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition, divVolume, txtVolume;
 
 var channelArr = []
 var instrumentArr = [];
@@ -28,6 +28,8 @@ var sequencerTimeoutLength;
 var currentInstrument;
 var tempoSlider;
 var stepsSlider;
+var masterVolumeSlider;
+var masterVolume;
 var soloCount = 0;
 
 window.onload = function() {
@@ -38,6 +40,8 @@ window.onload = function() {
     txtTempo = $("txtTempo");
     divSteps = $("divSteps");
     txtSteps = $("txtSteps");
+    divVolume = $("divVolume");
+    txtVolume = $("txtVolume");
     divLoopPosition = $("divLoopPosition");
     
     var validAudioFormats = new AudioChannel().getValidFormats();
@@ -189,6 +193,17 @@ window.onload = function() {
         onSlide:        setSteps
     });
     
+    masterVolumeSlider = new Slider({
+    	minValue:       0,
+        maxValue:       100,
+        initValue:      75,
+        container:      divVolume,
+        containerClass: 'sliderOutter',
+        sliderClass:    'sliderInner',
+        title:          function(val) {return "Master Volume: " + val;},
+        onSlide:        setMasterVolume
+    });
+    
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
     divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
     for(var n=0; n<divViewBarArr.length; n++) {
@@ -197,12 +212,14 @@ window.onload = function() {
 
     setStepEvents();
     setCurrentMeasure(currentMeasure);
-    
+    updateShuttlePosition();
+        
     divPlayPause.onclick = function() {togglePlay(); return false;};
     divJumpToStart.onclick = initLoopPosition;
 
     setTempo(tempoSlider.getValue());
     setSteps(stepsSlider.getValue());
+    setMasterVolume(masterVolumeSlider.getValue());
 
     txtTempo.onkeyup = keyInTempo;
     txtSteps.onkeyup = keyInSteps;
@@ -228,7 +245,7 @@ window.onbeforeunload = function(){
 
 function _setVolume(index) {
     return function(val) {
-        channelArr[index].setVolume((val/100));
+        channelArr[index].setVolume((val/100) * (masterVolume/100));
     }
 }
 
@@ -595,6 +612,16 @@ function setSteps(val) {
         }else {
             addClass(el, 'barDisabled');
         }
+    }
+}
+
+function setMasterVolume(val) {
+    txtVolume.value = val;
+    masterVolume = val;
+
+    for(var n=0; n<instrumentChannels; n++) {
+        var channelVolume = volumeSliderArr[n].getValue();
+        channelArr[n].setVolume(Math.round((channelVolume * masterVolume)/100)/100);
     }
 }
 
