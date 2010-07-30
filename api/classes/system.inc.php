@@ -9,8 +9,13 @@
             return $this->_getAllRows($result);
         }
         
-        public function getKitChannels($id) {
-            $result = $this->db->query("SELECT * FROM system_sound_kit_channel WHERE id=" . $id);
+        public function getKitChannels($id, $format) {
+            if($format != "mp3" && $format != "ogg") {
+                echo $format . " Invalid Format";
+                return;
+            }
+            
+            $result = $this->db->query("SELECT name, channel, " . $format . " AS src FROM system_sound_kit_channel WHERE id=" . $id . " ORDER BY id ASC");
             return $this->_getAllRows($result);
         }
         

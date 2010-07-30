@@ -5,6 +5,7 @@
 
     $cmd = $_REQUEST['cmd'];
     $id = $_REQUEST['id'];
+    $format = $_REQUEST['format'];
     
     if(!$cmd) {
         echo "No command specified.";
@@ -17,8 +18,8 @@
             echo json_encode($kits);
         break;
         case "getKitChannels":
-            if($id) {
-                $channels = $system->getKitChannels($id);
+            if($id && $format) {
+                $channels = $system->getKitChannels($id, $format);
                 echo json_encode($channels);
             }else {
                 echo "Missing Required Parameters";
