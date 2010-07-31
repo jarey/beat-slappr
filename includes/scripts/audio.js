@@ -29,7 +29,7 @@ AudioChannel.prototype = {
     /***Private Properties***/
     /************************/
 
-    _polyphony:      3,
+    _polyphony:      4,
     _curChannel:     0,
     _src:           '',
     _vol:         0.75,
@@ -52,6 +52,9 @@ AudioChannel.prototype = {
     
     setVolume: function(val) {
         this._vol = val;
+        for(var n=0; n<this._polyphony; n++) {
+            this._channelArr[n].volume = val;
+        }
     },
     
     getVolume: function() {
@@ -60,12 +63,26 @@ AudioChannel.prototype = {
     
     setMute: function(state) {
         this._muted = state;
+        for(var n=0; n<this._polyphony; n++) {
+            this._channelArr[n].muted = state;
+        }
+    },
+    
+    getMute: function() {
+        return this._muted;
     },
     
     setSrc: function(src) {
-        this._src = src;    
+        this._src = src;
+        for(var n=0; n<this._polyphony; n++) {
+            this._channelArr[n].src = src;
+        }
     },
 
+    getSrc: function() {
+        return this._src;
+    },
+    
     getValidFormats: function() {
         var playTypes = {};
         var channel = this._channelArr[this._curChannel];
@@ -81,17 +98,14 @@ AudioChannel.prototype = {
     },
     
     play: function() {
-            var channel = this._channelArr[this._curChannel];
+        var channel = this._channelArr[this._curChannel];
 
-            channel.src = this._src;
-            channel.load();
-            channel.volume = this._vol;
-            channel.muted = this._muted;
-            channel.play();
+        channel.load();
+        channel.play();
 
-            this._curChannel++;
-            if(this._curChannel == this._polyphony) {
-                this._curChannel = 0;
-            }
+        this._curChannel++;
+        if(this._curChannel == this._polyphony) {
+            this._curChannel = 0;
+        }
     }
 };

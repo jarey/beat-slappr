@@ -151,7 +151,7 @@ window.onload = function() {
         url:    'api/system.php',
         method: 'post',
         parameters: {cmd: 'getKits'},
-        handler: getSystemKitHandler
+        handler: function(obj) {getSystemKitHandler(obj, true);}
     });
 
     /***End Block***/
@@ -159,7 +159,7 @@ window.onload = function() {
 
 /***This block sets up functionality outside the player.  Eventually needs to be moved out of index.js***/
 
-function getSystemKitHandler(obj) {
+function getSystemKitHandler(obj, init) {
     if(obj.success) {
         var response = decodeJSON(obj.response);
         var str = "";
@@ -168,6 +168,10 @@ function getSystemKitHandler(obj) {
             str += "<option value='" + record.id + "'>" + record.name + "</option>";
         }
         cmbSystemKit.innerHTML = str;
+        if(init) {
+            cmbSystemKit.value = 1;
+            cmbSystemKit.onchange();
+        }
     }else {
         return false;
     }
@@ -187,6 +191,13 @@ function setSystemKitHandler(obj) {
     if(obj.success) {
         var response = decodeJSON(obj.response);
         var record;
+        var mime = "";
+        
+        if(audioFormat == 'ogg') {
+            mime = 'ogg';
+        }else if(audioFormat == 'mp3') {
+            mime = 'mpeg';
+        }
         
         for(n=0; n<instrumentChannels; n++) {
             instrumentNameArr[n].innerHTML = "&nbsp;";
@@ -195,7 +206,7 @@ function setSystemKitHandler(obj) {
         for(var n=0; n<response.length; n++) {
             record = response[n];
             instrumentNameArr[record.channel].innerHTML = record.name;
-            channelArr[record.channel].setSrc("data:audio/" + audioFormat + ";base64," + record.src);
+            channelArr[record.channel].setSrc("data:audio/" + mime + ";base64," + record.src);
         }
     }else {
         return false;
@@ -414,6 +425,8 @@ function _getCurrentStepIndex() {
 }
 
 function runSequencer() {
+    sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
+
     var lastStepMeasure = _getLastStepMeasure();
     var currentStepMeasure = Math.ceil(currentStep / measureLength);
 
@@ -449,8 +462,6 @@ function runSequencer() {
     if(currentStep > totalSteps) {
         currentStep = 1;
     }
-
-    sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
 }
 
 function _toggleSolo(index) {
