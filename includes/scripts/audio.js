@@ -29,7 +29,7 @@ AudioChannel.prototype = {
     /***Private Properties***/
     /************************/
 
-    _polyphony:      4,
+    _polyphony:      3,
     _curChannel:     0,
     _src:           '',
     _vol:         0.75,
