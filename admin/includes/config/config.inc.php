@@ -30,4 +30,9 @@
     define("APP_URL", "/" . APP_NAME . "/");
 
 
+    /***********************************************************************/
+    /***DEFINES THE MAXIMUM NUMBER OF AUDIO CHANNELS IN AN INSTRUMENT KIT***/
+    /***********************************************************************/
+
+    define("MAX_CHANNELS", 16);
 ?>

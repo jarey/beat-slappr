@@ -6,6 +6,10 @@
 
         public function newKit($name) {
             if($this->db->exec("INSERT INTO system_sound_kit (name) VALUES('$name')")) {
+                $id = $this->db->lastInsertRowID();
+                for($n=0; $n<MAX_CHANNELS; $n++) {
+                    $this->db->exec("INSERT INTO system_sound_kit_channel (id, channel) VALUES($id, $n)");
+                }
                 return true;
             }else {
                 return false;
@@ -27,12 +31,18 @@
         }
         
         public function getKitChannels($id, $format) {
-            if($format != "mp3" && $format != "ogg") {
-                echo "Invalid Format";
-                return;
-            }
-            
-            $result = $this->db->query("SELECT name, channel, " . $format . " AS src FROM system_sound_kit_channel WHERE id=" . $id . " ORDER BY id ASC");
+            if($format) {
+                if($format == "mp3" || $format == "ogg") {
+                    $format .= " AS src";
+                }else {
+                    echo "Invalid Format";
+                    return;
+                }
+            }else {
+                $format = "mp3, ogg";
+            }            
+
+            $result = $this->db->query("SELECT name, channel, " . $format . " FROM system_sound_kit_channel WHERE id=" . $id . " ORDER BY channel ASC");
             return $this->_getAllRows($result);
         }
         

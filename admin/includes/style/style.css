@@ -102,3 +102,9 @@ textarea {
     margin-bottom: 20px;
     border: #ccc 1px solid;
 }
+
+table textarea {
+    margin: 0;
+    height: 100%;
+    width: 200px;
+}
