@@ -1,6 +1,7 @@
 <?php 
-    require_once "../../includes/templates/main.tpl.php";
-    require_once "../../../api/classes/base64.inc.php";
+    require_once "../../includes/config/config.inc.php";
+    require_once APP_PATH . "admin/includes/templates/main.tpl.php";
+    require_once APP_PATH . "api/classes/base64.inc.php";
 
     $template = new MainTemplate();
     $data['title'] = "Beat Slappr Admin - System Kit Rebuilder";
