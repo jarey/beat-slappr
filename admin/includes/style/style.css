@@ -82,6 +82,15 @@ a:hover {
     -webkit-border-radius: 0 0 5px 5px;
 }
 
+.contentBlock {
+    width: 300px;
+    margin: 10px auto;
+    padding: 5px;
+    background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
 .fileHeading {
     font-size: 12px;
     font-weight: bold;

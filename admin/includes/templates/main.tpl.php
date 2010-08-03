@@ -1,22 +1,20 @@
 <?php
     class MainTemplate {
-        private $baseDir;
         private $menuArr;
         
         function __construct() {
-            $this->baseDir = "/beat-slappr/admin";
             $this->menuArr = array(
                 "divSystemKits" => array(
                     "name"  => "System Kits",
-                    "href"  => $this->baseDir . "/kits"
+                    "href"  => APP_URL . "admin/kits"
                 ),
                 "divSystemPatterns" => array(
                     "name"  => "System Patterns",
-                    "href"  => $this->baseDir . "/patterns"
+                    "href"  => APP_URL . "admin/patterns"
                 ),
                 "divBase64Encoder" => array(
                     "name"  => "Base64 Encoder",
-                    "href"  => $this->baseDir . "/base64"
+                    "href"  => APP_URL . "admin/base64"
                 )
             );
         }
@@ -27,11 +25,11 @@
             <html>
                 <head>
                     <title>" . $data['title'] . "</title>
-                    <link rel='stylesheet' href='" . $this->baseDir . "/includes/style/style.css' type='text/css' media='screen' />
+                    <link rel='stylesheet' href='" . APP_URL . "admin/includes/style/style.css' type='text/css' media='screen' />
                 </head>
                 <body>
                     <div id='divHeader'>
-                        <div id='divHeaderTitle'><a href='" . $this->baseDir . "'>" . $data['headerTitle'] . "</a></div>
+                        <div id='divHeaderTitle'><a href='" . APP_URL . "admin'>" . $data['headerTitle'] . "</a></div>
                         <div id='divHeaderMenu'>";
                             foreach($this->menuArr as $key => $val) {
                                 if($data['menu'] == $key) {
