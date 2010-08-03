@@ -30,7 +30,7 @@
             return $this->_getAllRows($result);
         }
         
-        public function getKitChannels($id, $format) {
+        public function getKitChannels($id, $format="") {
             if($format) {
                 if($format == "mp3" || $format == "ogg") {
                     $format .= " AS src";

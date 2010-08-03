@@ -52,6 +52,10 @@ body {
     border-right: #838181 1px solid;
 }
 
+.instrumentName {
+    height: 10px;
+}
+
 .drumPad {
     width: 20px;
     height: 20px;
