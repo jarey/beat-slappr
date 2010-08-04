@@ -46,6 +46,14 @@
             return $this->_getAllRows($result);
         }
         
+        public function updateKitChannel($id, $channel, $name, $ogg, $mp3) {
+            if($this->db->exec("UPDATE system_sound_kit_channel SET name='$name', ogg='$ogg', mp3='$mp3' WHERE id=$id AND channel=$channel")) {
+                return true;
+            }else {
+                return false;
+            }
+        }
+
         private function _getAllRows($result) {
             $resultArr = array();
             while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
