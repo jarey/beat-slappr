@@ -8,7 +8,7 @@
     $data['headerTitle'] = "Beat Slappr - Admin";
     $data['content'] = "
         <div style='width: 200px; margin: 50px auto; text-align: center;'>
-            <a href='kits'>Manage System Kits</a><br />
+            <a href='kits'>Manage System Kits</a><br /><br />
             <a href='patterns'>Manage System Patterns</a>
         </div>
     ";

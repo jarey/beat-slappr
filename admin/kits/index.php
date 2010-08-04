@@ -15,6 +15,7 @@
     if($_GET) {
         $deleteId = $_GET['delete'];
         $systemAPI->deleteKit($deleteId);
+        header('Location: .');
     }
 
     $systemKits = $systemAPI->getKits();
@@ -24,7 +25,7 @@
             <tr>
                 <td>" . $systemKit['name'] . "</td>
                 <td><a href='edit/?id=" . $systemKit['id'] . "'>Edit</a></td>
-                <td><a href='?delete=" . $systemKit['id'] . "'>Delete</a></td>
+                <td><a href='#' onclick='deleteKit(" . $systemKit['id'] . "); return false;'>Delete</a></td>
             </tr>";
     }
     $tableStr .= "</table>";
@@ -33,6 +34,14 @@
     $data['headerTitle'] = "Beat Slappr - Admin";
     $data['menu'] = "divSystemKits";
     $data['content'] = "
+        <script type='text/javascript'>
+            function deleteKit(id) {
+                var c = confirm('Are you sure you want to delete this kit?  This can\'t be undone!');
+                if(c) {
+                    window.location='?delete=' + id;
+                }
+            }
+        </script>
         <div class='contentBlock'>
             System Kits:<br />
             $tableStr
