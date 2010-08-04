@@ -52,9 +52,6 @@
                 <input type='text' name='newKitName' />
                 <input type='submit' value='Create' />
             </form>
-        </div>    
-        <div class='contentBlock'>
-            <a href='rebuild'>Rebuild All System Kits</a>
         </div>
     ";
 

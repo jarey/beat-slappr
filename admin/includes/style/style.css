@@ -13,6 +13,13 @@ a:hover {
     text-decoration: underline;
 }
 
+iframe {
+    border: 0;
+    height: 24px;
+    width: 60px;
+    overflow: hidden;
+}
+
 .error {
     font-size: 14px;
     font-weight: bold;

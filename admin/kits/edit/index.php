@@ -45,10 +45,12 @@
                             <input type='text' name='channelName[]' value='" . $kitChArr[$n]['name'] . "' />
                         </td>
                         <td>
-                            <textarea name='channelOgg[]' onfocus='this.select(); return false;' onclick='this.select(); return false;'>" . $kitChArr[$n]['ogg']  . "</textarea>
+                            <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Ogg'></iframe>
+                            <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
                         </td>
                         <td>
-                            <textarea name='channelMp3[]' onfocus='this.select(); return false;' onclick='this.select(); return false;'>" . $kitChArr[$n]['mp3']  . "</textarea>
+                            <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Mp3'></iframe>
+                            <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
                         </td>
                     </tr>";
                 }
@@ -56,7 +58,13 @@
                 </table>
                 <input type='submit' value='Save Changes' />
             </form>";
-            $data['content'] = $tableStr;
+            $data['content'] = "
+                <script type='text/javascript'>
+                    function _$(el) {
+                        return document.getElementById(el);
+                    }
+                </script>" .
+                $tableStr;
         }else {
             $data['content'] = "<span class='error'>Invalid System Kit</span>";        
         }
