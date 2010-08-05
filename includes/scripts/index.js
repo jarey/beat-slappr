@@ -81,36 +81,39 @@ window.onload = function() {
     }
 
     tempoSlider = new Slider({
-    	minValue:       20,
-        maxValue:       200,
-        initValue:      120,
-        container:      divTempo,
-        containerClass: 'sliderOutter',
-        sliderClass:    'sliderInner',
-        title:          function(val) {return "Tempo: " + val + "BPM";},
-        onSlide:        setTempo
+    	minValue:        20,
+        maxValue:        200,
+        initValue:       120,
+        container:       divTempo,
+        containerClass:  'sliderOutter',
+        sliderClass:     'sliderInner',
+        title:           function(val) {return "Tempo: " + val + "BPM";},
+        onSlide:         updateTempoGUI,
+        onSlideComplete: setTempo
     });
     
     stepsSlider = new Slider({
-    	minValue:       1,
-        maxValue:       64,
-        initValue:      16,
-        container:      divSteps,
-        containerClass: 'sliderOutter',
-        sliderClass:    'sliderInner',
-        title:          function(val) {return "Steps: " + val;},
-        onSlide:        setSteps
+    	minValue:         1,
+        maxValue:         64,
+        initValue:        16,
+        container:        divSteps,
+        containerClass:   'sliderOutter',
+        sliderClass:      'sliderInner',
+        title:            function(val) {return "Steps: " + val;},
+        onSlide:          updateStepsGUI,
+        onSlideComplete:  setSteps
     });
     
     masterVolumeSlider = new Slider({
-    	minValue:       0,
-        maxValue:       100,
-        initValue:      75,
-        container:      divVolume,
-        containerClass: 'sliderOutter',
-        sliderClass:    'sliderInner',
-        title:          function(val) {return "Master Volume: " + val;},
-        onSlide:        setMasterVolume
+    	minValue:         0,
+        maxValue:         100,
+        initValue:        75,
+        container:        divVolume,
+        containerClass:   'sliderOutter',
+        sliderClass:      'sliderInner',
+        title:            function(val) {return "Master Volume: " + val;},
+        onSlide:          updateMasterVolumeGUI,
+        onSlideComplete:  setMasterVolume
     });
 
     var validFormats = channelArr[0].getValidFormats();
@@ -141,6 +144,7 @@ window.onload = function() {
 
     txtTempo.onkeyup = keyInTempo;
     txtSteps.onkeyup = keyInSteps;
+    txtVolume.onkeyup = keyInMasterVolume;
 
     /***This block sets up functionality outside the player.  Eventually needs to be moved out of index.js***/
     
@@ -345,12 +349,14 @@ function togglePlayer(state) {
         addClass(divPlayPause, 'btnPause');
         removeClass(divPlayPause, 'btnPlay');
         divPlayPause.title = "Pause";
+        clearInterval(sequencerTimer);
         runSequencer();
+        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
     }else if(state == 'paused') {
         addClass(divPlayPause, 'btnPlay');
         removeClass(divPlayPause, 'btnPause');
         divPlayPause.title = "Play";
-        clearTimeout(sequencerTimer);       
+        clearInterval(sequencerTimer);
     }
 }
 
@@ -425,8 +431,6 @@ function _getCurrentStepIndex() {
 }
 
 function runSequencer() {
-    sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
-
     var lastStepMeasure = _getLastStepMeasure();
     var currentStepMeasure = Math.ceil(currentStep / measureLength);
 
@@ -577,9 +581,14 @@ function keyInTempo() {
     }
 }
 
-function setTempo(val) {
+function updateTempoGUI(val) {
     txtTempo.value = val;
-    sequencerTimeoutLength = (1000*((60/val)/4));
+}
+
+function setTempo(val) {
+    updateTempoGUI(val);
+    sequencerTimeoutLength = (1000*((60/val)/beatLength));
+    togglePlayer(playerState);
 }
 
 function keyInSteps() {
@@ -591,8 +600,12 @@ function keyInSteps() {
     }
 }
 
-function setSteps(val) {
+function updateStepsGUI(val) {
     txtSteps.value = val;
+}
+
+function setSteps(val) {
+    updateStepsGUI(val);
     setTotalSteps(val);
 
     for(var n=0; n<divViewBarArr.length; n++) {
@@ -605,8 +618,21 @@ function setSteps(val) {
     }
 }
 
-function setMasterVolume(val) {
+function keyInMasterVolume() {
+    var val = txtVolume.value;
+    
+    if(val >= masterVolumeSlider.minValue && val <= masterVolumeSlider.maxValue) {
+        masterVolumeSlider.setValue(val);
+        setMasterVolume(val);    
+    }
+}
+
+function updateMasterVolumeGUI(val) {
     txtVolume.value = val;
+}
+
+function setMasterVolume(val) {
+    updateMasterVolumeGUI(val);
     masterVolume = val;
 
     for(var n=0; n<instrumentChannels; n++) {

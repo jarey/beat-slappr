@@ -36,26 +36,30 @@ var Slider = function(config){
 		window.onmousemove = function(e) {
 			_this._mouseHandler(e);
 		};
-		return false;
-	};
 
-	window.onmouseup = function(){
-		window.onmousemove = '';
+	    window.onmouseup = function(){
+		    window.onmousemove = '';
+		    window.onmouseup = '';
+		    _this.onSlideComplete(_this._currentValue);
+	    };
+
+		return false;
 	};
 };
 
 Slider.prototype = {
-	minValue:        0,
-	maxValue:      100,
-	initValue:      50,
-	container:      '',
-	containerClass: '',
-	sliderClass:    '',
-	title:          function() {},
-	onSlide:        function() {},
-	_currentValue:   0,
-	_slideRangePx:   0,
-	_sliderInstanceArr: [],
+	minValue:                    0,
+	maxValue:                  100,
+	initValue:                  50,
+	container:                  '',
+	containerClass:             '',
+	sliderClass:                '',
+	title:           function() {},
+	onSlide:         function() {},
+    onSlideComplete: function() {},
+	_currentValue:               0,
+	_slideRangePx:               0,
+	_sliderInstanceArr:         [],
 
 
 	getValue: function() {
