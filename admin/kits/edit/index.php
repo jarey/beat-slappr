@@ -47,10 +47,14 @@
                         <td>
                             <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Ogg'></iframe>
                             <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
+                            <input type='button' value='>' onclick='playAudio(" . $n . ", \"Ogg\", this);' id='cmdPlayOgg" . $n . "' />
+                            <audio id='audOgg" . $n . "' onended='audioEnded(" . $n . ", \"Ogg\");'></audio>
                         </td>
                         <td>
                             <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Mp3'></iframe>
                             <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
+                            <input type='button' value='>' onclick='playAudio(" . $n . ", \"Mp3\", this);' id='cmdPlayMp3" . $n . "' />
+                            <audio id='audMp3" . $n . "'></audio>
                         </td>
                     </tr>";
                 }
@@ -62,6 +66,33 @@
                 <script type='text/javascript'>
                     function _$(el) {
                         return document.getElementById(el);
+                    }
+
+                    function playAudio(index, format, scope) {
+                        var audioEl = _$('aud' + format + index);
+                        var srcEl = _$('channel' + format + index);
+                        var mime;
+
+                        if(format == 'Ogg') {
+                            mime = 'ogg';
+                        }else if(format == 'Mp3') {
+                            mime = 'mpeg';
+                        }
+
+                        if((audioEl.canPlayType('audio/' + mime) == 'no') || (audioEl.canPlayType('audio/' + mime) == '')) {
+                            alert('Your browser can\'t play audio of this format.');
+                            return false;
+                        }
+
+                        scope.disabled = true;
+                        audioEl.src = 'data:audio/' + mime + ';base64,' + srcEl.innerHTML;
+                        audioEl.load();
+                        audioEl.play();
+                    }
+
+                    function audioEnded(index, format) {
+                        var btn = _$('cmdPlay' + format + index);
+                        btn.disabled = false;
                     }
                 </script>" .
                 $tableStr;
