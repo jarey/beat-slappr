@@ -25,39 +25,45 @@
             $tableStr = "
             <form method='post' action=''>
                 <input type='hidden' name='id' value='$id' />
-                <table><tr><th>Channel</th><th>Name</th><th>ogg</th><th>mp3</th></tr>";
-                for($n=0; $n<MAX_CHANNELS; $n++) {
-                    $tableStr .= "
+                <table>
                     <tr>
-                        <td>
-                            <select name='channelId[]' value='" . $n . "'>";
-                                for($m=0; $m<MAX_CHANNELS; $m++) {
-                                    if($n == $m) {
-                                        $default = "selected='selected'";
-                                    }else {
-                                        $default = "";
-                                    }
-                                    $tableStr .= "<option value='$m' $default>$m</option>";
-                                }
-                            $tableStr .= "
-                            </select>
-                        </td><td>
-                            <input type='text' name='channelName[]' value='" . $kitChArr[$n]['name'] . "' />
-                        </td>
-                        <td>
-                            <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Ogg'></iframe>
-                            <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
-                            <input type='button' value='>' onclick='playAudio(" . $n . ", \"Ogg\", this);' id='cmdPlayOgg" . $n . "' />
-                            <audio id='audOgg" . $n . "' onended='audioEnded(" . $n . ", \"Ogg\");'></audio>
-                        </td>
-                        <td>
-                            <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Mp3'></iframe>
-                            <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
-                            <input type='button' value='>' onclick='playAudio(" . $n . ", \"Mp3\", this);' id='cmdPlayMp3" . $n . "' />
-                            <audio id='audMp3" . $n . "'></audio>
-                        </td>
+                        <th style='width: 80px;'>Channel</th>
+                        <th>Name</th>
+                        <th>ogg</th>
+                        <th>mp3</th>
                     </tr>";
-                }
+                    for($n=0; $n<MAX_CHANNELS; $n++) {
+                        $tableStr .= "
+                        <tr>
+                            <td>
+                                <select name='channelId[]' value='" . $n . "'>";
+                                    for($m=0; $m<MAX_CHANNELS; $m++) {
+                                        if($n == $m) {
+                                            $default = "selected='selected'";
+                                        }else {
+                                            $default = "";
+                                        }
+                                        $tableStr .= "<option value='$m' $default>$m</option>";
+                                    }
+                                $tableStr .= "
+                                </select>
+                            </td><td>
+                                <input type='text' name='channelName[]' value='" . $kitChArr[$n]['name'] . "' />
+                            </td>
+                            <td>
+                                <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Ogg'></iframe>
+                                <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
+                                <input type='button' value='>' onclick='playAudio(" . $n . ", \"Ogg\", this);' id='cmdPlayOgg" . $n . "' />
+                                <audio id='audOgg" . $n . "' onended='audioEnded(" . $n . ", \"Ogg\");'></audio>
+                            </td>
+                            <td>
+                                <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "&f=Mp3'></iframe>
+                                <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
+                                <input type='button' value='>' onclick='playAudio(" . $n . ", \"Mp3\", this);' id='cmdPlayMp3" . $n . "' />
+                                <audio id='audMp3" . $n . "'></audio>
+                            </td>
+                        </tr>";
+                    }
                 $tableStr .= "
                 </table>
                 <input type='submit' value='Save Changes' />

@@ -271,7 +271,7 @@ body {
 
 .shuttleButton {
     float: left;
-    margin-right: 5px;
+    margin-right: 3px;
     text-align: center;
     width: 40px;
     height: 40px;
@@ -281,17 +281,18 @@ body {
     -webkit-border-radius: 5px;
 }
 
-.btnStart {
-    float: left;
-    background-position: 0 -80px;
-}
-
 .btnPlay {
-    float: right;
     background-position: 0 0;
 }
 
 .btnPause {
-    float: right;
     background-position: 0 -40px;
+}
+
+.btnStart {
+    background-position: 0 -80px;
+}
+
+.btnClearPattern {
+    background-position: 0 -120px;
 }

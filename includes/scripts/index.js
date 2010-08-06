@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition, divVolume, txtVolume;
+var divPlayPause, divJumpToStart, divClearPattern, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition, divVolume, txtVolume;
 var cmbSystemKit;
 
 var channelArr = [];
@@ -38,6 +38,7 @@ var soloCount = 0;
 window.onload = function() {
     divPlayPause = $('divPlayPause');
     divJumpToStart = $('divJumpToStart');
+    divClearPattern = $('divClearPattern');
 
     cmbSystemKit = $('cmbSystemKit');
     
@@ -136,7 +137,8 @@ window.onload = function() {
     updateShuttlePosition();
         
     divPlayPause.onclick = function() {togglePlay(); return false;};
-    divJumpToStart.onclick = initLoopPosition;
+    divJumpToStart.onclick = function() {initLoopPosition(); return false;};
+    divClearPattern.onclick = function() {clearPattern(); return false;};
 
     setTempo(tempoSlider.getValue());
     setSteps(stepsSlider.getValue());
@@ -374,11 +376,23 @@ function initLoopPosition() {
     setCurrentMeasure(currentMeasure);
 }
 
+function clearPattern() {
+    var val = confirm("Are you sure you want to clear this pattern?");
+    if(val) {
+        for(var n=0; n<totalSteps; n++) {
+            sequenceArr[n] = [];
+        }
+        playerState = 'playing';
+        togglePlay();
+        initLoopPosition();
+    }
+}
+
 function setTotalSteps(val) {
     var currentStepIndex = _getCurrentStepIndex();
 
     initLoopPosition();
-    removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
+    //removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
         
     totalSteps = val;
     totalMeasures = Math.ceil(totalSteps/measureLength);
@@ -413,11 +427,11 @@ function setCurrentMeasure(val) {
         setStepEvents();
         selectInstrument();
 
-        if(lastStepMeasure != val) {
-            removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');
-        }else {
-            addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
-        }
+        //if(lastStepMeasure != val) {
+        //    removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');
+        //}else {
+        //    addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
+        //}
     }
 }
 
@@ -431,18 +445,18 @@ function _getCurrentStepIndex() {
 }
 
 function runSequencer() {
-    var lastStepMeasure = _getLastStepMeasure();
-    var currentStepMeasure = Math.ceil(currentStep / measureLength);
+    //var lastStepMeasure = _getLastStepMeasure();
+    //var currentStepMeasure = Math.ceil(currentStep / measureLength);
 
-    var lastStepIndex = lastStep-1;
+    //var lastStepIndex = lastStep-1;
     var currentStepIndex = currentStep-1;
-    var lastStepArr = sequenceArr[lastStepIndex];
+    //var lastStepArr = sequenceArr[lastStepIndex];
     var stepArr = sequenceArr[currentStepIndex];    
 
-    updateShuttlePosition();
+    //updateShuttlePosition();
     
     //Update GUI
-
+    /*
     if(lastStepMeasure == currentMeasure) {
         removeClass(divStepArr[lastStepIndex - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
     }
@@ -454,10 +468,11 @@ function runSequencer() {
     for(var n=0; n<lastStepArr.length; n++) {
         releaseHandler(lastStepArr[n])();
     }
-    
+    */    
+
     //2. Play sounds for current step
     for(var n=0; n<stepArr.length; n++) {
-        setInstrumentClass(stepArr[n]);
+        //setInstrumentClass(stepArr[n]);
         channelArr[stepArr[n]].play();
     }
     

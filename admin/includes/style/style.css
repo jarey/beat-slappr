@@ -30,6 +30,10 @@ table {
     width: 100%;
 }
 
+th {
+    text-align: left;
+}
+
 tr {
     border-bottom: #aaa 1px solid;
 }
