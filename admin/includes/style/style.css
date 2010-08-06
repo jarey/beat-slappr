@@ -13,11 +13,30 @@ a:hover {
     text-decoration: underline;
 }
 
+.smallLink {
+    font-size: 10px;
+    color: #0111AA;
+}
+
 iframe {
     border: 0;
     height: 24px;
     width: 60px;
     overflow: hidden;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    border-bottom: #aaa 1px solid;
+}
+
+
+.clsTableText {
+    font-size: 14px;
 }
 
 .error {
@@ -92,10 +111,25 @@ iframe {
 .contentBlock {
     width: 300px;
     margin: 10px auto;
-    padding: 5px;
+
     background-color: #ccc;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+.contentBlockHeader {
+    background-color: #838181;
+    color: #fafafa;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+
+}
+
+.contentBlockBody {
+    padding: 5px;
 }
 
 .fileHeading {

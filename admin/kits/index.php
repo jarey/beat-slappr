@@ -23,9 +23,9 @@
     foreach($systemKits as $systemKit) {
         $tableStr .= "
             <tr>
-                <td>" . $systemKit['name'] . "</td>
-                <td><a href='edit/?id=" . $systemKit['id'] . "'>Edit</a></td>
-                <td><a href='#' onclick='deleteKit(" . $systemKit['id'] . "); return false;'>Delete</a></td>
+                <td width='80%'><span class='clsTableText'>" . $systemKit['name'] . "</span></td>
+                <td width='10%'><a href='edit/?id=" . $systemKit['id'] . "'><span class='smallLink'>[edit]</span></a></td>
+                <td width='10%'><a href='#' onclick='deleteKit(" . $systemKit['id'] . "); return false;'><span class='smallLink'>[delete]</span></a></td>
             </tr>";
     }
     $tableStr .= "</table>";
@@ -43,15 +43,17 @@
             }
         </script>
         <div class='contentBlock'>
-            System Kits:<br />
-            $tableStr
+            <div class='contentBlockHeader'>System Kits</div>
+            <div class='contentBlockBody'>$tableStr</div>
         </div>
         <div class='contentBlock'>
-            Create System Kit:<br />
-            <form method='post' action=''>
-                <input type='text' name='newKitName' />
-                <input type='submit' value='Create' />
-            </form>
+            <div class='contentBlockHeader'>Create System Kit</div>
+            <div class='contentBlockBody'>
+                <form method='post' action=''>
+                    <input type='text' name='newKitName' />
+                    <input type='submit' value='Create' />
+                </form>
+            </div>
         </div>
     ";
 
