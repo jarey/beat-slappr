@@ -70,6 +70,8 @@ Slider.prototype = {
 		this._currentValue = val;
 		this._setTitleText();
 		this._setSliderPos(val);
+		this.onSlide(this._currentValue);
+		this.onSlideComplete(this._currentValue);
 	},
 	
 	_mouseHandler: function(e){

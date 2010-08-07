@@ -5,7 +5,12 @@ var channelArr = [];
 var instrumentNameArr = [];
 var instrumentArr = [];
 var divStepArr = [];
-var sequenceArr = [];
+var sequenceArr = {
+    tempo:    0,
+    steps:    0,
+    pattern: []
+};
+
 var volumeSliderArr = [];
 var muteBtnArr = [];
 var soloBtnArr = [];
@@ -60,6 +65,12 @@ window.onload = function() {
     muteBtnArr = getElementsByClassName('channelMute');
     soloBtnArr = getElementsByClassName('channelSolo');
     instrumentNameArr = getElementsByClassName('instrumentName');
+
+    divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
+    for(var n=0; n<divViewBarArr.length; n++) {
+        divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
+    }
 
     for(var n=0; n<instrumentChannels; n++) {
         instrumentArr[n].onmousedown = _playInstrument(n);
@@ -126,12 +137,6 @@ window.onload = function() {
         alert("Your browser does not support this app :-\\");
     }
 
-    divStepArr = $("divStepWrapper").getElementsByTagName('div');
-    divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
-    for(var n=0; n<divViewBarArr.length; n++) {
-        divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
-    }
-
     setStepEvents();
     setCurrentMeasure(currentMeasure);
     updateShuttlePosition();
@@ -150,7 +155,7 @@ window.onload = function() {
 
     /***This block sets up functionality outside the player.  Eventually needs to be moved out of index.js***/
     
-    cmbSystemKit.onchange = setSystemKit;
+    cmbSystemKit.onchange = function() {setSystemKit(this.value);};
 
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
@@ -183,12 +188,12 @@ function getSystemKitHandler(obj, init) {
     }
 }
 
-function setSystemKit() {
+function setSystemKit(val) {
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
         url:    'api/system.php',
         method: 'post',
-        parameters: {cmd: 'getKitChannels', id: this.value, format: audioFormat},
+        parameters: {cmd: 'getKitChannels', id: val, format: audioFormat},
         handler: setSystemKitHandler
     });
 }
@@ -223,8 +228,8 @@ function setSystemKitHandler(obj) {
 
 function setStepEvents() {
     for(var n=0; n<totalSteps; n++) {
-        if(!sequenceArr[n]) {
-            sequenceArr[n] = [];
+        if(!sequenceArr.pattern[n]) {
+            sequenceArr.pattern[n] = [];
         }
     }
     for(n=0; n<measureLength; n++) {
@@ -380,7 +385,7 @@ function clearPattern() {
     var val = confirm("Are you sure you want to clear this pattern?");
     if(val) {
         for(var n=0; n<totalSteps; n++) {
-            sequenceArr[n] = [];
+            sequenceArr.pattern[n] = [];
         }
         playerState = 'playing';
         togglePlay();
@@ -392,6 +397,7 @@ function setTotalSteps(val) {
     var currentStepIndex = _getCurrentStepIndex();
 
     initLoopPosition();
+
     //removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
         
     totalSteps = val;
@@ -450,8 +456,8 @@ function runSequencer() {
 
     //var lastStepIndex = lastStep-1;
     var currentStepIndex = currentStep-1;
-    //var lastStepArr = sequenceArr[lastStepIndex];
-    var stepArr = sequenceArr[currentStepIndex];    
+    //var lastStepArr = sequenceArr.pattern[lastStepIndex];
+    var stepArr = sequenceArr.pattern[currentStepIndex];    
 
     //updateShuttlePosition();
     
@@ -554,14 +560,14 @@ function _toggleInstrument(index) {
 function toggleInstrument(step) {
     var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
     if((currentInstrument >= 0) && (step < totalSteps)) {
-        for(var n=0; n<sequenceArr[step].length; n++) {
-            if (sequenceArr[step][n] == currentInstrument) {
-                sequenceArr[step].splice(n,1);
+        for(var n=0; n<sequenceArr.pattern[step].length; n++) {
+            if (sequenceArr.pattern[step][n] == currentInstrument) {
+                sequenceArr.pattern[step].splice(n,1);
                 removeClass(divStepArr[measureStep], 'clsStepOn');
                 return;
             }
         }
-        sequenceArr[step].push(currentInstrument);
+        sequenceArr.pattern[step].push(currentInstrument);
         addClass(divStepArr[measureStep], 'clsStepOn');
     }
 }
@@ -577,8 +583,8 @@ function selectInstrument() {
         if(sequenceStep >= totalSteps) {
             addClass(divStepArr[n], 'clsStepDisabled');
         }else {
-            for(var m=0; m<sequenceArr[sequenceStep].length; m++) {
-                if(sequenceArr[sequenceStep][m] == currentInstrument) {
+            for(var m=0; m<sequenceArr.pattern[sequenceStep].length; m++) {
+                if(sequenceArr.pattern[sequenceStep][m] == currentInstrument) {
                     addClass(divStepArr[n], 'clsStepOn');
                     break;
                 }
@@ -602,6 +608,7 @@ function updateTempoGUI(val) {
 
 function setTempo(val) {
     updateTempoGUI(val);
+    sequenceArr.tempo = val;
     sequencerTimeoutLength = (1000*((60/val)/beatLength));
     togglePlayer(playerState);
 }
@@ -620,6 +627,7 @@ function updateStepsGUI(val) {
 }
 
 function setSteps(val) {
+    sequenceArr.steps = val;
     updateStepsGUI(val);
     setTotalSteps(val);
 
@@ -656,6 +664,16 @@ function setMasterVolume(val) {
     }
 }
 
+function setSequence(val) {
+    sequenceArr = decodeJSON(val);
+    setSteps(sequenceArr.steps);
+    tempoSlider.setValue(sequenceArr.tempo);
+}
+
+/***********************/
+/***UTILITY FUNCTIONS***/
+/***********************/
+
 function hasClass(ele,cls) {
     return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
 }
@@ -683,6 +701,53 @@ function getElementsByClassName(className) {
     }
     return elClassArr;
 }
+
+function encodeJSON(arr, parentIsArray) {
+    var parts = [];
+    var is_list = (Object.prototype.toString.apply(arr) === '[object Array]');
+
+    for(var key in arr) {
+    	var value = arr[key];
+
+
+        if(typeof value == "object") { //Custom handling for arrays
+            if(is_list) {
+                parts.push(encodeJSON(value, true));
+            }else {
+                var str  = '"' + key + '":' + encodeJSON(value);
+                parts.push(str);
+            }
+        } else {
+            var str = "";
+            if(!parentIsArray) {
+                str = '"' + key + '":';
+            }
+
+            //Custom handling for multiple data types
+            if(typeof value == "number") str += value; //Numbers
+            else if(value === false) str += 'false'; //The booleans
+            else if(value === true) str += 'true';
+            else str += '"' + value + '"'; //All other things
+            // :TODO: Is there any more datatype we should be in the lookout for? (Functions?)
+
+            parts.push(str);
+        }
+    }
+    var json = parts.join(",");
+    
+    if(is_list) return '[' + json + ']';//Return numerical JSON
+    return '{' + json + '}';//Return associative JSON
+}
+
+var decodeJSON = function(str) {
+    var val;
+    try {
+        val = eval('(' + str + ')');
+    }catch(err) {
+        val = err;
+    }
+    return val;
+};
 
 function $(el) {
     return document.getElementById(el);

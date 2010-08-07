@@ -86,13 +86,3 @@ Kodiak.Data.Ajax.prototype = {
         }
     }
 };
-
-var decodeJSON = function(str) {
-    var val;
-    try {
-        val = eval('(' + str + ')');
-    }catch(err) {
-        val = false;
-    }
-    return val;
-};
