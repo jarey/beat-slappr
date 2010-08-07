@@ -1,7 +1,11 @@
 <?php
     class System {
+        private $adminEmail = SYSTEM_ADMIN_EMAIL;
+        private $adminId;
+
         function __construct() {
             $this->db = new SQLite3(APP_PATH . "includes/db/main.db.sqlite");
+            $this->adminId = $this->getAdminId();
         }
 
         public function newKit($name) {
@@ -26,7 +30,7 @@
         }
 
         public function getKits() {
-            $result = $this->db->query("SELECT id, name from system_sound_kit ORDER BY name");
+            $result = $this->db->query("SELECT id, name from system_sound_kit WHERE user_id=" . $this->adminId . " ORDER BY name");
             return $this->_getAllRows($result);
         }
         
@@ -60,6 +64,11 @@
                 array_push($resultArr, $row);
             }
             return $resultArr;        
+        }
+
+        private function getAdminId() {
+            $result = $this->db->querySingle("SELECT id FROM users WHERE email='" . $this->adminEmail . "'");
+            return $result;
         }
     }
 ?>

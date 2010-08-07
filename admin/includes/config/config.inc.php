@@ -7,6 +7,13 @@
     define("DOC_PATH", $_SERVER['DOCUMENT_ROOT']);
 
 
+    /***************************************************/
+    /***DEFINES THE APPLICATION ADMIN'S EMAIL ADDRESS***/
+    /***************************************************/
+
+    DEFINE("SYSTEM_ADMIN_EMAIL", "admin@beat-slappr.com");
+
+
     /************************************/
     /***DEFINES THE APPLICATION'S NAME***/
     /************************************/
