@@ -664,10 +664,17 @@ function setMasterVolume(val) {
     }
 }
 
+function getSequence() {
+    var str = encodeJSON(sequenceArr);
+    return str;
+}
+
 function setSequence(val) {
-    sequenceArr = decodeJSON(val);
-    setSteps(sequenceArr.steps);
-    tempoSlider.setValue(sequenceArr.tempo);
+    if(val) {
+        sequenceArr = decodeJSON(val);
+        setSteps(sequenceArr.steps);
+        tempoSlider.setValue(sequenceArr.tempo);
+    }
 }
 
 /***********************/
