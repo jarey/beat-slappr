@@ -1,5 +1,5 @@
 <?php 
-    require_once "includes/config/config.inc.php";
+    require_once "../config.php";
     require_once APP_PATH . "admin/includes/templates/main.tpl.php";
 
     $template = new MainTemplate();
@@ -9,7 +9,8 @@
     $data['content'] = "
         <div style='width: 200px; margin: 50px auto; text-align: center;'>
             <a href='kits'>Manage System Kits</a><br /><br />
-            <a href='patterns'>Manage System Patterns</a>
+            <a href='patterns'>Manage System Patterns</a><br /><br />
+            <a href='base64'>Base64 Encoder</a>
         </div>
     ";
 

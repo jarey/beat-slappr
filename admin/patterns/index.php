@@ -1,5 +1,5 @@
 <?php 
-    require_once "../includes/config/config.inc.php";
+    require_once "../../config.php";
     require_once APP_PATH . "admin/includes/templates/main.tpl.php";
 
     $template = new MainTemplate();
