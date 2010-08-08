@@ -8,6 +8,7 @@ var divStepArr = [];
 var sequenceArr = {
     tempo:    0,
     steps:    0,
+    kit:      0,
     pattern: []
 };
 
@@ -194,16 +195,19 @@ function setSystemKit(val) {
         url:    'api/system.php',
         method: 'post',
         parameters: {cmd: 'getKitChannels', id: val, format: audioFormat},
-        handler: setSystemKitHandler
+        handler: function(obj) {setSystemKitHandler(obj, val);}
     });
 }
 
-function setSystemKitHandler(obj) {
+function setSystemKitHandler(obj, id) {
     if(obj.success) {
         var response = decodeJSON(obj.response);
         var record;
         var mime = "";
-        
+
+        cmbSystemKit.value = id;
+        sequenceArr.kit = id;
+
         if(audioFormat == 'ogg') {
             mime = 'ogg';
         }else if(audioFormat == 'mp3') {
@@ -211,10 +215,9 @@ function setSystemKitHandler(obj) {
         }
         
         for(n=0; n<instrumentChannels; n++) {
-            instrumentNameArr[n].innerHTML = "&nbsp;";
+            instrumentNameArr[n].innerHTML = "";
             channelArr[n].setSrc("");
-        }
-        for(var n=0; n<response.length; n++) {
+
             record = response[n];
             instrumentNameArr[record.channel].innerHTML = record.name;
             channelArr[record.channel].setSrc("data:audio/" + mime + ";base64," + record.src);
@@ -674,6 +677,7 @@ function setSequence(val) {
         sequenceArr = decodeJSON(val);
         setSteps(sequenceArr.steps);
         tempoSlider.setValue(sequenceArr.tempo);
+        setSystemKit(sequenceArr.kit);
     }
 }
 
