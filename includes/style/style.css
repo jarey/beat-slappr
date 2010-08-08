@@ -1,12 +1,13 @@
 body {
     font-family: arial;
     background-color: #888;
+    margin: 5px;
 }
 
 #divWrapper {
-    margin: 100px auto 0 auto;
-    width: 960px;
-    height: 287px;
+    margin: 0 auto;
+    width: 812px;
+    height: 455px;
     background: url(../images/texture.gif);
     overflow: hidden;
     -moz-border-radius: 5px;
@@ -15,8 +16,7 @@ body {
     -webkit-box-shadow: 5px 5px 5px black;
 }
 
-#divLeftCol {
-    float: left;
+#divSequencerRow {
     overflow: hidden;
     width: 807px;
 }
@@ -24,7 +24,7 @@ body {
 #divInstrument {
     overflow: hidden;
     width: 800px;
-    height: 190px;
+    height: 134px;
     margin: 5px;
     padding-top: 5px;
     border: #838181 1px solid;
@@ -37,7 +37,7 @@ body {
     padding: 0 1px;
     margin-bottom:5px;
     width: 47px;
-    height: 188px;
+    height: 130px;
     color: #ccc;
     font-size: 8px;
     text-align: center;
@@ -120,14 +120,14 @@ body {
 
 .sliderOutter {
     width: 30px;
-    height: 110px;
+    height: 56px;
     background: url(../images/slider_bg.png);
 }
 
 .sliderInner {
     position: relative;
     width: 30px;
-    height: 16px;
+    height: 10px;
     background: url(../images/slider_knob.png);
     cursor: move;
 }
@@ -182,15 +182,46 @@ body {
     background-color: #ccc;
 }
 
-#divRightCol {
-    float: left;
+#divKitPatternRow {
     margin: 5px 0 0 5px;
     overflow: hidden;
     border: #838181 1px solid;
     color: #ccc;
     font-size: 10px;
-    width: 135px;
-    height: 265px;
+    width: 794px;
+    height: 95px;
+    padding: 5px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+#divKitWrapper {
+    float: left;
+    width: 200px;
+}
+
+#divKitWrapper > select {
+    width: 100%;
+}
+
+#divPatternWrapper {
+    float: left;
+    margin-left: 10px;
+    width: 582px;
+}
+
+#divPatternWrapper > textarea {
+    width: 577px;
+}
+
+#divShuttleRow {
+    margin: 5px 0 0 5px;
+    overflow: hidden;
+    border: #838181 1px solid;
+    color: #ccc;
+    font-size: 10px;
+    width: 794px;
+    height: 95px;
     padding: 5px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -213,6 +244,7 @@ body {
 }
 
 #shuttleSliderWrapper {
+    float: left;
     width: 120px;
     margin: 0 5px;
     overflow: hidden;
@@ -226,6 +258,7 @@ body {
 }
 
 #divViewBarOutterWrapper {
+    float: left;
     margin: 5px 0 0 5px;
 }
 
@@ -248,29 +281,26 @@ body {
     cursor: default;
 }
 
-#divLoopPositionWrapper {
-    overflow: hidden;
-    margin-top: 5px;
-    line-height: 24px;
-}
-
 .shuttle {
     float:right;
-    height:18px;
-    line-height:18px;
+    font-size:20px;
+    height:30px;
+    line-height:30px;
     margin:5px 5px 0 0;
     padding-right:2px;
     text-align:right;
-    width:50px;
+    width:65px;
 }
 
 #divShuttleButtonWrapper {
-    overflow: hidden;
-    margin: 5px 0 0 5px;
+    float:right;
+    margin-top:5px;
+    overflow:hidden;
+    width:210px;
 }
 
 .shuttleButton {
-    float: left;
+    float: right;
     margin-right: 3px;
     text-align: center;
     width: 40px;
