@@ -1,5 +1,4 @@
 var divPlayPause, divJumpToStart, divClearPattern, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition, divVolume, txtVolume;
-var cmbSystemKit;
 
 var channelArr = [];
 var instrumentNameArr = [];
@@ -41,12 +40,16 @@ var masterVolume;
 var audioFormat;
 var soloCount = 0;
 
-window.onload = function() {
+if(window.addEventListener) {
+    window.addEventListener('load', init, false);
+}else {
+    window.attachEvent('onload', init);
+}
+
+function init() {
     divPlayPause = $('divPlayPause');
     divJumpToStart = $('divJumpToStart');
     divClearPattern = $('divClearPattern');
-
-    cmbSystemKit = $('cmbSystemKit');
     
     divTempo = $("divTempo");
     txtTempo = $("txtTempo");
@@ -153,81 +156,7 @@ window.onload = function() {
     txtTempo.onkeyup = keyInTempo;
     txtSteps.onkeyup = keyInSteps;
     txtVolume.onkeyup = keyInMasterVolume;
-
-    /***This block sets up functionality outside the player.  Eventually needs to be moved out of index.js***/
-    
-    cmbSystemKit.onchange = function() {setSystemKit(this.value);};
-
-    var ajax = new Kodiak.Data.Ajax();
-    ajax.request({
-        url:    'api/system.php',
-        method: 'post',
-        parameters: {cmd: 'getKits'},
-        handler: function(obj) {getSystemKitHandler(obj, true);}
-    });
-
-    /***End Block***/
-};
-
-/***This block sets up functionality outside the player.  Eventually needs to be moved out of index.js***/
-
-function getSystemKitHandler(obj, init) {
-    if(obj.success) {
-        var response = decodeJSON(obj.response);
-        var str = "";
-        for(var record in response) {
-            record = response[record];
-            str += "<option value='" + record.id + "'>" + record.name + "</option>";
-        }
-        cmbSystemKit.innerHTML = str;
-        if(init) {
-            cmbSystemKit.value = 1;
-            cmbSystemKit.onchange();
-        }
-    }else {
-        return false;
-    }
 }
-
-function setSystemKit(val) {
-    var ajax = new Kodiak.Data.Ajax();
-    ajax.request({
-        url:    'api/system.php',
-        method: 'post',
-        parameters: {cmd: 'getKitChannels', id: val, format: audioFormat},
-        handler: function(obj) {setSystemKitHandler(obj, val);}
-    });
-}
-
-function setSystemKitHandler(obj, id) {
-    if(obj.success) {
-        var response = decodeJSON(obj.response);
-        var record;
-        var mime = "";
-
-        cmbSystemKit.value = id;
-        sequenceArr.kit = id;
-
-        if(audioFormat == 'ogg') {
-            mime = 'ogg';
-        }else if(audioFormat == 'mp3') {
-            mime = 'mpeg';
-        }
-        
-        for(n=0; n<instrumentChannels; n++) {
-            instrumentNameArr[n].innerHTML = "";
-            channelArr[n].setSrc("");
-
-            record = response[n];
-            instrumentNameArr[record.channel].innerHTML = record.name;
-            channelArr[record.channel].setSrc("data:audio/" + mime + ";base64," + record.src);
-        }
-    }else {
-        return false;
-    }
-}
-
-/***END BLOCK***/
 
 function setStepEvents() {
     for(var n=0; n<totalSteps; n++) {
@@ -665,101 +594,4 @@ function setMasterVolume(val) {
         var channelVolume = volumeSliderArr[n].getValue();
         channelArr[n].setVolume(Math.round((channelVolume * masterVolume)/100)/100);
     }
-}
-
-function getSequence() {
-    var str = encodeJSON(sequenceArr);
-    return str;
-}
-
-function setSequence(val) {
-    if(val) {
-        sequenceArr = decodeJSON(val);
-        setSteps(sequenceArr.steps);
-        tempoSlider.setValue(sequenceArr.tempo);
-        setSystemKit(sequenceArr.kit);
-    }
-}
-
-/***********************/
-/***UTILITY FUNCTIONS***/
-/***********************/
-
-function hasClass(ele,cls) {
-    return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
-}
-
-function addClass(ele,cls) {
-    if(!this.hasClass(ele,cls)) {
-        ele.className += " " + cls;
-    }
-}
-
-function removeClass(ele,cls) {
-    if (hasClass(ele,cls)) {
-        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-        ele.className=ele.className.replace(reg,' ');
-    }
-}
-
-function getElementsByClassName(className) {
-    elArr = document.getElementsByTagName('*');
-    elClassArr = [];
-    for(var n=0; n<elArr.length; n++) {
-        if(hasClass(elArr[n], className)) {
-            elClassArr.push(elArr[n]);
-        }
-    }
-    return elClassArr;
-}
-
-function encodeJSON(arr, parentIsArray) {
-    var parts = [];
-    var is_list = (Object.prototype.toString.apply(arr) === '[object Array]');
-
-    for(var key in arr) {
-    	var value = arr[key];
-
-
-        if(typeof value == "object") { //Custom handling for arrays
-            if(is_list) {
-                parts.push(encodeJSON(value, true));
-            }else {
-                var str  = '"' + key + '":' + encodeJSON(value);
-                parts.push(str);
-            }
-        } else {
-            var str = "";
-            if(!parentIsArray) {
-                str = '"' + key + '":';
-            }
-
-            //Custom handling for multiple data types
-            if(typeof value == "number") str += value; //Numbers
-            else if(value === false) str += 'false'; //The booleans
-            else if(value === true) str += 'true';
-            else str += '"' + value + '"'; //All other things
-            // :TODO: Is there any more datatype we should be in the lookout for? (Functions?)
-
-            parts.push(str);
-        }
-    }
-    var json = parts.join(",");
-    
-    if(is_list) return '[' + json + ']';//Return numerical JSON
-    return '{' + json + '}';//Return associative JSON
-}
-
-var decodeJSON = function(str) {
-    var val;
-    try {
-        val = eval('(' + str + ')');
-    }catch(err) {
-        val = err;
-    }
-    return val;
-};
-
-function $(el) {
-    return document.getElementById(el);
 }

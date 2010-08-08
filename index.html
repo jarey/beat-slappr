@@ -4,6 +4,8 @@
         <title>Beat Slappr</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <script type="text/javascript" src="includes/scripts/index.js"></script>
+        <script type="text/javascript" src="includes/scripts/kits-patterns.js"></script>
+        <script type="text/javascript" src="includes/scripts/util.js"></script>
         <script type="text/javascript" src="includes/scripts/audio.js"></script>
         <script type="text/javascript" src="includes/scripts/slider.js"></script>
         <script type="text/javascript" src="includes/scripts/ajax.js"></script>
@@ -203,7 +205,7 @@
                 <div id="divPatternWrapper">
                     Pattern:<br />
                     <textarea id="txtSequence"></textarea><br />
-                    <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getSequence();" /> <input type="button" value="Set Sequence" onclick="setSequence($('txtSequence').value);" />
+                    <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" />
                 </div>
             </div>
             <div id="divShuttleRow">
