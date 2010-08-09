@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divClearPattern, divTempo, txtTempo, divSteps, txtSteps, divLoopPosition, divVolume, txtVolume;
+var divPlayPause, divJumpToStart, divClearPattern, divTempo, txtTempo, divSteps, divLoopPosition, divVolume, txtVolume;
 
 var channelArr = [];
 var instrumentNameArr = [];
@@ -34,7 +34,7 @@ var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
 var tempoSlider;
-var stepsSlider;
+var stepsWidget;
 var masterVolumeSlider;
 var masterVolume;
 var audioFormat;
@@ -54,7 +54,6 @@ function init() {
     divTempo = $("divTempo");
     txtTempo = $("txtTempo");
     divSteps = $("divSteps");
-    txtSteps = $("txtSteps");
     divVolume = $("divVolume");
     txtVolume = $("txtVolume");
     divLoopPosition = $("divLoopPosition");
@@ -108,16 +107,20 @@ function init() {
         onSlideComplete: setTempo
     });
     
-    stepsSlider = new Slider({
+    stepsWidget = new StepWidget({
+        container:        divSteps,
     	minValue:         1,
         maxValue:         64,
         initValue:        16,
-        container:        divSteps,
+        btnWidth:         15,
+        title:            'Steps',
         containerClass:   'sliderOutter',
         sliderClass:      'sliderInner',
-        title:            function(val) {return "Steps: " + val;},
-        onSlide:          updateStepsGUI,
-        onSlideComplete:  setSteps
+        bodyClass:        'stepWidgetBody',
+        txtClass:         'stepWidgetTxt',
+        incBtnClass:      'stepWidgetInc',
+        decBtnClass:      'stepWidgetDec',
+        onValueChange:    setSteps
     });
     
     masterVolumeSlider = new Slider({
@@ -150,11 +153,9 @@ function init() {
     divClearPattern.onclick = function() {clearPattern(); return false;};
 
     setTempo(tempoSlider.getValue());
-    setSteps(stepsSlider.getValue());
     setMasterVolume(masterVolumeSlider.getValue());
 
     txtTempo.onkeyup = keyInTempo;
-    txtSteps.onkeyup = keyInSteps;
     txtVolume.onkeyup = keyInMasterVolume;
 }
 
@@ -545,22 +546,8 @@ function setTempo(val) {
     togglePlayer(playerState);
 }
 
-function keyInSteps() {
-    var val = txtSteps.value;
-    
-    if(val >= stepsSlider.minValue && val <= stepsSlider.maxValue) {
-        stepsSlider.setValue(val);
-        setSteps(val);    
-    }
-}
-
-function updateStepsGUI(val) {
-    txtSteps.value = val;
-}
-
 function setSteps(val) {
     sequenceArr.steps = val;
-    updateStepsGUI(val);
     setTotalSteps(val);
 
     for(var n=0; n<divViewBarArr.length; n++) {
