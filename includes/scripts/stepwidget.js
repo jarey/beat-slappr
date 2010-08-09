@@ -90,7 +90,7 @@ StepWidget.prototype = {
         }else if(scope.textEl.value > scope.maxValue) {
             scope.setValue(scope.maxValue);
         }else {
-            scope.setValue(scope.textEl.value);
+            scope.setValue(parseInt(scope.textEl.value));
         }
     },
     

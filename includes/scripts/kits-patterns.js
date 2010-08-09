@@ -94,9 +94,9 @@ function getPattern() {
 function setPattern(val) {
     if(val) {
         sequenceArr = decodeJSON(val);
-        setSteps(sequenceArr.steps);
-        tempoSlider.setValue(sequenceArr.tempo);
-        setSystemKit(sequenceArr.kit);
+        stepsWidget.setValue(parseInt(sequenceArr.steps));
+        tempoWidget.setValue(parseInt(sequenceArr.tempo));
+        setSystemKit(parseInt(sequenceArr.kit));
     }
 }
 

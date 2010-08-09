@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divClearPattern, divTempo, txtTempo, divSteps, divLoopPosition, divVolume, txtVolume;
+var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPosition, divVolume, txtVolume;
 
 var channelArr = [];
 var instrumentNameArr = [];
@@ -33,7 +33,7 @@ var lastStep = totalSteps;
 var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
-var tempoSlider;
+var tempoWidget;
 var stepsWidget;
 var masterVolumeSlider;
 var masterVolume;
@@ -52,7 +52,6 @@ function init() {
     divClearPattern = $('divClearPattern');
     
     divTempo = $("divTempo");
-    txtTempo = $("txtTempo");
     divSteps = $("divSteps");
     divVolume = $("divVolume");
     txtVolume = $("txtVolume");
@@ -95,32 +94,32 @@ function init() {
         });
     }
 
-    tempoSlider = new Slider({
-    	minValue:        20,
-        maxValue:        200,
-        initValue:       120,
-        container:       divTempo,
-        containerClass:  'sliderOutter',
-        sliderClass:     'sliderInner',
-        title:           function(val) {return "Tempo: " + val + "BPM";},
-        onSlide:         updateTempoGUI,
-        onSlideComplete: setTempo
+    tempoWidget = new StepWidget({
+        container:      divTempo,
+    	minValue:       20,
+        maxValue:       200,
+        initValue:      120,
+        btnWidth:       15,
+        title:          'Tempo',
+        bodyClass:      'stepWidgetBody',
+        txtClass:       'stepWidgetTxt',
+        incBtnClass:    'stepWidgetInc',
+        decBtnClass:    'stepWidgetDec',
+        onValueChange:  setTempo
     });
     
     stepsWidget = new StepWidget({
-        container:        divSteps,
-    	minValue:         1,
-        maxValue:         64,
-        initValue:        16,
-        btnWidth:         15,
-        title:            'Steps',
-        containerClass:   'sliderOutter',
-        sliderClass:      'sliderInner',
-        bodyClass:        'stepWidgetBody',
-        txtClass:         'stepWidgetTxt',
-        incBtnClass:      'stepWidgetInc',
-        decBtnClass:      'stepWidgetDec',
-        onValueChange:    setSteps
+        container:         divSteps,
+    	minValue:          1,
+        maxValue:          64,
+        initValue:         16,
+        btnWidth:          15,
+        title:             'Steps',
+        bodyClass:         'stepWidgetBody',
+        txtClass:          'stepWidgetTxt',
+        incBtnClass:       'stepWidgetInc',
+        decBtnClass:       'stepWidgetDec',
+        onValueChange:     setSteps
     });
     
     masterVolumeSlider = new Slider({
@@ -152,10 +151,7 @@ function init() {
     divJumpToStart.onclick = function() {initLoopPosition(); return false;};
     divClearPattern.onclick = function() {clearPattern(); return false;};
 
-    setTempo(tempoSlider.getValue());
     setMasterVolume(masterVolumeSlider.getValue());
-
-    txtTempo.onkeyup = keyInTempo;
     txtVolume.onkeyup = keyInMasterVolume;
 }
 
@@ -526,24 +522,16 @@ function selectInstrument() {
     }
 }
 
-function keyInTempo() {
-    var val = txtTempo.value;
-    
-    if(val >= tempoSlider.minValue && val <= tempoSlider.maxValue) {
-        tempoSlider.setValue(val);
-        setTempo(val);    
-    }
-}
-
-function updateTempoGUI(val) {
-    txtTempo.value = val;
-}
-
 function setTempo(val) {
-    updateTempoGUI(val);
     sequenceArr.tempo = val;
-    sequencerTimeoutLength = (1000*((60/val)/beatLength));
-    togglePlayer(playerState);
+    sequencerTimeoutLength = Math.round((1000*((60/val)/beatLength)));
+
+    //The following block clears the sequencer timer and resets it to the new timeout value.
+    //This will work more smoothly once the sequencer algorithm is updated.
+    if(playerState == 'playing') {
+        clearInterval(sequencerTimer);
+        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);    
+    }
 }
 
 function setSteps(val) {
