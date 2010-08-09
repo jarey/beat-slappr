@@ -62,7 +62,7 @@ function init() {
     window.onkeyup = releaseAll;
 
     instrumentArr = getElementsByClassName('drumPad');
-    volumeWidgetArr = getElementsByClassName('divVolumeSlider');
+    volumeWidgetArr = getElementsByClassName('divVolumeWidget');
     muteBtnArr = getElementsByClassName('channelMute');
     soloBtnArr = getElementsByClassName('channelSolo');
     instrumentNameArr = getElementsByClassName('instrumentName');

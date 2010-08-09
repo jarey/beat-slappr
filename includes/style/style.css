@@ -113,7 +113,7 @@ body {
     background-color:  #006100;
 }
 
-.divVolumeSlider {
+.divVolumeWidget {
     width: 45px;
     margin: 5px auto 0 auto;
 }
@@ -173,20 +173,6 @@ body {
     width: 100%;
     cursor: pointer;
     background: #ccc url(../images/down-arrow.png) no-repeat center center;
-}
-
-.sliderOutter {
-    width: 30px;
-    height: 56px;
-    background: url(../images/slider_bg.png);
-}
-
-.sliderInner {
-    position: relative;
-    width: 30px;
-    height: 10px;
-    background: url(../images/slider_knob.png);
-    cursor: move;
 }
 
 .clsInstrumentActive {
@@ -300,14 +286,14 @@ body {
     -webkit-border-radius: 3px;
 }
 
-#shuttleSliderWrapper {
+#shuttleWidgetWrapper {
     float: left;
     width: 210px;
     margin: 0 5px;
     overflow: hidden;
 }
 
-.sliderWrapper {
+.widgetWrapper {
     float: left;
     width: 60px;
     margin-right: 10px;
