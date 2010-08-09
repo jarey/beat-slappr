@@ -11,7 +11,7 @@ var sequenceArr = {
     pattern: []
 };
 
-var volumeSliderArr = [];
+var volumeWidgetArr = [];
 var muteBtnArr = [];
 var soloBtnArr = [];
 var divViewBarArr = [];
@@ -62,7 +62,7 @@ function init() {
     window.onkeyup = releaseAll;
 
     instrumentArr = getElementsByClassName('drumPad');
-    volumeSliderArr = getElementsByClassName('divVolumeSlider');
+    volumeWidgetArr = getElementsByClassName('divVolumeSlider');
     muteBtnArr = getElementsByClassName('channelMute');
     soloBtnArr = getElementsByClassName('channelSolo');
     instrumentNameArr = getElementsByClassName('instrumentName');
@@ -81,15 +81,21 @@ function init() {
 
         muteBtnArr[n].onmousedown = _toggleMute(n);
         soloBtnArr[n].onmousedown = _toggleSolo(n);
-        volumeSliderArr[n] = new Slider({
+        volumeWidgetArr[n] = new StepWidget({
+	        container:      volumeWidgetArr[n],
         	minValue:       0,
 	        maxValue:       100,
 	        initValue:      75,
-	        container:      volumeSliderArr[n],
-	        containerClass: 'sliderOutter',
-	        sliderClass:    'sliderInner',
-	        title:          function(val) {return "Volume: " + val;},
-	        onSlide:        _setVolume(n)
+            btnWidth:       15,
+            txtPadding:      2,
+            clickTimeout:   50,
+            title:          'Volume',
+            maxLength:      3,
+            bodyClass:         'stepWidgetChannelBody',
+            txtClass:          'stepWidgetChannelTxt',
+            incBtnClass:       'stepWidgetInc',
+            decBtnClass:       'stepWidgetDec',
+	        onValueChange:     _setVolume(n)
         });
     }
 
@@ -553,7 +559,7 @@ function setMasterVolume(val) {
     masterVolume = val;
 
     for(var n=0; n<instrumentChannels; n++) {
-        var channelVolume = volumeSliderArr[n].getValue();
+        var channelVolume = volumeWidgetArr[n].getValue();
         channelArr[n].setVolume(Math.round((channelVolume * masterVolume)/100)/100);
     }
 }
