@@ -1,4 +1,4 @@
-var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPosition, divVolume, txtVolume;
+var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPosition, divVolume;
 
 var channelArr = [];
 var instrumentNameArr = [];
@@ -35,7 +35,7 @@ var sequencerTimeoutLength;
 var currentInstrument;
 var tempoWidget;
 var stepsWidget;
-var masterVolumeSlider;
+var masterVolumeWidget;
 var masterVolume;
 var audioFormat;
 var soloCount = 0;
@@ -54,7 +54,6 @@ function init() {
     divTempo = $("divTempo");
     divSteps = $("divSteps");
     divVolume = $("divVolume");
-    txtVolume = $("txtVolume");
     divLoopPosition = $("divLoopPosition");
     
     var validAudioFormats = new AudioChannel().getValidFormats();
@@ -101,6 +100,7 @@ function init() {
         initValue:      120,
         btnWidth:       15,
         title:          'Tempo',
+        maxLength:      3,
         bodyClass:      'stepWidgetBody',
         txtClass:       'stepWidgetTxt',
         incBtnClass:    'stepWidgetInc',
@@ -115,6 +115,7 @@ function init() {
         initValue:         16,
         btnWidth:          15,
         title:             'Steps',
+        maxLength:         2,
         bodyClass:         'stepWidgetBody',
         txtClass:          'stepWidgetTxt',
         incBtnClass:       'stepWidgetInc',
@@ -122,16 +123,19 @@ function init() {
         onValueChange:     setSteps
     });
     
-    masterVolumeSlider = new Slider({
+    masterVolumeWidget = new StepWidget({
+        container:        divVolume,
     	minValue:         0,
         maxValue:         100,
         initValue:        75,
-        container:        divVolume,
-        containerClass:   'sliderOutter',
-        sliderClass:      'sliderInner',
-        title:            function(val) {return "Master Volume: " + val;},
-        onSlide:          updateMasterVolumeGUI,
-        onSlideComplete:  setMasterVolume
+        btnWidth:         15,
+        title:            'Master Volume',
+        maxLength:        3,
+        bodyClass:        'stepWidgetBody',
+        txtClass:         'stepWidgetTxt',
+        incBtnClass:      'stepWidgetInc',
+        decBtnClass:      'stepWidgetDec',
+        onValueChange:    setMasterVolume
     });
 
     var validFormats = channelArr[0].getValidFormats();
@@ -150,9 +154,6 @@ function init() {
     divPlayPause.onclick = function() {togglePlay(); return false;};
     divJumpToStart.onclick = function() {initLoopPosition(); return false;};
     divClearPattern.onclick = function() {clearPattern(); return false;};
-
-    setMasterVolume(masterVolumeSlider.getValue());
-    txtVolume.onkeyup = keyInMasterVolume;
 }
 
 function setStepEvents() {
@@ -548,21 +549,7 @@ function setSteps(val) {
     }
 }
 
-function keyInMasterVolume() {
-    var val = txtVolume.value;
-    
-    if(val >= masterVolumeSlider.minValue && val <= masterVolumeSlider.maxValue) {
-        masterVolumeSlider.setValue(val);
-        setMasterVolume(val);    
-    }
-}
-
-function updateMasterVolumeGUI(val) {
-    txtVolume.value = val;
-}
-
 function setMasterVolume(val) {
-    updateMasterVolumeGUI(val);
     masterVolume = val;
 
     for(var n=0; n<instrumentChannels; n++) {

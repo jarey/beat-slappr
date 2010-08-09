@@ -7,7 +7,7 @@ body {
 #divWrapper {
     margin: 0 auto;
     width: 812px;
-    height: 455px;
+    height: 405px;
     background: url(../images/texture.gif);
     overflow: hidden;
     -moz-border-radius: 5px;
@@ -256,7 +256,7 @@ body {
     color: #ccc;
     font-size: 10px;
     width: 794px;
-    height: 95px;
+    height: 45px;
     padding: 5px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;

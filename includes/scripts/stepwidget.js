@@ -17,6 +17,16 @@ var StepWidget = function(config) {
 
     this.setValue(this.initValue);
 
+    this.textEl.onkeydown = function(e) {
+	    if(!e) {
+	        var e = window.event;
+	    }
+
+    	if(!e || !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || (e.keyCode >= 35 && e.keyCode <= 40) || (e.keyCode == 8) || (e.keyCode == 46))) {
+            return false;
+        }
+    };
+
     this.textEl.onchange = function() {_this.changeValue(_this);};
     this.incEl.onmousedown = function() {_this.incValue(_this); return false;};
     this.decEl.onmousedown = function() {_this.decValue(_this); return false};
@@ -30,8 +40,9 @@ StepWidget.prototype = {
     initValue:     50,
     txtPadding:     5,
     clickDelay:   500,
-    clickTimeout: 100,
+    clickTimeout:  80,
     trigger:     true,
+    maxLength:      0,
     title:         '',
     bodyClass:     '',
     txtClass:      '',
@@ -49,6 +60,9 @@ StepWidget.prototype = {
         this.textEl = document.createElement('input');
         this.textEl.style.padding = "0 " + this.txtPadding + "px 0 0";
         this.textEl.className = this.txtClass;
+        if(this.maxLength > 0) {
+            this.textEl.setAttribute('maxLength', this.maxLength);
+        }
 
         this.btnWrapperEl = document.createElement('div');
         this.btnWrapperEl.style.width = this.btnWidth + "px";
@@ -65,7 +79,6 @@ StepWidget.prototype = {
         this.btnWrapperEl.appendChild(this.decEl);
         this.bodyEl.appendChild(this.btnWrapperEl);
         this.container.appendChild(this.bodyEl);
-
         this.textEl.style.height = this.bodyEl.clientHeight + "px";
         this.textEl.style.width = (this.bodyEl.clientWidth - this.btnWidth) - this.txtPadding + "px";
 
@@ -85,7 +98,7 @@ StepWidget.prototype = {
     },
 
     changeValue: function(scope) {
-        if(scope.textEl.value < scope.minValue) {
+        if(scope.textEl.value < scope.minValue || !scope.textEl.value) {
             scope.setValue(scope.minValue);
         }else if(scope.textEl.value > scope.maxValue) {
             scope.setValue(scope.maxValue);
