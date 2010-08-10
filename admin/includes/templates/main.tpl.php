@@ -32,7 +32,7 @@
                         <div id='divHeaderTitle'><a href='" . APP_URL . "admin'>" . $data['headerTitle'] . "</a></div>
                         <div id='divHeaderMenu'>";
                             foreach($this->menuArr as $key => $val) {
-                                if($data['menu'] == $key) {
+                                if(isset($data['menu']) && $data['menu'] == $key) {
                                     $active = " class='activeMenu'";
                                     $href = $val['name'];
                                 }else {
