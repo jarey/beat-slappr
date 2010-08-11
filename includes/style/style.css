@@ -21,7 +21,7 @@ h3 {
 #divWrapper {
     margin: 0 auto;
     width: 812px;
-    height: 379px;
+    height: 301px;
     /*background: url(../images/texture.gif);*/
     background-color: #bbb;
     overflow: hidden;
@@ -227,6 +227,7 @@ h3 {
 }
 
 .clsStepOn {
+    color: #ccc;
     background-color: #610000;
 }
 
@@ -245,33 +246,18 @@ h3 {
     border: #838181 1px solid;
     font-size: 10px;
     width: 794px;
-    height: 103px;
+    height: 25px;
     padding: 5px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
 
-#divKitWrapper {
-    float: left;
-    width: 200px;
-}
-
-#divKitWrapper > select {
-    width: 100%;
-}
-
-#divPatternWrapper {
-    float: left;
-    margin-left: 10px;
-    width: 582px;
-}
-
-#divPatternWrapper > textarea {
-    width: 577px;
-}
-
 .dataHeader {
     overflow: hidden;
+}
+
+.dataHeader > select {
+    width: 100px;
 }
 
 .saveBtn {
@@ -332,6 +318,17 @@ h3 {
 .viewBar {
     float: left;
     margin: 2px 5px 0 0;
+    width: 20px;
+    height: 20px;
+    color: #333;
+    background-color: #999;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 .barCurrent {

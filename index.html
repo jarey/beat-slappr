@@ -13,6 +13,46 @@
     </head>
     <body>
         <div id="divWrapper">
+            <div id="divKitPatternRow">
+                <div class="dataHeader">
+                    <h3>Kit</h3> <select id="cmbSystemKit" style="width: 100px;"></select>&nbsp;&nbsp;&nbsp;
+                    <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label class='lblLink'>save</label>
+                    <div style="float: right;">
+                        <label class='lblLink'>login</label>
+                    </div>
+                </div>
+            </div>
+            <div id="divShuttleRow">
+                <div id="divViewBarOutterWrapper">
+                    Edit Bar
+                    <div id="divViewBarInnerWrapper"> 
+                        <div class="viewBar">1</div>
+                        <div class="viewBar">2</div>
+                        <div class="viewBar">3</div>
+                        <div class="viewBar">4</div>
+                    </div>
+                </div>
+                <div id="shuttleWidgetWrapper">
+                    <div class="widgetWrapper">
+                        Steps
+                        <div id="divSteps"></div>
+                    </div>
+                    <div class="widgetWrapper">
+                        Tempo
+                        <div id="divTempo"></div>
+                    </div>
+                    <div class="widgetWrapper">
+                        Vol
+                        <div id="divVolume"></div>
+                    </div>
+                </div>                
+                <div id="divShuttleButtonWrapper">
+                    <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
+                    <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
+                    <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
+                    <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
+                </div>
+            </div>
             <div id="divSequencerRow">
                 <div id="divInstrument">
                     <div>
@@ -197,57 +237,12 @@
                     </div>
                 </div>
             </div>
-            <div id="divShuttleRow">
-                <div id="divViewBarOutterWrapper">
-                    Edit Bar
-                    <div id="divViewBarInnerWrapper"> 
-                        <div class="drumPad viewBar">1</div>
-                        <div class="drumPad viewBar">2</div>
-                        <div class="drumPad viewBar">3</div>
-                        <div class="drumPad viewBar">4</div>
-                    </div>
-                </div>
-                <div id="shuttleWidgetWrapper">
-                    <div class="widgetWrapper">
-                        Steps
-                        <div id="divSteps"></div>
-                    </div>
-                    <div class="widgetWrapper">
-                        Tempo
-                        <div id="divTempo"></div>
-                    </div>
-                    <div class="widgetWrapper">
-                        Vol
-                        <div id="divVolume"></div>
-                    </div>
-                </div>                
-                <div id="divShuttleButtonWrapper">
-                    <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
-                    <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
-                    <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
-                    <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
-                </div>
-            </div>
-            <div id="divKitPatternRow">
-                <div id="divKitWrapper">
-                    <h3>Kit</h3><br />
-                    <select id="cmbSystemKit" size="5"></select><br />
-                </div>
-                <div id="divPatternWrapper">
-                    <div class="dataHeader">
-                        <h3>Pattern</h3> | <label class='lblLink'>save</label>
-                        <div style="float: right;">
-                            <label class='lblLink'>login</label>
-                            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
-                        </div>
-                    </div>
-                    <textarea id="txtSequence" style="height: 83px;"></textarea>
-                </div>
-            </div>
         </div>
         <div style="width: 200px; margin: 60px auto 0 auto;">
             Debug Controls
-            <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" />
+            <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" /><br />
+            <textarea id="txtSequence"></textarea>
+            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </div>
     </body>
 </html> 
