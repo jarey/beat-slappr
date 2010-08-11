@@ -16,9 +16,9 @@
             <div id="divKitPatternRow">
                 <div class="dataHeader">
                     <h3>Kit</h3> <select id="cmbSystemKit" style="width: 100px;"></select>&nbsp;&nbsp;&nbsp;
-                    <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label class='lblLink'>save</label>
+                    <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
                     <div style="float: right;">
-                        <label class='lblLink'>login</label>
+                        <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
                     </div>
                 </div>
             </div>
@@ -244,5 +244,14 @@
             <textarea id="txtSequence"></textarea>
             <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </div>
+        <textarea id="txtLoginWindow" style="display: none;">
+            <h4>This is the login window.</h4>
+        </textarea>
+        <textarea id="txtSignupWindow" style="display: none;">
+            <h4>This is the sign up window.</h4>
+        </textarea>
+        <textarea id="txtSavePatternWindow" style="display: none;">
+            <h4>This is the save pattern window.</h4>
+        </textarea>
     </body>
 </html> 

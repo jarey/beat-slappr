@@ -1,3 +1,4 @@
+var loginModal, signupModal, savePatternModal;
 var cmbSystemKit;
 
 /***INIT***/
@@ -12,6 +13,29 @@ function kitPatternInit() {
     cmbSystemKit = $('cmbSystemKit');
 
     cmbSystemKit.onchange = function() {setSystemKit(this.value);};
+
+    loginModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblLogin',
+        componentId: 'loginModal',
+        modalClass:  'modalWindow',
+        orientation: 'right',
+        content:     $('txtLoginWindow').value
+    });
+
+    signupModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblSignUp',
+        componentId: 'signupModal',
+        modalClass:  'modalWindow',
+        orientation: 'right',
+        content:     $('txtSignupWindow').value
+    });
+
+    savePatternModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblSavePattern',
+        componentId: 'savePatternModal',
+        modalClass:  'modalWindow',
+        content:     $('txtSavePatternWindow').value
+    });
 
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({

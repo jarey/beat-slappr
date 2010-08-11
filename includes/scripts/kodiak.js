@@ -1,6 +1,7 @@
 var Kodiak = {
     Data: {},
-    Controls: {}
+    Controls: {},
+    Components: {}
 };
 
 
@@ -554,5 +555,114 @@ Kodiak.Controls.Table.prototype = {
     
     _sortFn: function(field) {
         this.data.sort({field: field, dir: 'toggle'});
+    }
+};
+
+
+//*******************************************************************
+//***********************MODAL CLASS*********************************
+//*******************************************************************
+
+Kodiak.Controls.Modal = function(config) {
+    var _this = this;
+    this.util = new Kodiak.Util();
+    this.util.clone(config, this);
+
+    Kodiak.Components[this.componentId] = this;
+    
+    if(this.applyTo) {
+        this.applyTo = this.util.toEl(this.applyTo);
+    }else {
+        alert("table: 'applyTo' property not defined.  Check documentation.");
+        return;
+    }
+
+    this._initModal();
+    this.applyTo.onclick = function() {_this.toggleModal(_this);};
+    window.addEventListener('resize', function() {redraw(_this);}, false);
+
+    function redraw(scope) {
+        if(scope._modalActive) {
+            scope._setModalPosition(scope);
+        }
+    }
+};
+
+Kodiak.Controls.Modal.prototype = {
+
+    orientation: 'left',
+    modalClass:  '',
+    _isModal:     true,
+
+    toggleModal: function(scope) {
+        if(this._modalActive) {
+            scope.hide();
+        }else {
+            scope.show();
+        }
+    },
+
+    hide: function() {
+        this._modalEl.style.display = "none";    
+        this._modalActive = false;
+    },
+
+    show: function() {
+        for(var component in Kodiak.Components) {
+            var key = component;
+            var val = Kodiak.Components[key];
+            if(val._isModal && val != this) {
+                val.hide();
+            }
+        }
+
+        this._setModalPosition(this);
+        this._modalEl.style.display = "block";
+        this._modalActive = true;
+    },
+
+    setContent: function(content) {
+        this._modalEl.innerHTML = content;
+    },
+
+    _initModal: function() {
+
+        var el = document.createElement('div');
+
+        el.className = this.modalClass;
+        el.style.position = "absolute";
+        el.style.visibility = "hidden";
+
+        document.body.appendChild(el);
+
+        this._modalEl = el;
+        this._modalDimensions = {width: this._modalEl.offsetWidth, height: this._modalEl.offsetHeight};
+
+        this.hide();
+        this._modalEl.style.visibility = "visible";
+        this.setContent(this.content);
+    },
+
+    _setModalPosition: function(scope) {
+        var coords = scope._findElPos(scope.applyTo);
+        if(scope.orientation == "left") {
+            scope._modalEl.style.left = coords.left + "px";
+        }else if(scope.orientation == "right") {
+            scope._modalEl.style.left = (coords.left - scope._modalDimensions.width + scope.applyTo.offsetWidth) + "px";
+        }
+        scope._modalEl.style.top = (coords.top + scope.applyTo.offsetHeight) + "px";
+    },
+
+    _findElPos: function(el) {
+        var curleft = curtop = 0;
+        if (el.offsetParent) {
+            curleft = el.offsetLeft
+            curtop = el.offsetTop
+            while (el = el.offsetParent) {
+                curleft += el.offsetLeft
+                curtop += el.offsetTop
+            }
+        }
+        return {left: curleft,top: curtop};
     }
 };
