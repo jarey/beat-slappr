@@ -8,7 +8,7 @@
         <script type="text/javascript" src="includes/scripts/util.js"></script>
         <script type="text/javascript" src="includes/scripts/audio.js"></script>
         <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
-        <script type="text/javascript" src="includes/scripts/ajax.js"></script>
+        <script type="text/javascript" src="includes/scripts/kodiak.js"></script>
         <script type="text/javascript" src="includes/scripts/toolbox.js"></script>
     </head>
     <body>
@@ -197,17 +197,6 @@
                     </div>
                 </div>
             </div>
-            <div id="divKitPatternRow">
-                <div id="divKitWrapper">
-                    Kit:<br />
-                    <select id="cmbSystemKit" size="4"></select><br />
-                </div>
-                <div id="divPatternWrapper">
-                    Pattern:<br />
-                    <textarea id="txtSequence"></textarea><br />
-                    <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" />
-                </div>
-            </div>
             <div id="divShuttleRow">
                 <div id="divViewBarOutterWrapper">
                     Edit Bar
@@ -239,6 +228,26 @@
                     <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
                 </div>
             </div>
+            <div id="divKitPatternRow">
+                <div id="divKitWrapper">
+                    <h3>Kit</h3><br />
+                    <select id="cmbSystemKit" size="5"></select><br />
+                </div>
+                <div id="divPatternWrapper">
+                    <div class="dataHeader">
+                        <h3>Pattern</h3> | <label class='lblLink'>save</label>
+                        <div style="float: right;">
+                            <label class='lblLink'>login</label>
+                            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
+                        </div>
+                    </div>
+                    <textarea id="txtSequence" style="height: 83px;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div style="width: 200px; margin: 60px auto 0 auto;">
+            Debug Controls
+            <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" />
         </div>
     </body>
 </html> 
