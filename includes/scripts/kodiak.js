@@ -578,7 +578,7 @@ Kodiak.Controls.Modal = function(config) {
     }
 
     this._initModal();
-    this.applyTo.onmousedown = function() {_this.toggleModal(_this); return false;};
+    this.applyTo.onmousedown = function(e) {_this.toggleModal(e, _this); return false;};
     window.addEventListener('resize', function() {redraw(_this);}, false);
 
     function redraw(scope) {
@@ -590,15 +590,18 @@ Kodiak.Controls.Modal = function(config) {
 
 Kodiak.Controls.Modal.prototype = {
 
+    content:     '',
     orientation: 'left',
     modalClass:  '',
+    closeOnBlur: false,
+    onShow:      function() {},
     _isModal:     true,
 
-    toggleModal: function(scope) {
+    toggleModal: function(e, scope) {
         if(this._modalActive) {
             scope.hide();
         }else {
-            scope.show();
+            scope.show(e);
         }
     },
 
@@ -607,7 +610,7 @@ Kodiak.Controls.Modal.prototype = {
         this._modalActive = false;
     },
 
-    show: function() {
+    show: function(e) {
         for(var component in Kodiak.Components) {
             var key = component;
             var val = Kodiak.Components[key];
@@ -616,9 +619,27 @@ Kodiak.Controls.Modal.prototype = {
             }
         }
 
+        this.onShow();
         this._setModalPosition(this);
         this._modalEl.style.display = "block";
         this._modalActive = true;
+
+        if(this.closeOnBlur) {
+            e.cancelBubble = true;
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            window.addEventListener('mousedown', lostFocus, false);
+        }
+
+        var _this = this;
+        function lostFocus(e) {
+            var coords = _this._findElPos(_this._modalEl);
+            if(!((e.clientX >= coords.left && e.clientX <= (coords.left + _this._modalEl.offsetWidth)) && (e.clientY >= coords.top && e.clientY <= (coords.top + _this._modalEl.offsetHeight)))) {
+                _this.hide();
+                this.removeEventListener('mousedown', lostFocus, false);
+            }
+        }
     },
 
     setContent: function(content) {

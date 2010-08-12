@@ -397,14 +397,17 @@ h3 {
 }
 
 .modalWindow {
-    width: 300px;
-    height: 200px;
     border: #dadada 5px solid;
     padding: 5px;
     color: #333;
     background-color: #f9f9f9;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+.kitModal {
+    width: 120px;
+    font-size: 14px;
 }
 
 .comboWrapper {
@@ -437,4 +440,19 @@ h3 {
     height: 24px;
     width: 20px;
     background: url(../images/dropdown-right.png);
+}
+
+.modalWrapper {
+    width: 100%;
+}
+
+.modalWrapperRow {
+    width: 100%;
+    cursor: pointer;
+    padding: 3px 0;
+}
+
+.modalWrapperRow:hover {
+    color: #f9f9f9;
+    background-color: #bbb;
 }

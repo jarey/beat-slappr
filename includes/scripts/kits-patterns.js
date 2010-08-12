@@ -1,5 +1,6 @@
-var loginModal, signupModal, savePatternModal;
-var cmbSystemKit;
+var loginModal, signupModal, savePatternModal, kitModal;
+var currentKit;
+var kitArr = [];
 
 /***INIT***/
 
@@ -10,9 +11,7 @@ if(window.addEventListener) {
 }
 
 function kitPatternInit() {
-    cmbSystemKit = $('cmbSystemKit');
-
-    cmbSystemKit.onchange = function() {setSystemKit(this.value);};
+    currentKit = $("currentKit");
 
     loginModal = new Kodiak.Controls.Modal({
         applyTo:     'lblLogin',
@@ -52,39 +51,53 @@ function kitPatternInit() {
 
 function getSystemKitHandler(obj, init) {
     if(obj.success) {
-        var response = decodeJSON(obj.response);
-        var str = "";
-        for(var record in response) {
-            record = response[record];
-            str += "<option value='" + record.id + "'>" + record.name + "</option>";
-        }
-        cmbSystemKit.innerHTML = str;
+        kitModal = new Kodiak.Controls.Modal({
+            applyTo:     'aKitModal',
+            componentId: 'kitModal',
+            modalClass:  'modalWindow kitModal',
+            orientation: 'right',
+            closeOnBlur: true,
+            onShow:      setKitContent
+        });
+
+        kitArr = decodeJSON(obj.response);
+
         if(init) {
-            cmbSystemKit.value = 1;
-            cmbSystemKit.onchange();
+            setSystemKit(kitArr[1]['id'], kitArr[1]['name']);
         }
     }else {
         return false;
     }
 }
 
-function setSystemKit(val) {
+function setKitContent() {
+    var str = "<div class='modalWrapper'>";
+    for(var kit in kitArr) {
+        kit = kitArr[kit];
+        str += "<div class='modalWrapperRow' onclick='setSystemKit(" + kit.id + ", \"" + kit.name + "\");'>" + kit.name + "</div>";
+    }
+    str += "</div>";
+    this.setContent(str);
+}
+
+function setSystemKit(val, kitName) {
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
         url:    'api/system.php',
         method: 'post',
         parameters: {cmd: 'getKitChannels', id: val, format: audioFormat},
-        handler: function(obj) {setSystemKitHandler(obj, val);}
+        handler: function(obj) {setSystemKitHandler(obj, val, kitName);}
     });
 }
 
-function setSystemKitHandler(obj, id) {
+function setSystemKitHandler(obj, id, kitName) {
     if(obj.success) {
         var response = decodeJSON(obj.response);
         var record;
         var mime = "";
 
-        cmbSystemKit.value = id;
+        currentKit.innerHTML = kitName;
+        kitModal.hide();
         sequenceArr.kit = id;
 
         if(audioFormat == 'ogg') {
