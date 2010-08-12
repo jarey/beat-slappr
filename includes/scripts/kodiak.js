@@ -578,7 +578,7 @@ Kodiak.Controls.Modal = function(config) {
     }
 
     this._initModal();
-    this.applyTo.onclick = function() {_this.toggleModal(_this);};
+    this.applyTo.onmousedown = function() {_this.toggleModal(_this); return false;};
     window.addEventListener('resize', function() {redraw(_this);}, false);
 
     function redraw(scope) {
