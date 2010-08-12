@@ -15,8 +15,15 @@
         <div id="divWrapper">
             <div id="divKitPatternRow">
                 <div class="dataHeader">
-                    <h3>Kit</h3> <select id="cmbSystemKit" style="width: 100px;"></select>&nbsp;&nbsp;&nbsp;
-                    <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
+                    <div style="float: left; line-height: 24px;">
+                        <label class='labelText'>Kit</label> <select id="cmbSystemKit" style="width: 100px;"></select>
+                        <a class='comboWrapper'>
+                            <span class='comboLeft'></span>
+                            <span class='comboCenter'>TR-808</span>
+                            <span class='comboRight'></span>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
+                    </div>
                     <div style="float: right;">
                         <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
                     </div>
@@ -42,7 +49,7 @@
                         <div id="divTempo"></div>
                     </div>
                     <div class="widgetWrapper">
-                        Vol
+                        Master Vol
                         <div id="divVolume"></div>
                     </div>
                 </div>                
