@@ -4,10 +4,16 @@
 
     $system = new System();
 
-    $cmd = $_REQUEST['cmd'];
-    $id = $_REQUEST['id'];
-    $format = $_REQUEST['format'];
-    
+    if(isset($_REQUEST['cmd'])) {
+        $cmd = $_REQUEST['cmd'];
+    }
+    if(isset($_REQUEST['id'])) {
+        $id = $_REQUEST['id'];
+    }
+    if(isset($_REQUEST['format'])) {
+        $format = $_REQUEST['format'];
+    }
+
     if(!$cmd) {
         echo "No command specified.";
         return;

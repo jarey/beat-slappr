@@ -1,10 +1,10 @@
 <?php
 
-    /*********************************************/
-    /***DEFINES THE SERVER'S DOCUMENT ROOT PATH***/
-    /*********************************************/
+    /************************************/
+    /***DEFINES THE APPLICATION'S NAME***/
+    /************************************/
 
-    define("DOC_PATH", $_SERVER['DOCUMENT_ROOT']);
+    define("APP_NAME", "beat-slappr");
 
 
     /***************************************************/
@@ -14,11 +14,18 @@
     DEFINE("SYSTEM_ADMIN_EMAIL", "admin@beat-slappr.com");
 
 
-    /************************************/
-    /***DEFINES THE APPLICATION'S NAME***/
-    /************************************/
+    /*************************************************/
+    /***DEFINES THE APPLICATION'S BCC EMAIL ADDRESS***/
+    /*************************************************/
 
-    define("APP_NAME", "beat-slappr");
+    DEFINE("SYSTEM_BCC_EMAIL", "bcc@beat-slappr.com");
+
+
+    /*********************************************/
+    /***DEFINES THE SERVER'S DOCUMENT ROOT PATH***/
+    /*********************************************/
+
+    define("DOC_PATH", $_SERVER['DOCUMENT_ROOT']);
 
 
     /************************************************
