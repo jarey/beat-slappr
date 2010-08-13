@@ -20,6 +20,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reset_token` varchar(32) NOT NULL,
+  `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
