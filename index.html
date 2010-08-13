@@ -19,10 +19,17 @@
                         <label class='labelText'>Kit</label>
                         <a id='aKitModal' class='comboWrapper'>
                             <span class='comboLeft'></span>
-                            <span id='currentKit' class='comboCenter'>TR-808</span>
+                            <span id='currentKit' class='comboCenter'></span>
                             <span class='comboRight'></span>
-                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <h3>Pattern</h3> <select><option>beat1</option><option>beat2</option></select>&nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
+                        </a>
+                        <div style='float: left; height: 1px; width: 15px;'></div>
+                        <label class='labelText'>Pattern</label> 
+                        <a id='aPatternModal' class='comboWrapper'>
+                            <span class='comboLeft'></span>
+                            <span id='currentPattern' class='comboCenter'>Beat 1</span>
+                            <span class='comboRight'></span>
+                        </a>
+                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
                     </div>
                     <div style="float: right;">
                         <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
@@ -259,6 +266,9 @@
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>
+        </textarea>
+        <textarea id="txtPatternWindow" style="display: none;">
+            <h4>This is the pattern window.</h4>
         </textarea>
     </body>
 </html> 

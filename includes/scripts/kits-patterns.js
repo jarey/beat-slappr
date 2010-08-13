@@ -1,4 +1,4 @@
-var loginModal, signupModal, savePatternModal, kitModal;
+var loginModal, signupModal, savePatternModal, kitModal, patternModal;
 var currentKit;
 var kitArr = [];
 
@@ -12,6 +12,15 @@ if(window.addEventListener) {
 
 function kitPatternInit() {
     currentKit = $("currentKit");
+
+    kitModal = new Kodiak.Controls.Modal({
+        applyTo:     'aPatternModal',
+        componentId: 'patternModal',
+        modalClass:  'modalWindow kitPatternModal',
+        orientation: 'right',
+        closeOnBlur: true,
+        content: $('txtPatternWindow').value
+    });
 
     loginModal = new Kodiak.Controls.Modal({
         applyTo:     'lblLogin',
@@ -54,7 +63,7 @@ function getSystemKitHandler(obj, init) {
         kitModal = new Kodiak.Controls.Modal({
             applyTo:     'aKitModal',
             componentId: 'kitModal',
-            modalClass:  'modalWindow kitModal',
+            modalClass:  'modalWindow kitPatternModal',
             orientation: 'right',
             closeOnBlur: true,
             onShow:      setKitContent
