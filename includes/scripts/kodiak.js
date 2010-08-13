@@ -590,12 +590,13 @@ Kodiak.Controls.Modal = function(config) {
 
 Kodiak.Controls.Modal.prototype = {
 
-    content:     '',
-    orientation: 'left',
-    modalClass:  '',
-    closeOnBlur: false,
-    onShow:      function() {},
-    _isModal:     true,
+    content:        '',
+    orientation:    'left',
+    modalClass:     '',
+    closeOnBlur:    false,
+    onBeforeShow:   function() {},
+    onShowComplete: function() {},
+    _isModal:       true,
 
     toggleModal: function(e, scope) {
         if(this._modalActive) {
@@ -619,10 +620,11 @@ Kodiak.Controls.Modal.prototype = {
             }
         }
 
-        this.onShow();
+        this.onBeforeShow();
         this._setModalPosition(this);
         this._modalEl.style.display = "block";
         this._modalActive = true;
+        this.onShowComplete();
 
         if(this.closeOnBlur) {
             e.cancelBubble = true;

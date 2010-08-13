@@ -259,10 +259,18 @@
             <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </div>
         <textarea id="txtLoginWindow" style="display: none;">
-            <h4>This is the login window.</h4>
+            <h3>Login</h3><br /><br />
+            <label class='labelText'>email:</label> <input type="text" id="txtLoginEmail" /><br />
+            <label class='labelText'>password:</label> <input type="password" id="txtPassword" /><br /><br />
+            <input type="submit" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+            <label class="lblLink">forgot password</label>
         </textarea>
         <textarea id="txtSignupWindow" style="display: none;">
-            <h4>This is the sign up window.</h4>
+            <h3>Sign Up</h3><br /><br />
+            <label class='labelText'>email:</label> <input type="text" id="txtSignupEmail" /><br />
+            <label class='labelText'>password:</label> <input type="password" id="txtPassword" /><br />
+            <label class='labelText'>confirm password:</label> <input type="password" id="txtPasswordConfirm" /><br /><br />
+            <input type="submit" id="cmdLogin" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>

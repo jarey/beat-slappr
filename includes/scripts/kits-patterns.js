@@ -25,17 +25,19 @@ function kitPatternInit() {
     loginModal = new Kodiak.Controls.Modal({
         applyTo:     'lblLogin',
         componentId: 'loginModal',
-        modalClass:  'modalWindow',
+        modalClass:  'modalWindow accountModal',
         orientation: 'right',
-        content:     $('txtLoginWindow').value
+        content:     $('txtLoginWindow').value,
+        onShowComplete: function() {$('txtLoginEmail').focus();}
     });
 
     signupModal = new Kodiak.Controls.Modal({
         applyTo:     'lblSignUp',
         componentId: 'signupModal',
-        modalClass:  'modalWindow',
+        modalClass:  'modalWindow accountModal',
         orientation: 'right',
-        content:     $('txtSignupWindow').value
+        content:     $('txtSignupWindow').value,
+        onShowComplete: function() {$('txtSignupEmail').focus();}
     });
 
     savePatternModal = new Kodiak.Controls.Modal({
@@ -61,12 +63,12 @@ function kitPatternInit() {
 function getSystemKitHandler(obj, init) {
     if(obj.success) {
         kitModal = new Kodiak.Controls.Modal({
-            applyTo:     'aKitModal',
-            componentId: 'kitModal',
-            modalClass:  'modalWindow kitPatternModal',
-            orientation: 'right',
-            closeOnBlur: true,
-            onShow:      setKitContent
+            applyTo:      'aKitModal',
+            componentId:  'kitModal',
+            modalClass:   'modalWindow kitPatternModal',
+            orientation:  'right',
+            closeOnBlur:  true,
+            onBeforeShow: setKitContent
         });
 
         kitArr = decodeJSON(obj.response);
