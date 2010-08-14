@@ -76,3 +76,18 @@ var decodeJSON = function(str) {
     }
     return val;
 };
+
+function isValidEmail(email) {
+    if(email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)) {
+        return true;
+    }else {
+        return false;
+    }
+}
+
+function stopPropagation(e) {
+    e.cancelBubble = true;
+    if (e.stopPropagation) {
+        e.stopPropagation();
+    }
+}

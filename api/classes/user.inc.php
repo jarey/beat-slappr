@@ -56,7 +56,7 @@
                 //Delete created accounts which haven't been activated and are older than 30 days.
                 mysql_query("DELETE FROM `users` WHERE `active`=0 AND date_created < DATE_SUB(curdate(), INTERVAL 30 DAY)");
 
-                return array("success" => true, "mesg" => "Account created");
+                return array("success" => true, "mesg" => "An email has been sent to '$email'.  Please click the link in the email to activate your account.");
             }else {
                 return array("success" => false, "mesg" => "User already exists.");
             }

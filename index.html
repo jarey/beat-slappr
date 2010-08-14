@@ -261,9 +261,11 @@
         <textarea id="txtLoginWindow" style="display: none;">
             <h3>Login</h3><br /><br />
             <div id="divLoginMesg" class='error'></div>
-            <label class='labelText'>email:</label> <input type="text" id="txtLoginEmail" /><br />
-            <label class='labelText'>password:</label> <input type="password" id="txtLoginPassword" /><br /><br />
-            <input type="button" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+            <form action="#" id="frmLogin">
+                <label class='labelText'>email:</label> <input type="text" id="txtLoginEmail" /><br />
+                <label class='labelText'>password:</label> <input type="password" id="txtLoginPassword" /><br /><br />
+                <input type="submit" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+            </form>
             <label id="lblForgotPassword" class="lblLink">forgot password</label>
         </textarea>
         <textarea id="txtForgotPasswordWindow" style="display: none;">
@@ -275,8 +277,10 @@
         <textarea id="txtSignupWindow" style="display: none;">
             <h3>Sign Up</h3><br /><br />
             <div id="divSignupMesg" class='error'></div>
-            <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" /><br /><br />
-            <input type="button" id="cmdSignUp" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
+            <form action="#" id="frmSignup">
+                <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" /><br /><br />
+                <input type="submit" id="cmdSignUp" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
+            </form>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>

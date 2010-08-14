@@ -1,7 +1,9 @@
 var loginModal, signupModal;
-var divSignupMesg, txtSignupEmail;
-var divLoginMesg, txtLoginEmail, txtLoginPassword;
+var frmSignup, divSignupMesg, txtSignupEmail;
+var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword;
 var divResetMesg, txtResetEmail;
+
+var accountAjax;
 
 var emailErrorMesg = "The email address you provided was not valid.";
 var passwordErrorMesg = "Password must be provided.";
@@ -16,12 +18,13 @@ if(window.addEventListener) {
 }
 
 function accountInit() {
+    accountAjax = new Kodiak.Data.Ajax();
+
     loginModal = new Kodiak.Controls.Modal({
         applyTo:     'lblLogin',
         componentId: 'loginModal',
         modalClass:  'modalWindow accountModal',
         orientation: 'right',
-        content:     $('txtLoginWindow').value,
         onBeforeShow:   function() {
             this.setContent($('txtLoginWindow').value);
         },
@@ -33,7 +36,9 @@ function accountInit() {
         componentId: 'signupModal',
         modalClass:  'modalWindow accountModal',
         orientation: 'right',
-        content:     $('txtSignupWindow').value,
+        onBeforeShow:   function() {
+            this.setContent($('txtSignupWindow').value);
+        },
         onShowComplete: signUpInit
     });
 }
@@ -44,6 +49,9 @@ function accountInit() {
 /**************************/
 
 function loginInit() {
+    frmLogin = $('frmLogin');
+    frmLogin.onkeydown = stopPropagation;
+
     txtLoginEmail = $('txtLoginEmail');
     txtLoginEmail.value = '';
     txtLoginEmail.focus();
@@ -111,16 +119,21 @@ function forgotPassword() {
     alert('resetting password');
 }
 
+
 /***************************/
 /***SIGNUP MODAL HANDLING***/
 /***************************/
 
 function signUpInit() {
+    frmSignup = $('frmSignup');
+    frmSignup.onkeydown = stopPropagation;
+
     txtSignupEmail = $('txtSignupEmail');
     txtSignupEmail.value = '';
     txtSignupEmail.focus();
 
     divSignupMesg = $('divSignupMesg');
+    divSignupMesg.className = 'error';
     divSignupMesg.innerHTML = '';
 
     $('cmdSignUp').onclick = signup;
@@ -131,19 +144,28 @@ function signup() {
     /***VALIDATION***/
 
     if(!isValidEmail(txtSignupEmail.value)) {
-        $('divSignupMesg').innerHTML = emailErrorMesg;
+        divSignupMesg.innerHTML = emailErrorMesg;
         return false;
     }
 
     /***POST VALIDATION***/
  
-    alert('signing up');
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'create', email: txtSignupEmail.value},
+        handler: signupHandler
+    });
 }
 
-function isValidEmail(email) {
-    if(email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)) {
-        return true;
+function signupHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        signupModal.setContent("<label class='lblLink' style='float: right;' onclick='signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSignupMesg = $('divSignupMesg');
+        divSignupMesg.className = 'success';
     }else {
-        return false;
+        divSignupMesg.className = 'error';
     }
+    divSignupMesg.innerHTML = response.mesg;
 }

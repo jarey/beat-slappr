@@ -38,10 +38,15 @@
 
     /**************************************************
     DEFINES THE APPLICATION'S BASE URL ON THE WEBSERVER
-    Example: /mysite.com
+    Example: http://mysite.com/
     **************************************************/
+    $appURL = 'http';
+    if ($_SERVER["HTTPS"] == "on") {
+        $appURL .= "s";
+    }
+    $appURL .= "://" . $_SERVER['SERVER_NAME'];
 
-    define("APP_URL", "/" . APP_NAME . "/");
+    define("APP_URL", $appURL . "/" . APP_NAME . "/");
 
 
     /***********************************************************************/
