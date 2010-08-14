@@ -41,7 +41,7 @@
     Example: http://mysite.com/
     **************************************************/
     $appURL = 'http';
-    if ($_SERVER["HTTPS"] == "on") {
+    if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
         $appURL .= "s";
     }
     $appURL .= "://" . $_SERVER['SERVER_NAME'];
