@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <script type="text/javascript" src="includes/scripts/index.js"></script>
         <script type="text/javascript" src="includes/scripts/kits-patterns.js"></script>
+        <script type="text/javascript" src="includes/scripts/account.js"></script>
         <script type="text/javascript" src="includes/scripts/util.js"></script>
         <script type="text/javascript" src="includes/scripts/audio.js"></script>
         <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
@@ -256,27 +257,33 @@
             Debug Controls
             <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" /><br />
             <textarea id="txtSequence"></textarea>
-            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </div>
         <textarea id="txtLoginWindow" style="display: none;">
             <h3>Login</h3><br /><br />
+            <div id="divLoginMesg" class='error'></div>
             <label class='labelText'>email:</label> <input type="text" id="txtLoginEmail" /><br />
-            <label class='labelText'>password:</label> <input type="password" id="txtPassword" /><br /><br />
-            <input type="submit" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
-            <label class="lblLink">forgot password</label>
+            <label class='labelText'>password:</label> <input type="password" id="txtLoginPassword" /><br /><br />
+            <input type="button" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+            <label id="lblForgotPassword" class="lblLink">forgot password</label>
+        </textarea>
+        <textarea id="txtForgotPasswordWindow" style="display: none;">
+            <div id="divResetMesg" class='error'></div>
+            <h3>Forgot Password</h3><br /><br />
+            <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" /><br /><br />
+            <input type="button" id="cmdResetPassword" value="reset password" />
         </textarea>
         <textarea id="txtSignupWindow" style="display: none;">
             <h3>Sign Up</h3><br /><br />
-            <label class='labelText'>email:</label> <input type="text" id="txtSignupEmail" /><br />
-            <label class='labelText'>password:</label> <input type="password" id="txtPassword" /><br />
-            <label class='labelText'>confirm password:</label> <input type="password" id="txtPasswordConfirm" /><br /><br />
-            <input type="submit" id="cmdLogin" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
+            <div id="divSignupMesg" class='error'></div>
+            <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" /><br /><br />
+            <input type="button" id="cmdSignUp" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>
         </textarea>
         <textarea id="txtPatternWindow" style="display: none;">
             <h4>This is the pattern window.</h4>
+            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </textarea>
     </body>
 </html> 
