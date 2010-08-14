@@ -15,6 +15,8 @@
         $password = $_POST['password'];
         $confirmPassword = $_POST['confirmPassword'];
 
+        /***FORM VALIDATION TO GO HERE***/
+
         $updateAccountStatus = $user->updateAccountStatus($email, $token, 1);
 
         if($updateAccountStatus['success']) {
