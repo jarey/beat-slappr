@@ -269,10 +269,12 @@
             <label id="lblForgotPassword" class="lblLink">forgot password</label>
         </textarea>
         <textarea id="txtForgotPasswordWindow" style="display: none;">
-            <div id="divResetMesg" class='error'></div>
             <h3>Forgot Password</h3><br /><br />
-            <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" /><br /><br />
-            <input type="button" id="cmdResetPassword" value="reset password" />
+            <div id="divResetMesg" class='error'></div>
+            <form action="#" id="frmResetPassword">
+                <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" /><br /><br />
+                <input type="submit" id="cmdResetPassword" value="reset password" />
+            </form>
         </textarea>
         <textarea id="txtSignupWindow" style="display: none;">
             <h3>Sign Up</h3><br /><br />

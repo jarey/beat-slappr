@@ -1,7 +1,7 @@
 var loginModal, signupModal;
 var frmSignup, divSignupMesg, txtSignupEmail;
 var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword;
-var divResetMesg, txtResetEmail;
+var frmResetPassword, divResetMesg, txtResetEmail;
 
 var accountAjax;
 
@@ -95,28 +95,46 @@ function login() {
 function forgotPasswordInit() {
     loginModal.setContent($('txtForgotPasswordWindow').value);
 
+    frmResetPassword = $('frmResetPassword');
+    frmResetPassword.onkeydown = stopPropagation;
+
     txtResetEmail = $('txtResetEmail');
     txtResetEmail.value = '';
     txtResetEmail.focus();
 
     divResetMesg = $('divResetMesg');
+    divResetMesg.className = 'error';
     divResetMesg.innerHTML = '';
 
     $('cmdResetPassword').onclick = forgotPassword;
-
 }
 
 function forgotPassword() {
 
     /***VALIDATION***/
     if(!isValidEmail(txtResetEmail.value)) {
-        $('divResetMesg').innerHTML = emailErrorMesg;
+        divResetMesg.innerHTML = emailErrorMesg;
         return false;
     }
 
     /***POST VALIDATION***/
  
-    alert('resetting password');
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'resetPassword', email: txtResetEmail.value},
+        handler: forgotPasswordHandler
+    });
+}
+
+function forgotPasswordHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        loginModal.setContent("<label class='lblLink' style='float: right;' onclick='loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divResetMesg = $('divResetMesg');
+        divResetMesg.className = 'success';
+    }
+    divResetMesg.innerHTML = response.mesg;
 }
 
 
@@ -164,8 +182,6 @@ function signupHandler(obj) {
         signupModal.setContent("<label class='lblLink' style='float: right;' onclick='signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divSignupMesg = $('divSignupMesg');
         divSignupMesg.className = 'success';
-    }else {
-        divSignupMesg.className = 'error';
     }
     divSignupMesg.innerHTML = response.mesg;
 }

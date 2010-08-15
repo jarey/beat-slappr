@@ -41,7 +41,7 @@
         }
 
         function create($email) {        
-            if(!$this->userExists($email)) {
+            if(!$this->accountExists($email)) {
                 //Add user to the db
                 $token = $this->createToken($email);
                 mysql_query("INSERT INTO `users` (`email`, `active`, `token`) VALUES('$email', 0, '$token')");
@@ -63,13 +63,17 @@
         }
         
         function resetPassword($email) {
-            $token = $this->createToken($email);
-            mysql_query("UPDATE `users` SET `token`='$token' WHERE `email`='$email' AND `active`=1");
-            if(mysql_affected_rows() > 0) {
-                $this->sendResetEmail($email, $token);
-                return array("success" => true, "mesg" => "Reset token set.");
+            if($this->accountExists($email)) {
+                $token = $this->createToken($email);
+                mysql_query("UPDATE `users` SET `token`='$token' WHERE `email`='$email' AND `active`=1");
+                if(mysql_affected_rows() > 0) {
+                    $this->sendResetEmail($email, $token);
+                    return array("success" => true, "mesg" => "An email has been sent to '$email' with directions for resetting your password.");
+                }else {
+                    return array("success" => false, "mesg" => "There was an error setting the reset token.");
+                }
             }else {
-                return array("success" => false, "mesg" => "There was an error setting the reset token.");
+                return array("success" => false, "mesg" => "The email address you provided was invalid.");
             }
         }
 
@@ -94,6 +98,7 @@
             }
         }
 
+
         function accountUpdatable($email, $token) {
             $result = mysql_query('SELECT id FROM `users` WHERE `email` = "'.$email.'" AND `token` = "'.$token.'" AND `active`=0');
             if(mysql_num_rows($result) == 1) {
@@ -105,8 +110,8 @@
 
         /***PRIVATE METHODS***/
 
-        private function userExists($email) {
-            $result = mysql_query('SELECT email FROM users WHERE email = "'.$email.'"');
+        private function accountExists($email) {
+            $result = mysql_query('SELECT email FROM `users` WHERE `email` = "'.$email.'"');
             if(mysql_num_rows($result) > 0) {
                 return true;
             } else {
