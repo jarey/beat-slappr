@@ -6,8 +6,8 @@
     $template = new MainTemplate();
     $user = new User();
 
-    $data['title'] = "Beat Slappr - Activate Account";
-    $data['headerTitle'] = "Beat Slappr - Activate Account";
+    $data['title'] = "Beat Slappr - Reset Password";
+    $data['headerTitle'] = "Beat Slappr - Reset Password";
 
     if($_POST && $_POST['email'] && $_POST['t'] && $_POST['password'] && $_POST['confirmPassword']) {
         $email = $_POST['email'];
@@ -17,30 +17,24 @@
 
         /***FORM VALIDATION TO GO HERE***/
 
-        $updateAccountStatus = $user->updateAccountStatus($email, $token, 1);
-
-        if($updateAccountStatus['success']) {
-            $updateAccountPassword = $user->updatePassword($email, '', $password, true);
-            if($updateAccountPassword['success']) {
-                $data['content'] = "Your account has been activated.";
-            }else {
-                $data['content'] = "There was an error updating this account's password.";
-            }
+        $updateAccountPassword = $user->updatePassword($email, $token, $password, true);
+        if($updateAccountPassword['success']) {
+            $data['content'] = "Your password has been reset.";
         }else {
-            $data['content'] = "<span class='error'>There was an error updating this account's status.</span>";
+            $data['content'] = "There was an error updating this account's password.";
         }
     }else if($_GET && $_GET['email'] && $_GET['t']) {
         $email = $_GET['email'];
         $token = $_GET['t'];
-        if($user->accountUpdatable($email, $token, 0)) {
+        if($user->accountUpdatable($email, $token, 1)) {
             $data['content'] = "
                 <div style='width: 200px; margin: 50px auto;'>
                     <form method='post' action=''>
                         <input type='hidden' name='email' value='$email' />
                         <input type='hidden' name='t' value='$token' />
-                        <label>Password:</label> <input type='password' name='password' /><br />
-                        <label>Confirm Password:</label> <input type='password' name='confirmPassword' /><br /><br />
-                        <input type='Submit' value='Activate Account' />
+                        <label>New Password:</label> <input type='password' name='password' /><br /><br />
+                        <label>Confirm New Password:</label> <input type='password' name='confirmPassword' /><br /><br />
+                        <input type='Submit' value='Reset Password' />
                     </form>
                 </div>
             ";

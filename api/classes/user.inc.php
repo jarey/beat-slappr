@@ -90,7 +90,7 @@
             if($md5) {
                 $password = md5($password);
             }
-            mysql_query("UPDATE `users` SET `password`='$password', `token`='' WHERE `email`='$email' AND `token`=''");
+            mysql_query("UPDATE `users` SET `password`='$password', `token`='' WHERE `email`='$email' AND `token`='$token'");
             if(mysql_affected_rows() > 0) {
                 return array("success" => true, "mesg" => "Password successfully updated");
             }else {
@@ -99,8 +99,8 @@
         }
 
 
-        function accountUpdatable($email, $token) {
-            $result = mysql_query('SELECT id FROM `users` WHERE `email` = "'.$email.'" AND `token` = "'.$token.'" AND `active`=0');
+        function accountUpdatable($email, $token, $active) {
+            $result = mysql_query('SELECT id FROM `users` WHERE `email` = "'.$email.'" AND `token` = "'.$token.'" AND `active`='.$active);
             if(mysql_num_rows($result) == 1) {
                 return true;
             }else {
