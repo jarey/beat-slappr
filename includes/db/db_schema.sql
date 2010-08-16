@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `sound_kits` (
 
 
 /**************************************************
-    SOUND_KITS_CHANNELS TABLE
+    SOUND_KIT_CHANNELS TABLE
     STORES ALL SOUND KIT CHANNEL SOUND DEFIINITIONS
 **************************************************/
 
@@ -54,4 +54,19 @@ CREATE TABLE IF NOT EXISTS `sound_kit_channels` (
   `ogg` mediumtext NOT NULL,
   `mp3` mediumtext NOT NULL,
   UNIQUE KEY `id` (`id`,`channel`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+/**************************************************
+    SHARED_PATTERNS TABLE
+    STORES ALL SOUND KIT CHANNEL SOUND DEFIINITIONS
+**************************************************/
+
+DROP TABLE IF EXISTS `shared_patterns`;
+CREATE TABLE IF NOT EXISTS `shared_patterns` (
+  `hash` varchar(32) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  `sequence` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `hash` (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

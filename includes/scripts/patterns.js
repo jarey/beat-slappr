@@ -2,6 +2,8 @@ var patternModal, savePatternModal, sharePatternModal;
 
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
+var patternAjax;
+
 /***INIT***/
 
 if(window.addEventListener) {
@@ -11,6 +13,9 @@ if(window.addEventListener) {
 }
 
 function patternInit() {
+
+    patternAjax = new Kodiak.Data.Ajax();
+
     patternModal = new Kodiak.Controls.Modal({
         applyTo:     'aPatternModal',
         componentId: 'patternModal',
@@ -31,7 +36,9 @@ function patternInit() {
         applyTo:     'lblSharePattern',
         componentId: 'sharePatternModal',
         modalClass:  'modalWindow accountModal',
-        content:     $('txtSharePatternWindow').value,
+        onBeforeShow:   function() {
+            this.setContent($('txtSharePatternWindow').value);
+        },
         onShowComplete: sharePatternInit
     });
 }
@@ -75,7 +82,10 @@ function sharePattern() {
  
     /***VALIDATION***/
 
+    var user = "";
+    var sequenceStr = "";
     var errorArr = [];
+
     if(txtUserEmail && !isValidEmail(txtUserEmail.value)) {
         errorArr.push(emailErrorMesg);
     }
@@ -97,7 +107,41 @@ function sharePattern() {
 
     /***POST VALIDATION***/
 
-    alert('submitting...');
+    if(txtUserEmail) {
+        user = txtUserEmail.value;
+    }else {
+        user = "[user]";
+    }
+    sequenceStr = encodeJSON(sequenceArr);
+    
+    cmdSharePattern.style.display = "none";
+    imgSharePatternLoader.style.display = "inline";
+
+    patternAjax.request({
+        url:    'api/pattern.php',
+        method: 'post',
+        parameters: {
+            cmd: 'share',
+            user: user,
+            sequence: sequenceStr,
+            hash: hex_md5(user + sequenceStr + Math.random()),
+            recipients: txtShareWithEmail.value
+        },
+        handler: sharePatternHandler
+    });
+}
+
+function sharePatternHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSharePatternMesg = $('divSharePatternMesg');
+        divSharePatternMesg.className = 'success';
+    }else {
+        cmdSharepattern.style.display = "inline";
+        imgSharePatternLoader.style.display = "none";
+    }
+    divSharePatternMesg.innerHTML = response.mesg;
 }
 
 //Below functions will eventually be used for pattern modal
