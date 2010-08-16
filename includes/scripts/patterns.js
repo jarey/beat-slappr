@@ -41,6 +41,10 @@ function patternInit() {
         },
         onShowComplete: sharePatternInit
     });
+
+    if(p) {
+        setPattern(p);
+    }
 }
 
 
@@ -156,6 +160,6 @@ function setPattern(val) {
         sequenceArr = decodeJSON(val);
         stepsWidget.setValue(parseInt(sequenceArr.steps));
         tempoWidget.setValue(parseInt(sequenceArr.tempo));
-        setSystemKit(parseInt(sequenceArr.kit));
+        setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));
     }
 }

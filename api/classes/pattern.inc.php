@@ -29,11 +29,24 @@
                     return array("success" => false, "mesg" => "At least one recipient required.");
                 }
             }else {
-                return false;
+                return array("success" => false, "mesg" => "There was an error creating the shared pattern.");
             }
         }
 
-  
+        public function getSharedPattern($hash) {
+            if($result = mysql_query("SELECT `sequence` FROM `shared_patterns` WHERE `hash`='$hash'")) {
+                if(mysql_num_rows($result) == 1) {
+                    $row = mysql_fetch_assoc($result);
+                    return $row['sequence'];
+                }else {
+                    return false;
+                }
+            }else {
+                return false;
+            }
+                    
+        }
+
         /***PRIVATE METHODS FOR SENDING MAIL***/
 
         private function sendShareEmail($sender, $recipient, $hash) {

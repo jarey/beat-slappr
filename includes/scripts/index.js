@@ -7,8 +7,8 @@ var divStepArr = [];
 var sequenceArr = {
     tempo:    0,
     steps:    0,
-    kit:      0,
-    pattern: []
+    kit:      {},
+    pattern:  []
 };
 
 var volumeWidgetArr = [];

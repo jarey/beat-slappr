@@ -48,7 +48,7 @@ function setSystemKitHandler(obj, kitName, kitId) {
         var mime = "";
 
         currentKit.innerHTML = kitName;
-        sequenceArr.kit = kitId;
+        sequenceArr.kit = {id: kitId, name: kitName};
 
         if(audioFormat == 'ogg') {
             mime = 'ogg';

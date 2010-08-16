@@ -5,6 +5,16 @@
     $kit = new Kit();
     $kitArr = $kit->getKits();
 
+    if($_GET) {
+        require_once("api/classes/pattern.inc.php");
+        
+        $pattern = new Pattern();
+        if($_GET['p']) {
+            $p = $_GET['p'];
+        }
+        $pattern = $pattern->getSharedPattern($p);
+    }
+
     $initKit = "TR-808"; //<---Set the initial kit to load here by kit name (case-sensitive).
 
     session_start();
@@ -32,7 +42,14 @@
                         break;
                     }
                 }
-                echo "            currentUser = '" . $_SESSION['email'] . "';";
+                if($_SESSION['email']) {
+                    echo "            currentUser = '" . $_SESSION['email'] . "';\n";
+                }
+                if($pattern) {
+                    echo "            var p = '$pattern';";
+                }else {
+                    echo "            var p;";
+                }
             ?>        
         </script>
     </head>
