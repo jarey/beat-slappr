@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -34,10 +35,14 @@
                         &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
                     </div>
                     <div id="divLoginWrapper" style="float: right;">
-                        <div id="divGuestAccount">
+                        <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
                             <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
                         </div>
-                        <div id="divUserAccount" style="display: none;"></div>
+                        <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>">
+                        <?php if ($_SESSION['user_id']) { ?>
+                            <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='logout();'>Logout</label>
+                        <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>
