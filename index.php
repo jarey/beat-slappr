@@ -28,9 +28,11 @@
             <?php
                 foreach($kitArr as $key => $val) {
                     if($val['name'] == $initKit) {
-                        echo "function loadKit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}";
+                        echo "function loadKit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}\n";
+                        break;
                     }
                 }
+                echo "            currentUser = '" . $_SESSION['email'] . "';";
             ?>        
         </script>
     </head>
@@ -52,7 +54,7 @@
                             <span id='currentPattern' class='comboCenter'>Beat 1</span>
                             <span class='comboRight'></span>
                         </a>
-                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label class='lblLink'>share</label>
+                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>
                     </div>
                     <div id="divLoginWrapper" style="float: right;">
                         <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
@@ -302,6 +304,19 @@
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>
+        </textarea>
+        <textarea id="txtSharePatternWindow" style="display: none;">
+            <h3>Share Pattern<h3><br /><br />
+            <div id="divSharePatternMesg" class='error'></div>
+            <form action="" onsubmit="return false;" id="frmSharePattern">
+                <div id="divGuestUser" style="display: <?php echo ($_SESSION['user_id']) ? "none" : "block"; ?>;">
+                    <label class="labelText">Your email:</label><br />
+                    <input type="text" class="modalText" id="txtUserEmail" /><br /><br />
+                </div>
+                <label class="labelText">Share with: <span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
+                <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
+                <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+            </form>
         </textarea>
         <textarea id="txtLoginWindow" style="display: none;">
             <h3>Login</h3><br /><br />

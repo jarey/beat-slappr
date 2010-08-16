@@ -82,7 +82,7 @@ function login() {
 
     var errorArr = [];
     if(!isValidEmail(txtLoginEmail.value)) {
-        errorArr.push(emailErrorMesg);    imgLoginLoader = $('imgLoginLoader');
+        errorArr.push(emailErrorMesg);
     }
     if(!txtLoginPassword.value) {
         errorArr.push(passwordErrorMesg);
@@ -254,6 +254,7 @@ function logout() {
 function logoutHandler(obj) {
     var response = decodeJSON(obj.response);
     if(response.success) {
+        currentUser = "";
         divUserAccount.style.display = "none";
         divGuestAccount.style.display = "block";
     }
