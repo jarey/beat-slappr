@@ -2,23 +2,23 @@
     require_once "../../config.php";
 
     require_once APP_PATH . "admin/includes/templates/main.tpl.php";
-    require_once APP_PATH . "/api/classes/system.inc.php";
+    require_once APP_PATH . "/api/classes/kit.inc.php";
 
-    $systemAPI = new System();
+    $kitAPI = new Kit();
     $template = new MainTemplate();
 
     if($_POST) {
         $newKitName = $_POST['newKitName'];
-        $systemAPI->newKit($newKitName);
+        $kitAPI->newKit($newKitName);
     }
 
     if($_GET) {
         $deleteId = $_GET['delete'];
-        $systemAPI->deleteKit($deleteId);
+        $kitAPI->deleteKit($deleteId);
         header('Location: .');
     }
 
-    $systemKits = $systemAPI->getKits();
+    $systemKits = $kitAPI->getKits();
     $tableStr = "<table>";
     foreach($systemKits as $systemKit) {
         $tableStr .= "

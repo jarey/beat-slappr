@@ -1,5 +1,5 @@
 <?php
-    class System {
+    class Kit {
         private $adminEmail = SYSTEM_ADMIN_EMAIL;
         private $adminId;
 

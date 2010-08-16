@@ -1,9 +1,9 @@
 <?php
     require_once("config.php");
-    require_once("api/classes/system.inc.php");
+    require_once("api/classes/kit.inc.php");
 
-    $system = new System();
-    $kitArr = $system->getKits();
+    $kit = new Kit();
+    $kitArr = $kit->getKits();
 
     $initKit = "TR-808"; //<---Set the initial kit to load here by kit name (case-sensitive).
 
@@ -15,7 +15,8 @@
         <title>Beat Slappr</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <script type="text/javascript" src="includes/scripts/index.js"></script>
-        <script type="text/javascript" src="includes/scripts/kits-patterns.js"></script>
+        <script type="text/javascript" src="includes/scripts/kits.js"></script>
+        <script type="text/javascript" src="includes/scripts/patterns.js"></script>
         <script type="text/javascript" src="includes/scripts/account.js"></script>
         <script type="text/javascript" src="includes/scripts/md5.js"></script>
         <script type="text/javascript" src="includes/scripts/util.js"></script>
@@ -27,7 +28,7 @@
             <?php
                 foreach($kitArr as $key => $val) {
                     if($val['name'] == $initKit) {
-                        echo "function kitInit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}";
+                        echo "function loadKit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}";
                     }
                 }
             ?>        
@@ -51,7 +52,7 @@
                             <span id='currentPattern' class='comboCenter'>Beat 1</span>
                             <span class='comboRight'></span>
                         </a>
-                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
+                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label class='lblLink'>share</label>
                     </div>
                     <div id="divLoginWrapper" style="float: right;">
                         <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>

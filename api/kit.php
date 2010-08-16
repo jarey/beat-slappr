@@ -1,8 +1,8 @@
 <?php
     require_once '../config.php';
-    require_once 'classes/system.inc.php';
+    require_once 'classes/kit.inc.php';
 
-    $system = new System();
+    $kit = new Kit();
 
     if(isset($_REQUEST['cmd'])) {
         $cmd = $_REQUEST['cmd'];
@@ -21,12 +21,12 @@
 
     switch($cmd) {
         case "getKits":
-            $kits = $system->getKits();
+            $kits = $kit->getKits();
             echo json_encode($kits);
         break;
         case "getKitChannels":
             if($id && $format) {
-                $channels = $system->getKitChannels($id, $format);
+                $channels = $kit->getKitChannels($id, $format);
                 echo json_encode($channels);
             }else {
                 echo "Missing Required Parameters";

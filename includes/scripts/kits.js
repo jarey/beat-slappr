@@ -1,16 +1,16 @@
-var kitModal, patternModal, savePatternModal;
+var kitModal;
 var currentKit;
 var kitArr = [];
 
 /***INIT***/
 
 if(window.addEventListener) {
-    window.addEventListener('load', kitPatternInit, false);
+    window.addEventListener('load', kitInit, false);
 }else {
-    window.attachEvent('onload', kitPatternInit);
+    window.attachEvent('onload', kitInit);
 }
 
-function kitPatternInit() {
+function kitInit() {
     currentKit = $("currentKit");
 
     kitModal = new Kodiak.Controls.Modal({
@@ -24,26 +24,9 @@ function kitPatternInit() {
         }
     });
 
-    patternModal = new Kodiak.Controls.Modal({
-        applyTo:     'aPatternModal',
-        componentId: 'patternModal',
-        modalClass:  'modalWindow kitPatternModal',
-        orientation: 'right',
-        closeOnBlur: true,
-        content:     $('txtPatternWindow').value
-    });
-
-    savePatternModal = new Kodiak.Controls.Modal({
-        applyTo:     'lblSavePattern',
-        componentId: 'savePatternModal',
-        modalClass:  'modalWindow',
-        content:     $('txtSavePatternWindow').value
-    });
-
-    kitInit();
+    loadKit();
 }
 
-/***END INIT***/
 
 /***KITS***/
 
@@ -51,7 +34,7 @@ function setSystemKit(kitName, kitId) {
     kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
-        url:    'api/system.php',
+        url:    'api/kit.php',
         method: 'post',
         parameters: {cmd: 'getKitChannels', id: kitId, format: audioFormat},
         handler: function(obj) {setSystemKitHandler(obj, kitName, kitId);}
@@ -86,23 +69,3 @@ function setSystemKitHandler(obj, kitName, kitId) {
         return false;
     }
 }
-
-/***END KITS***/
-
-/***PATTERNS***/
-
-function getPattern() {
-    var str = encodeJSON(sequenceArr);
-    return str;
-}
-
-function setPattern(val) {
-    if(val) {
-        sequenceArr = decodeJSON(val);
-        stepsWidget.setValue(parseInt(sequenceArr.steps));
-        tempoWidget.setValue(parseInt(sequenceArr.tempo));
-        setSystemKit(parseInt(sequenceArr.kit));
-    }
-}
-
-/***END PATTERNS***/

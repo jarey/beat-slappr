@@ -2,10 +2,10 @@
     require_once "../../../config.php";
     require_once APP_PATH . "admin/includes/templates/main.tpl.php";
     require_once APP_PATH . "api/classes/base64.inc.php";
-    require_once APP_PATH . "api/classes/system.inc.php";
+    require_once APP_PATH . "api/classes/kit.inc.php";
 
     $template = new MainTemplate();
-    $systemAPI = new System();
+    $kitAPI = new Kit();
 
     $data['title'] = "Beat Slappr Admin - Edit System Kit";
     $data['headerTitle'] = "Beat Slappr - Admin";
@@ -13,14 +13,14 @@
 
     if($_POST) {
         for($n=0; $n<MAX_CHANNELS; $n++) {
-            $systemAPI->updateKitChannel($_POST['id'], $_POST['channelId'][$n], $_POST['channelName'][$n], $_POST['channelOgg'][$n], $_POST['channelMp3'][$n]);
+            $kitAPI->updateKitChannel($_POST['id'], $_POST['channelId'][$n], $_POST['channelName'][$n], $_POST['channelOgg'][$n], $_POST['channelMp3'][$n]);
         }
         header('Location: ../');
     }
 
     if($_GET) {
         $id = $_GET['id'];    
-        $kitChArr = $systemAPI->getKitChannels($id);
+        $kitChArr = $kitAPI->getKitChannels($id);
         if($kitChArr) {
             $tableStr = "
             <form method='post' action=''>
