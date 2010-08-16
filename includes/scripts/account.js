@@ -173,10 +173,10 @@ function forgotPasswordHandler(obj) {
         divResetMesg = $('divResetMesg');
         divResetMesg.className = 'success';
     }else {
-        divResetMesg.innerHTML = response.mesg;
         cmdResetPassword.style.display = "inline";
         imgResetLoader.style.display = "none";
     }
+    divResetMesg.innerHTML = response.mesg;
 }
 
 

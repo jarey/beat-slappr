@@ -12,7 +12,7 @@
             <html>
                 <head>
                     <title>" . $data['title'] . "</title>
-                    <link rel='stylesheet' href='" . APP_URL . "admin/includes/style/style.css' type='text/css' media='screen' />
+                    <link rel='stylesheet' href='" . APP_URL . "account/includes/style/style.css' type='text/css' media='screen' />
                 </head>
                 <body>
                     <div id='divHeader'>

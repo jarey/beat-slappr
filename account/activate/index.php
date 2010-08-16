@@ -6,43 +6,71 @@
     $template = new MainTemplate();
     $user = new User();
 
+    $errorStr = "";
+
     $data['title'] = "Beat Slappr - Activate Account";
     $data['headerTitle'] = "Beat Slappr - Activate Account";
 
-    if($_POST && $_POST['email'] && $_POST['t'] && $_POST['password'] && $_POST['confirmPassword']) {
-        $email = $_POST['email'];
-        $token = $_POST['t'];
-        $password = $_POST['password'];
-        $confirmPassword = $_POST['confirmPassword'];
+    if($_POST) {
+        if($_POST['email'] && $_POST['t'] && $_POST['password'] && $_POST['confirmPassword']) {
+            $email = $_POST['email'];
+            $token = $_POST['t'];
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirmPassword'];
 
-        /***FORM VALIDATION TO GO HERE***/
+            /***FORM VALIDATION***/
+            $validationArr = array();
+            if(!preg_match("/^[A-Za-z0-9]+$/", $password)) {
+                $validationArr[] = "Password can only contain the following characters: 'A-Z, a-z, 0-9'";
+            }
+            if(strlen($password) < 5) {
+                $validationArr[] = "Password must be at least 5 characters.";
+            }
+            if($password != $confirmPassword) {
+                $validationArr[] = "Passwords do not match.";        
+            }
 
-        $updateAccountStatus = $user->updateAccountStatus($email, $token, 1);
-
-        if($updateAccountStatus['success']) {
-            $updateAccountPassword = $user->updatePassword($email, '', $password, true);
-            if($updateAccountPassword['success']) {
-                $data['content'] = "Your account has been activated.";
+            if(count($validationArr)) {
+                $errorStr = implode("<br />", $validationArr);
             }else {
-                $data['content'] = "There was an error updating this account's password.";
+                $updateAccountStatus = $user->updateAccountStatus($email, $token, 1);
+
+                if($updateAccountStatus['success']) {
+                    $updateAccountPassword = $user->updatePassword($email, '', $password, true);
+                    if($updateAccountPassword['success']) {
+                        $data['content'] = "Your account has been activated.";
+                        $template->render($data);
+                        return;
+                    }else {
+                        $errorStr = "There was an error updating this account's password.";
+                    }
+                }else {
+                    $errorStr = "There was an error updating this account's status.";
+                }
             }
         }else {
-            $data['content'] = "<span class='error'>There was an error updating this account's status.</span>";
+            $errorStr = "You must enter a value for all fields.";
         }
-    }else if($_GET && $_GET['email'] && $_GET['t']) {
+    }
+    
+    if($_GET && $_GET['email'] && $_GET['t']) {
         $email = $_GET['email'];
         $token = $_GET['t'];
         if($user->accountUpdatable($email, $token, 0)) {
             $data['content'] = "
-                <div style='width: 200px; margin: 50px auto;'>
+                <div style='width: 500px; text-align: center; margin: 50px auto;'>
+                    <span class='error'>$errorStr</span>
                     <form method='post' action=''>
                         <input type='hidden' name='email' value='$email' />
                         <input type='hidden' name='t' value='$token' />
-                        <label>Password:</label> <input type='password' name='password' /><br />
-                        <label>Confirm Password:</label> <input type='password' name='confirmPassword' /><br /><br />
+                        <label>Password:</label><br /><input type='password' id='password' name='password' /><br />
+                        <label>Confirm Password:</label><br /><input type='password' name='confirmPassword' /><br /><br />
                         <input type='Submit' value='Activate Account' />
                     </form>
                 </div>
+                <script type='text/javascript'>
+                    document.getElementById('password').focus();
+                </script>
             ";
         }else {
             $data['content'] = "<span class='error'>Invalid Account.</span>";
