@@ -48,6 +48,7 @@ function kitPatternInit() {
 /***KITS***/
 
 function setSystemKit(kitName, kitId) {
+    kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
         url:    'api/system.php',
@@ -64,7 +65,6 @@ function setSystemKitHandler(obj, kitName, kitId) {
         var mime = "";
 
         currentKit.innerHTML = kitName;
-        kitModal.hide();
         sequenceArr.kit = kitId;
 
         if(audioFormat == 'ogg') {
@@ -81,6 +81,7 @@ function setSystemKitHandler(obj, kitName, kitId) {
             instrumentNameArr[record.channel].innerHTML = record.name;
             channelArr[record.channel].setSrc("data:audio/" + mime + ";base64," + record.src);
         }
+        kitModal.hide();
     }else {
         return false;
     }

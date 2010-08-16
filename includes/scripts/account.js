@@ -1,9 +1,9 @@
 var loginModal, signupModal;
 var divGuestAccount, divUserAccount;
 
-var frmSignup, divSignupMesg, txtSignupEmail;
-var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword;
-var frmResetPassword, divResetMesg, txtResetEmail;
+var frmSignup, divSignupMesg, txtSignupEmail, cmdSignUp, cmdSignupLoader;
+var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword, cmdLogin, imgLoginLoader;
+var frmResetPassword, divResetMesg, txtResetEmail, cmdResetPassword, cmdResetLoader;
 
 var currentUser;
 var accountAjax;
@@ -68,7 +68,11 @@ function loginInit() {
     divLoginMesg = $('divLoginMesg');
     divLoginMesg.innerHTML = '';
 
-    $('cmdLogin').onclick = login;
+    cmdLogin = $('cmdLogin');
+    cmdLogin.onclick = login;
+
+    imgLoginLoader = $('imgLoginLoader');
+
     $('lblForgotPassword').onclick = forgotPasswordInit;
 }
 
@@ -78,7 +82,7 @@ function login() {
 
     var errorArr = [];
     if(!isValidEmail(txtLoginEmail.value)) {
-        errorArr.push(emailErrorMesg);
+        errorArr.push(emailErrorMesg);    imgLoginLoader = $('imgLoginLoader');
     }
     if(!txtLoginPassword.value) {
         errorArr.push(passwordErrorMesg);
@@ -89,6 +93,9 @@ function login() {
     }
 
     /***POST VALIDATION***/
+
+    cmdLogin.style.display = "none";
+    imgLoginLoader.style.display = "inline";
 
     accountAjax.request({
         url:    'api/user.php',
@@ -108,6 +115,8 @@ function loginHandler(obj) {
         divUserAccount.style.display = "block";
     }else {
         divLoginMesg.innerHTML = response.mesg;
+        cmdLogin.style.display = "inline";
+        imgLoginLoader.style.display = "none";
     }
 }
 
@@ -130,7 +139,10 @@ function forgotPasswordInit() {
     divResetMesg.className = 'error';
     divResetMesg.innerHTML = '';
 
-    $('cmdResetPassword').onclick = forgotPassword;
+    cmdResetPassword = $('cmdResetPassword');
+    cmdResetPassword.onclick = forgotPassword;
+
+    imgResetLoader = $('imgResetLoader');
 }
 
 function forgotPassword() {
@@ -143,6 +155,9 @@ function forgotPassword() {
 
     /***POST VALIDATION***/
  
+    cmdResetPassword.style.display = "none";
+    imgResetLoader.style.display = "inline";
+
     accountAjax.request({
         url:    'api/user.php',
         method: 'post',
@@ -157,8 +172,11 @@ function forgotPasswordHandler(obj) {
         loginModal.setContent("<label class='lblLink' style='float: right;' onclick='loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divResetMesg = $('divResetMesg');
         divResetMesg.className = 'success';
+    }else {
+        divResetMesg.innerHTML = response.mesg;
+        cmdResetPassword.style.display = "inline";
+        imgResetLoader.style.display = "none";
     }
-    divResetMesg.innerHTML = response.mesg;
 }
 
 
@@ -178,7 +196,10 @@ function signUpInit() {
     divSignupMesg.className = 'error';
     divSignupMesg.innerHTML = '';
 
-    $('cmdSignUp').onclick = signup;
+    cmdSignUp = $('cmdSignUp');
+    cmdSignUp.onclick = signup;
+
+    imgSignupLoader = $('imgSignupLoader');
 }
 
 function signup() {
@@ -192,6 +213,9 @@ function signup() {
 
     /***POST VALIDATION***/
  
+    cmdSignUp.style.display = "none";
+    imgSignupLoader.style.display = "inline";
+
     accountAjax.request({
         url:    'api/user.php',
         method: 'post',
@@ -206,6 +230,9 @@ function signupHandler(obj) {
         signupModal.setContent("<label class='lblLink' style='float: right;' onclick='signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divSignupMesg = $('divSignupMesg');
         divSignupMesg.className = 'success';
+    }else {
+        cmdSignUp.style.display = "inline";
+        imgSignupLoader.style.display = "none";
     }
     divSignupMesg.innerHTML = response.mesg;
 }

@@ -305,27 +305,27 @@
         <textarea id="txtLoginWindow" style="display: none;">
             <h3>Login</h3><br /><br />
             <div id="divLoginMesg" class='error'></div>
-            <form action="#" id="frmLogin">
-                <label class='labelText'>email:</label> <input type="text" id="txtLoginEmail" /><br />
-                <label class='labelText'>password:</label> <input type="password" id="txtLoginPassword" /><br /><br />
-                <input type="submit" id="cmdLogin" value="login" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+            <form action="" onsubmit="return false;" id="frmLogin">
+                <label class='labelText'>email:</label><br /><input type="text" id="txtLoginEmail" class="modalText" /><br />
+                <label class='labelText'>password:</label><br /><input type="password" id="txtLoginPassword" class="modalText" /><br /><br />
+                <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
             </form>
             <label id="lblForgotPassword" class="lblLink">forgot password</label>
         </textarea>
         <textarea id="txtForgotPasswordWindow" style="display: none;">
             <h3>Forgot Password</h3><br /><br />
             <div id="divResetMesg" class='error'></div>
-            <form action="#" id="frmResetPassword">
-                <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" /><br /><br />
-                <input type="submit" id="cmdResetPassword" value="reset password" />
+            <form action="" onsubmit="return false;" id="frmResetPassword">
+                <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" class="modalText" /><br /><br />
+                <input type="submit" id="cmdResetPassword" value="reset password" /> <img id="imgResetLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
             </form>
         </textarea>
         <textarea id="txtSignupWindow" style="display: none;">
             <h3>Sign Up</h3><br /><br />
             <div id="divSignupMesg" class='error'></div>
-            <form action="#" id="frmSignup">
-                <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" /><br /><br />
-                <input type="submit" id="cmdSignUp" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
+            <form action="" onsubmit="return false;" id="frmSignup">
+                <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" class="modalText" /><br /><br />
+                <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="loginModal.show();">login</label>
             </form>
         </textarea>
     </body>

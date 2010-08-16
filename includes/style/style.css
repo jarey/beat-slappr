@@ -422,16 +422,23 @@ h3 {
     -webkit-border-radius: 5px;
 }
 
+.modalText {
+    width: 150px;
+    border: #999 1px solid;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
 .modalWindow input {
     font-size: 12px;
 }
 
 .kitPatternModal {
-    width: 100px;
+    width: 90px;
 }
 
 .accountModal {
-    width: 200px;
+    width: 180px;
 }
 
 .comboWrapper {
@@ -453,6 +460,7 @@ h3 {
     float:left;
     overflow: hidden;
     height:24px;
+    width: 75px;
     padding:0 5px;
     font-size:12px;
     line-height:24px;
