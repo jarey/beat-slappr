@@ -24,7 +24,7 @@
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['email'] = $row['email'];
 
-                return array("success" => true, "mesg" => "Successfully logged in.");
+                return array("success" => true, "mesg" => "Successfully logged in.", "user" => $email);
             }else {
                 return array("success" => false, "mesg" => "Invalid username and/or password.");
             }

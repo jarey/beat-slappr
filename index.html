@@ -6,6 +6,7 @@
         <script type="text/javascript" src="includes/scripts/index.js"></script>
         <script type="text/javascript" src="includes/scripts/kits-patterns.js"></script>
         <script type="text/javascript" src="includes/scripts/account.js"></script>
+        <script type="text/javascript" src="includes/scripts/md5.js"></script>
         <script type="text/javascript" src="includes/scripts/util.js"></script>
         <script type="text/javascript" src="includes/scripts/audio.js"></script>
         <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
@@ -32,8 +33,11 @@
                         </a>
                         &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>
                     </div>
-                    <div style="float: right;">
-                        <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
+                    <div id="divLoginWrapper" style="float: right;">
+                        <div id="divGuestAccount">
+                            <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
+                        </div>
+                        <div id="divUserAccount" style="display: none;"></div>
                     </div>
                 </div>
             </div>

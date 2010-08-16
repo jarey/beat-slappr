@@ -1,8 +1,11 @@
 var loginModal, signupModal;
+var divGuestAccount, divUserAccount;
+
 var frmSignup, divSignupMesg, txtSignupEmail;
 var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword;
 var frmResetPassword, divResetMesg, txtResetEmail;
 
+var currentUser;
 var accountAjax;
 
 var emailErrorMesg = "The email address you provided was not valid.";
@@ -19,6 +22,9 @@ if(window.addEventListener) {
 
 function accountInit() {
     accountAjax = new Kodiak.Data.Ajax();
+
+    divGuestAccount = $('divGuestAccount');
+    divUserAccount = $('divUserAccount');
 
     loginModal = new Kodiak.Controls.Modal({
         applyTo:     'lblLogin',
@@ -84,7 +90,25 @@ function login() {
 
     /***POST VALIDATION***/
 
-    alert('logging in');
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'login', email: txtLoginEmail.value, password: hex_md5(txtLoginPassword.value)},
+        handler: loginHandler
+    });
+}
+
+function loginHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        loginModal.hide();
+        currentUser = response.user;
+        divGuestAccount.style.display = "none";
+        divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='logout();'>Logout</label>";
+        divUserAccount.style.display = "block";
+    }else {
+        divLoginMesg.innerHTML = response.mesg;
+    }
 }
 
 
@@ -184,4 +208,26 @@ function signupHandler(obj) {
         divSignupMesg.className = 'success';
     }
     divSignupMesg.innerHTML = response.mesg;
+}
+
+
+/*********************/
+/***LOGOUT HANDLING***/
+/*********************/
+
+function logout() {
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'logout'},
+        handler: logoutHandler
+    });
+}
+
+function logoutHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        divUserAccount.style.display = "none";
+        divGuestAccount.style.display = "block";
+    }
 }
