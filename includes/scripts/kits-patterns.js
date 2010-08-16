@@ -13,13 +13,24 @@ if(window.addEventListener) {
 function kitPatternInit() {
     currentKit = $("currentKit");
 
+    kitModal = new Kodiak.Controls.Modal({
+        applyTo:      'aKitModal',
+        componentId:  'kitModal',
+        modalClass:   'modalWindow kitPatternModal',
+        orientation:  'right',
+        closeOnBlur:  true,
+        onBeforeShow: function() {
+            this.setContent($('txtKitWindow').value);
+        }
+    });
+
     patternModal = new Kodiak.Controls.Modal({
         applyTo:     'aPatternModal',
         componentId: 'patternModal',
         modalClass:  'modalWindow kitPatternModal',
         orientation: 'right',
         closeOnBlur: true,
-        content: $('txtPatternWindow').value
+        content:     $('txtPatternWindow').value
     });
 
     savePatternModal = new Kodiak.Controls.Modal({
@@ -29,71 +40,32 @@ function kitPatternInit() {
         content:     $('txtSavePatternWindow').value
     });
 
-    var ajax = new Kodiak.Data.Ajax();
-    ajax.request({
-        url:    'api/system.php',
-        method: 'post',
-        parameters: {cmd: 'getKits'},
-        handler: function(obj) {getSystemKitHandler(obj, true);}
-    });
+    kitInit();
 }
 
 /***END INIT***/
 
 /***KITS***/
 
-function getSystemKitHandler(obj, init) {
-    if(obj.success) {
-        kitModal = new Kodiak.Controls.Modal({
-            applyTo:      'aKitModal',
-            componentId:  'kitModal',
-            modalClass:   'modalWindow kitPatternModal',
-            orientation:  'right',
-            closeOnBlur:  true,
-            onBeforeShow: setKitContent
-        });
-
-        kitArr = decodeJSON(obj.response);
-
-        if(init) {
-            setSystemKit(kitArr[1]['id']);
-        }
-    }else {
-        return false;
-    }
-}
-
-function setKitContent() {
-    var str = "<div class='modalWrapper'>";
-    var n=0;
-    for(var kit in kitArr) {
-        kit = kitArr[kit];
-        str += "<div class='modalWrapperRow' onclick='setSystemKit(" + n + ");'>" + kit.name + "</div>";
-        n++;
-    }
-    str += "</div>";
-    this.setContent(str);
-}
-
-function setSystemKit(val) {
+function setSystemKit(kitName, kitId) {
     var ajax = new Kodiak.Data.Ajax();
     ajax.request({
         url:    'api/system.php',
         method: 'post',
-        parameters: {cmd: 'getKitChannels', id: kitArr[val]['id'], format: audioFormat},
-        handler: function(obj) {setSystemKitHandler(obj, val);}
+        parameters: {cmd: 'getKitChannels', id: kitId, format: audioFormat},
+        handler: function(obj) {setSystemKitHandler(obj, kitName, kitId);}
     });
 }
 
-function setSystemKitHandler(obj, id) {
+function setSystemKitHandler(obj, kitName, kitId) {
     if(obj.success) {
         var response = decodeJSON(obj.response);
         var record;
         var mime = "";
 
-        currentKit.innerHTML = kitArr[id]['name'];
+        currentKit.innerHTML = kitName;
         kitModal.hide();
-        sequenceArr.kit = kitArr[id]['id'];
+        sequenceArr.kit = kitId;
 
         if(audioFormat == 'ogg') {
             mime = 'ogg';

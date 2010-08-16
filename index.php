@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php
+    require_once("config.php");
+    require_once("api/classes/system.inc.php");
+
+    $system = new System();
+    $kitArr = $system->getKits();
+
+    $initKit = "TR-808"; //<---Set the initial kit to load here by kit name (case-sensitive).
+
+    session_start();
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -13,6 +23,15 @@
         <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
         <script type="text/javascript" src="includes/scripts/kodiak.js"></script>
         <script type="text/javascript" src="includes/scripts/toolbox.js"></script>
+        <script type="text/javascript">
+            <?php
+                foreach($kitArr as $key => $val) {
+                    if($val['name'] == $initKit) {
+                        echo "function kitInit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}";
+                    }
+                }
+            ?>        
+        </script>
     </head>
     <body>
         <div id="divWrapper">
@@ -267,6 +286,22 @@
             <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" /><br />
             <textarea id="txtSequence"></textarea>
         </div>
+        <textarea id="txtKitWindow" style="display: none;">
+            <?php
+                echo "<div id='divKitWrapper' class='modalWrapper'>";
+                    foreach($kitArr as $key => $val) {
+                        echo "<div class='modalWrapperRow' onclick='setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
+                    }
+                echo "</div>";
+            ?>
+        </textarea>
+        <textarea id="txtPatternWindow" style="display: none;">
+            <h4>This is the pattern window.</h4>
+            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
+        </textarea>
+        <textarea id="txtSavePatternWindow" style="display: none;">
+            <h4>This is the save pattern window.</h4>
+        </textarea>
         <textarea id="txtLoginWindow" style="display: none;">
             <h3>Login</h3><br /><br />
             <div id="divLoginMesg" class='error'></div>
@@ -292,13 +327,6 @@
                 <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" /><br /><br />
                 <input type="submit" id="cmdSignUp" value="sign up" /> <label class="lblLink" onclick="loginModal.show();">login</label>
             </form>
-        </textarea>
-        <textarea id="txtSavePatternWindow" style="display: none;">
-            <h4>This is the save pattern window.</h4>
-        </textarea>
-        <textarea id="txtPatternWindow" style="display: none;">
-            <h4>This is the pattern window.</h4>
-            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
         </textarea>
     </body>
 </html> 
