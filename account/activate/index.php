@@ -3,6 +3,8 @@
     require_once APP_PATH . "account/includes/templates/main.tpl.php";
     require_once APP_PATH . "api/classes/user.inc.php";
 
+    session_start();
+
     $template = new MainTemplate();
     $user = new User();
 
@@ -38,8 +40,10 @@
                 if($updateAccountStatus['success']) {
                     $updateAccountPassword = $user->updatePassword($email, '', $password, true);
                     if($updateAccountPassword['success']) {
-                        $data['content'] = "Your account has been activated.";
-                        $template->render($data);
+
+                        //ACCOUNT SUCCESSFULLY ACTIVATED.  NOW LOGGING IN AND REDIRECTING TO HOMEPAGE.
+                        $user->login($email, md5($password));
+                        header('Location: ../../');
                         return;
                     }else {
                         $errorStr = "There was an error updating this account's password.";
