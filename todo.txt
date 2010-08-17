@@ -1,0 +1,12 @@
+BeatSlappr
+
+-Ability to learn controller key for instruments
+-Ability to export loops as audio file (.wav, .mp3)
+-Ability to set velocity of notes on the sequencer
+-Preserve channel volume in sequenceArr
+-Load/save system preset patterns as well as a user's custom patterns.
+-Refactor codebase into a class/classes
+-Set up which pages should be https and the associated logic.
+-Ability to add more than 16 channels
+-Ability to make custom kits
+-Tighten up API.  Make sure all submitted values are legitimate for valid (email addresses, session, etc)

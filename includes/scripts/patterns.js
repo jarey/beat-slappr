@@ -1,5 +1,6 @@
 var patternModal, savePatternModal, sharePatternModal;
 
+var divGuestPatternWrapper, divMyPatternWrapper, cmbWithSelected, divMyPatterns, divPresetPatterns;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
 var patternAjax;
@@ -19,10 +20,11 @@ function patternInit() {
     patternModal = new Kodiak.Controls.Modal({
         applyTo:     'aPatternModal',
         componentId: 'patternModal',
-        modalClass:  'modalWindow kitPatternModal',
-        orientation: 'right',
-        closeOnBlur: true,
-        content:     $('txtPatternWindow').value
+        modalClass:  'modalWindow patternModal',
+        onBeforeShow: function() {
+            this.setContent($('txtPatternWindow').value);
+        },
+        onShowComplete: userPatternInit
     });
 
     savePatternModal = new Kodiak.Controls.Modal({
@@ -45,6 +47,29 @@ function patternInit() {
     if(p) {
         setPattern(p);
     }
+}
+
+
+
+/****************************/
+/***PATTERN MODAL HANDLING***/
+/****************************/
+
+function userPatternInit() {
+    divGuestPatternWrapper = $('divGuestPatternWrapper');
+    divMyPatternWrapper = $('divMyPatternWrapper');
+
+    if(currentUser) {
+        divMyPatternWrapper.style.display = "block";
+        divGuestPatternWrapper.style.display = "none";
+        cmbWithSelected = $('cmbWithSelected');
+        divMyPatterns = $('divMyPatterns');
+    }else {
+        divMyPatternWrapper.style.display = "none";
+        divGuestPatternWrapper.style.display = "block";    
+    }
+
+    divPresetPatterns = $('divPresetPatterns');
 }
 
 

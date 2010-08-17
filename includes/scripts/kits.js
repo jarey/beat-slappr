@@ -16,7 +16,7 @@ function kitInit() {
     kitModal = new Kodiak.Controls.Modal({
         applyTo:      'aKitModal',
         componentId:  'kitModal',
-        modalClass:   'modalWindow kitPatternModal',
+        modalClass:   'modalWindow kitModal',
         orientation:  'right',
         closeOnBlur:  true,
         onBeforeShow: function() {

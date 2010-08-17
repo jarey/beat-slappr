@@ -316,8 +316,24 @@
             ?>
         </textarea>
         <textarea id="txtPatternWindow" style="display: none;">
-            <h4>This is the pattern window.</h4>
-            <!--<b>Filter:</b> <label class='lblLink'>All</label> <label class='lblLink'>Presets</label> <label class='lblLink'>Mine</label><br />-->
+            <div class='patternHeader'>My Patterns</div>
+            <div id='divGuestPatternWrapper'>
+                Log in now to create and edit your own patterns.<br /><br />
+                <label class='lblLink' onclick='loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='signupModal.show();'>sign up</label>
+            </div>
+            <div id='divMyPatternWrapper' style='display: none;'>
+                <div id='divWithSelectedPatterns'>
+                    With Selected: 
+                    <select id='cmbWithSelected'>
+                        <option value=''></option>
+                        <option value='rename'>rename</option>
+                        <option value='delete'>delete</option>
+                    </select>
+                </div>
+                <div id='divMyPatterns' class='patternTable'></div>
+            </div>
+            <div class='patternHeader'>Preset Patterns</div>
+            <div id='divPresetPatterns' class='patternTable' style='margin-bottom: 0;'></div>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
             <h4>This is the save pattern window.</h4>
