@@ -24,7 +24,9 @@ function kitInit() {
         }
     });
 
-    loadKit();
+    if(!p) {
+        loadKit();
+    }
 }
 
 
