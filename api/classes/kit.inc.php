@@ -1,8 +1,5 @@
 <?php
     class Kit {
-        private $adminEmail = SYSTEM_ADMIN_EMAIL;
-        private $adminId;
-
         function __construct() {
             if(!$this->connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD)) {
                 throw new Exception("Couldn't connect to database server.");
@@ -10,12 +7,10 @@
             if(!mysql_select_db(DB_NAME, $this->connection)) {
                 throw new MySQLException("Unknown database.");
             }
-
-            $this->adminId = $this->getAdminId();
         }
 
         public function newKit($name) {
-            if(mysql_query("INSERT INTO sound_kits (name, user_id) VALUES('$name', " . $this->adminId . ")")) {
+            if(mysql_query("INSERT INTO sound_kits (name, user_id) VALUES('$name', " . $this->getAdminId() . ")")) {
                 $id = mysql_insert_id();
                 for($n=0; $n<MAX_CHANNELS; $n++) {
                     mysql_query("INSERT INTO sound_kit_channels (id, channel) VALUES($id, $n)");
@@ -44,7 +39,7 @@
         }
 
         public function getKits() {
-            $result = mysql_query("SELECT id, name from sound_kits WHERE user_id=" . $this->adminId . " ORDER BY name");
+            $result = mysql_query("SELECT id, name from sound_kits WHERE user_id=" . $this->getAdminId() . " ORDER BY name");
             return $this->getAllRows($result);
         }
         
@@ -76,7 +71,7 @@
         }
 
         private function getAdminId() {
-            $result = mysql_query("SELECT id FROM users WHERE email='" . $this->adminEmail . "'", $this->connection);
+            $result = mysql_query("SELECT id FROM users WHERE email='" . SYSTEM_ADMIN_EMAIL . "'", $this->connection);
             $row = mysql_fetch_assoc($result);
             return $row['id'];
         }

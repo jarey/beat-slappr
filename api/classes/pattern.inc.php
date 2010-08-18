@@ -9,6 +9,27 @@
             }
         }
         
+        public function get($type) {
+            $resultArr = array();
+            if($type == "system" || $type == "all") {
+                $resultArr['system'] = array();
+                $resultArr['system'] = $this->_getPatterns($this->getAdminId());
+            }
+            if($type == "user" || $type == "all") {
+                if($_SESSION['user_id']) {
+                    $resultArr['user'] = array();
+                    $resultArr['user'] = $this->_getPatterns($_SESSION['user_id']);
+                }else {
+                    return array("success" => false, "mesg" => "Invalid session.");                
+                }
+            }
+            if($resultArr) {
+                return array("success" => true, "mesg" => "Successfully retreived patterns.", "data" => $resultArr);
+            }else {
+                return array("success" => false, "mesg" => "Invalid type.");
+            }
+        }
+
         public function share($user, $sequence, $hash, $recipients) {
             if($user == "[user]") {
                 if($_SESSION['user_id']) {
@@ -47,7 +68,7 @@
                     
         }
 
-        /***PRIVATE METHODS FOR SENDING MAIL***/
+        /***PRIVATE METHODS***/
 
         private function sendShareEmail($sender, $recipient, $hash) {
             $to      = $recipient;
@@ -64,6 +85,35 @@
                         'X-Mailer: PHP/' . phpversion();
 
             mail($to, $subject, $message, $headers);
+        }
+
+        private function getAllRows($result) {
+            $rowCount = mysql_num_rows($result);
+    		$resultArr = array();
+
+            for($n=0; $n<$rowCount; $n++) {
+    		    $row = mysql_fetch_assoc($result);
+    			$resultArr[$n] = $row;
+    		}
+    		return $resultArr;
+        }
+
+        private function _getPatterns($id) {
+            $resultArr = array();
+            $result = mysql_query("SELECT `name`, `pattern` FROM `patterns` WHERE user_id=$id");
+            $result = $this->getAllRows($result);
+            foreach($result as $key => $val) {
+                $val['pattern'] = json_decode($val['pattern']);
+                $val['pattern']->name = $val['name'];
+                $resultArr[] = $val['pattern'];
+            }
+            return $resultArr;
+        }
+
+        private function getAdminId() {
+            $result = mysql_query("SELECT id FROM users WHERE email='" . SYSTEM_ADMIN_EMAIL . "'", $this->connection);
+            $row = mysql_fetch_assoc($result);
+            return $row['id'];
         }
     }
 ?>
