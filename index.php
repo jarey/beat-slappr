@@ -316,6 +316,7 @@
             ?>
         </textarea>
         <textarea id="txtPatternWindow" style="display: none;">
+            <div id="divPatternMesg" class='error'></div>
             <div class='patternHeader'>My Patterns</div>
             <div id='divGuestPatternWrapper'>
                 Log in now to create and edit your own patterns.<br /><br />

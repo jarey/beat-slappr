@@ -100,16 +100,17 @@ Kodiak.Data.Ajax.prototype = {
 //*********************************************************************************
 
 Kodiak.Data.Dataset = function(data) {
+    this.updateListener = new Kodiak.Util.Listener();
+    this.selectListener = new Kodiak.Util.Listener();
+
+    this.sortCol = [];
+
     if(data) {
         this.setData(data);
     }
-    this.updateListener = new Kodiak.Util.Listener();
-    this.selectListener = new Kodiak.Util.Listener();
-    this.sortCol = [];
 };
 
 Kodiak.Data.Dataset.prototype = {
-    onUpdate: function() {}, //redo onUpdate with listener class
     data: [],
     
     setData: function(config) {
@@ -374,7 +375,7 @@ Kodiak.Util.Listener.prototype = {
 Kodiak.Controls.Table = function(config) {
     var _this = this;
     this.util = new Kodiak.Util();
-    this.util.clone(config, this, {data: 'norecurse'});
+    this.util.clone(config, this, {data: 'norecurse', applyTo: 'norecurse'});
 
     Kodiak.Components[this.componentId] = this;
     
@@ -467,7 +468,7 @@ Kodiak.Controls.Table.prototype = {
     renderData: function() {
         var tBody = this.applyTo.childNodes[0].childNodes[1];
 
-        var row, fieldData, prop, col;
+        var row, fieldData, prop, col, dataFieldArr;
         var tableStr = "<table><tbody>";
         
         for(var n=0; n<this.data.getRowCount(); n++) {
@@ -476,7 +477,12 @@ Kodiak.Controls.Table.prototype = {
             for(prop in this.columns) {
                 col = this.columns[prop];
                 if(col.dataField) {
-                    fieldData = row[col.dataField];
+                    dataFieldArr = col.dataField.split('.');
+                    fieldData = row[dataFieldArr[0]];
+                    for(var m=1; m<dataFieldArr.length; m++) {
+                        fieldData = fieldData[dataFieldArr[m]];
+                    }
+
                 }else {
                     fieldData = "";
                 }

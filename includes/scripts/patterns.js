@@ -3,6 +3,8 @@ var patternModal, savePatternModal, sharePatternModal;
 var divGuestPatternWrapper, divMyPatternWrapper, cmbWithSelected, divMyPatterns, divPresetPatterns;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
+var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
+
 var patternAjax;
 
 /***INIT***/
@@ -56,20 +58,84 @@ function patternInit() {
 /****************************/
 
 function userPatternInit() {
+    var type;
     divGuestPatternWrapper = $('divGuestPatternWrapper');
     divMyPatternWrapper = $('divMyPatternWrapper');
 
     if(currentUser) {
+        type = "all";
         divMyPatternWrapper.style.display = "block";
         divGuestPatternWrapper.style.display = "none";
         cmbWithSelected = $('cmbWithSelected');
         divMyPatterns = $('divMyPatterns');
     }else {
+        type = "system"
         divMyPatternWrapper.style.display = "none";
         divGuestPatternWrapper.style.display = "block";    
     }
 
+    patternAjax.request({
+        url:    'api/pattern.php',
+        method: 'post',
+        parameters: {cmd: 'get', type: type},
+        handler: userPatternHandler
+    });
+
     divPresetPatterns = $('divPresetPatterns');
+}
+
+function userPatternHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        if(response.data.user) {
+            userPatternDataset = new Kodiak.Data.Dataset(response.data.user);
+        }
+        if(response.data.system) {
+            systemPatternDataset = new Kodiak.Data.Dataset({
+                data: response.data.system,
+                sortObj: {}
+            });
+
+            systemPatternTable = new Kodiak.Controls.Table({
+                applyTo: divPresetPatterns,
+                componentId: 'tblSystemPatterns',
+                tableDomId: 'tblSystemPatterns',
+                rowSelectedClass: 'selectedTableRow',
+                data: systemPatternDataset,
+                sortArrow: {
+                    img: 'includes/images/tblArrowSprite.png',
+                    size: {width: 14, height: 14},
+                    up: {x: 0, y: 0},
+                    down: {x: 0, y: -14}
+                },
+                columns: {
+                    Name: {
+                        dataField: 'name',
+                        sortable: true,
+                        width: 100,
+                    },
+                    Kit: {
+                        dataField: 'kit.name',
+                        sortable: true,
+                        width: 100
+                    },
+                    Tempo: {
+                        dataField: 'tempo',
+                        sortable: true,
+                        width: 100,
+                        align: 'right'
+                    }
+                }
+            });
+            systemPatternTable.renderData();
+
+
+
+
+        }
+    }else {
+        divPatternMesg.innerHTML = response.mesg;
+    }
 }
 
 
