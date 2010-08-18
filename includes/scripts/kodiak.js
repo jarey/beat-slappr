@@ -162,15 +162,22 @@ Kodiak.Data.Dataset.prototype = {
                 n = 2;
             }
             var sortArr = [];
+            var sortFieldArr = field.split('.');
+
+            sortArr[0] = a[sortFieldArr[0]];
+            for(var m=1; m<sortFieldArr.length; m++) {
+                sortArr[0] = sortArr[0][sortFieldArr[m]];
+            }
             if(typeof(a[field]) == 'string') {
-                sortArr[0] = a[field].toLowerCase();
-            }else {
-                sortArr[0] = a[field];
+                sortArr[0] = sortArr[0].toLowerCase();
+            }
+
+            sortArr[1] = b[sortFieldArr[0]];
+            for(var m=1; m<sortFieldArr.length; m++) {
+                sortArr[1] = sortArr[1][sortFieldArr[m]];
             }
             if(typeof(b[field]) == 'string') {
-                sortArr[1] = b[field].toLowerCase();
-            }else {
-                sortArr[1] = b[field];
+                sortArr[1] = sortArr[1].toLowerCase();
             }
 
             if(_this.alwaysOnTop) {
@@ -482,7 +489,6 @@ Kodiak.Controls.Table.prototype = {
                     for(var m=1; m<dataFieldArr.length; m++) {
                         fieldData = fieldData[dataFieldArr[m]];
                     }
-
                 }else {
                     fieldData = "";
                 }

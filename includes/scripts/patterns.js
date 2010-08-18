@@ -91,11 +91,7 @@ function userPatternHandler(obj) {
             userPatternDataset = new Kodiak.Data.Dataset(response.data.user);
         }
         if(response.data.system) {
-            systemPatternDataset = new Kodiak.Data.Dataset({
-                data: response.data.system,
-                sortObj: {}
-            });
-
+            systemPatternDataset = new Kodiak.Data.Dataset();
             systemPatternTable = new Kodiak.Controls.Table({
                 applyTo: divPresetPatterns,
                 componentId: 'tblSystemPatterns',
@@ -127,7 +123,10 @@ function userPatternHandler(obj) {
                     }
                 }
             });
-            systemPatternTable.renderData();
+            systemPatternDataset.setData({
+                data: response.data.system,
+                sortObj: {field: 'name', dir: 'ASC'}
+            });
 
 
 
