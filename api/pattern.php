@@ -12,6 +12,9 @@
     if(isset($_REQUEST['user'])) {
         $user = $_REQUEST['user'];
     }
+    if(isset($_REQUEST['type'])) {
+        $type = $_REQUEST['type'];
+    }
     if(isset($_REQUEST['sequence'])) {
         $sequence = $_REQUEST['sequence'];
     }
@@ -28,6 +31,16 @@
     }
 
     switch($cmd) {
+        case "get":
+            if($type) {
+                $patterns = $pattern->get($type);
+                echo json_encode($patterns);
+            }else {
+                echo "Missing Required Parameters";
+                return;
+            }
+
+        break;
         case "share":
             if($user && $sequence && $hash && $recipients) {
                 $share = $pattern->share($user, $sequence, $hash, $recipients);

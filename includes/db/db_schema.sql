@@ -70,3 +70,17 @@ CREATE TABLE IF NOT EXISTS `shared_patterns` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `hash` (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+/**************************************************
+    PATTERNS TABLE
+    STORES ALL USER PATTERNS
+**************************************************/
+
+DROP TABLE IF EXISTS `patterns`;
+CREATE TABLE IF NOT EXISTS `patterns` (
+  `user_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `pattern` text NOT NULL,
+  UNIQUE KEY `user_id` (`user_id`,`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
