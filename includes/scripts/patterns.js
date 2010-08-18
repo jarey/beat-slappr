@@ -108,17 +108,17 @@ function userPatternHandler(obj) {
                     Name: {
                         dataField: 'name',
                         sortable: true,
-                        width: 100,
+                        width: 120,
                     },
                     Kit: {
                         dataField: 'kit.name',
                         sortable: true,
-                        width: 100
+                        width: 120
                     },
                     Tempo: {
                         dataField: 'tempo',
                         sortable: true,
-                        width: 100,
+                        width: 60,
                         align: 'right'
                     }
                 }
