@@ -90,14 +90,15 @@ function userPatternInit() {
             type = "all";
         }
     }else {
+        divMyPatternWrapper.style.display = "none";
+        divGuestPatternWrapper.style.display = "block";
+
         if(systemPatternArr.length) {
             var obj = {};
             obj.response = {success: true, data: {system: systemPatternArr}};
             userPatternHandler(obj);
             return;            
         }
-        divMyPatternWrapper.style.display = "none";
-        divGuestPatternWrapper.style.display = "block";    
         type = "system"
     }
 
