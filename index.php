@@ -5,6 +5,7 @@
     $kit = new Kit();
     $kitArr = $kit->getKits();
 
+    $pattern = "";
     if($_GET) {
         require_once("api/classes/pattern.inc.php");
         
@@ -326,11 +327,8 @@
                 <div id='divWithSelectedPatterns'>
                     Select: <label id='lblSelectAll' class='lblLink' style='font-weight: normal;'>all</label>, <label id='lblSelectNone' class='lblLink' style='font-weight: normal;'>none</label>&nbsp;&nbsp;|&nbsp;&nbsp;
                     With Selected: 
-                    <select id='cmbWithSelected'>
-                        <option value=''></option>
-                        <option value='rename'>rename</option>
-                        <option value='delete'>delete</option>
-                    </select>
+                    <input type="button" id="cmdRenamePattern" value="rename" class="withSelectedBtn" /> 
+                    <input type="button" id="cmdDeletePattern" value="delete" class="withSelectedBtn" />
                 </div>
                 <div id='divUserPatterns' class='patternTable userPatternTable'></div>
             </div>

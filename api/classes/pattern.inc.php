@@ -9,6 +9,40 @@
             }
         }
         
+        public function rename($from, $to) {
+            if($_SESSION['user_id']) {
+                $id = $_SESSION['user_id'];
+                $from = addslashes($from);
+                $to = addslashes($to);
+                if(!$this->_patternExists($to, $id)) {
+                    mysql_query("UPDATE `patterns` SET `name`='$to' WHERE `name`='$from' AND `user_id`=$id");
+                    if(mysql_affected_rows() > 0) {
+                        return array("success" => true, "mesg" => "Pattern successfully renamed.");
+                    }else {
+                        return array("success" => false, "mesg" => "There was an error renaming the pattern.");
+                    }
+                }else {
+                    return array("success" => false, "mesg" => "A pattern with that name already exists.");
+                }
+            }else {
+                return array("success" => false, "mesg" => "Invalid session.");                
+            }
+        }
+
+        public function delete($items) {
+            if($_SESSION['user_id']) {
+                $id = $_SESSION['user_id'];
+                $items = addslashes($items);
+                $items = explode("|-|", $items);
+                foreach($items as $item) {
+                    mysql_query("DELETE FROM `patterns` WHERE `name`='$item' AND `user_id`=" . $id);
+                }
+                return array("success" => true, "mesg" => "Pattern(s) successfully deleted.");
+            }else {
+                return array("success" => false, "mesg" => "Invalid session.");                
+            }        
+        }
+
         public function get($type) {
             $resultArr = array();
             if($type == "system" || $type == "all") {
@@ -108,6 +142,18 @@
                 $resultArr[] = $val['pattern'];
             }
             return $resultArr;
+        }
+
+        
+
+        private function _patternExists($name, $id) {
+            $result = mysql_query("SELECT `name` FROM `patterns` WHERE `name`='$name' AND `user_id`=$id");
+            $recordCount = mysql_num_rows($result);
+            if($recordCount) {
+                return true;
+            }else {
+                return false;
+            }
         }
 
         private function getAdminId() {

@@ -1,6 +1,6 @@
 var patternModal, savePatternModal, sharePatternModal;
 
-var divGuestPatternWrapper, divMyPatternWrapper, cmbWithSelected, divUserPatterns, divPresetPatterns;
+var divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
 var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
@@ -61,12 +61,16 @@ function userPatternInit() {
     var type;
     divGuestPatternWrapper = $('divGuestPatternWrapper');
     divMyPatternWrapper = $('divMyPatternWrapper');
+    divPatternMesg = $('divPatternMesg');
 
     if(currentUser) {
         type = "all";
         divMyPatternWrapper.style.display = "block";
         divGuestPatternWrapper.style.display = "none";
-        cmbWithSelected = $('cmbWithSelected');
+        cmdRenamePattern = $('cmdRenamePattern');
+        cmdRenamePattern.onclick = function() {doWithSelected('rename');};
+        cmdDeletePattern = $('cmdDeletePattern');
+        cmdDeletePattern.onclick = function() {doWithSelected('delete');};
         divUserPatterns = $('divUserPatterns');
         $('lblSelectAll').onclick = function() {userPatternDataset.selectAllRows(true);};
         $('lblSelectNone').onclick = function() {userPatternDataset.selectAllRows(false);};
@@ -91,6 +95,7 @@ function userPatternHandler(obj) {
     if(response.success) {
         if(response.data.user) {
             userPatternDataset = new Kodiak.Data.Dataset();
+            userPatternDataset.selectListener.add(setWithSelectedBtnState);
             userPatternTable = new Kodiak.Controls.Table({
                 applyTo: divUserPatterns,
                 componentId: 'tblUserPatterns',
@@ -131,6 +136,7 @@ function userPatternHandler(obj) {
                 data: response.data.user,
                 sortObj: {field: 'name', dir: 'ASC'}
             });
+            setWithSelectedBtnState();
         }
         if(response.data.system) {
             systemPatternDataset = new Kodiak.Data.Dataset();
@@ -174,6 +180,97 @@ function userPatternHandler(obj) {
     }
 }
 
+function doWithSelected(val) {
+    var selectedPatterns = userPatternDataset.getSelected();
+    switch(val) {
+        case "rename":
+            if(selectedPatterns.length == 1) {
+                var originalName = selectedPatterns[0].data.name;
+                var newName = prompt("New name:", originalName);
+                if(newName && newName != originalName) {
+                     patternAjax.request({
+                        url:    'api/pattern.php',
+                        method: 'post',
+                        parameters: {cmd: 'rename', from: originalName, to: newName},
+                        handler: function(obj) {renameHandler(obj, newName);}
+                    });
+                }
+            }
+        break;
+        case "delete":
+            if(selectedPatterns) {
+                if(confirm("Are you sure you want to delete the selected patterns?  This can't be undone!")) {
+                    var postObj = {
+                        cmd:   'delete',
+                        items: ''
+                    };
+                    var delIdArr = [];
+                    var delNameArr = [];
+                    var key, val, pattern;
+                    for(pattern in selectedPatterns) {
+                        key = selectedPatterns[pattern].index;
+                        val = selectedPatterns[pattern].data.name;
+                        delIdArr.push(key);
+                        delNameArr.push(val);
+                    }
+                    postObj.items = delNameArr.join("|-|");
+                     patternAjax.request({
+                        url:    'api/pattern.php',
+                        method: 'post',
+                        parameters: postObj,
+                        handler: function(obj) {deleteHandler(obj, delIdArr);}
+                    });
+                }
+            }
+        break;
+    }
+}
+
+function renameHandler(obj, newName) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        divPatternMesg.style.display = "none";
+        var selectedPatterns = userPatternDataset.getSelected();
+        selectedPatterns[0].data.name = newName;
+        userPatternDataset.updateListener.fire();
+    }else {
+        divPatternMesg.style.display = "block";
+        divPatternMesg.innerHTML = response.mesg;
+    }
+}
+
+function deleteHandler(obj, delIdArr) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        divPatternMesg.style.display = "none";
+        for(var index in delIdArr) {
+            userPatternDataset.data.splice(index, 1);
+        }
+        userPatternDataset.selectAllRows(false);
+        userPatternDataset.updateListener.fire();
+    }else {
+        divPatternMesg.style.display = "block";
+        divPatternMesg.innerHTML = response.mesg;
+    }
+}
+
+function setWithSelectedBtnState() {
+    var selectedRowCount = userPatternDataset.getSelectedRowCount();
+    var buttonState = false;
+
+    if(selectedRowCount) {
+        buttonState = false;
+    }else {
+        buttonState = true;
+    }
+
+    cmdRenamePattern.disabled = buttonState;
+    cmdDeletePattern.disabled = buttonState;    
+
+    if(selectedRowCount > 1) {
+        cmdRenamePattern.disabled = true;
+    }
+}
 
 /**********************************/
 /***SHARE PATTERN MODAL HANDLING***/

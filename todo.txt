@@ -10,3 +10,5 @@ BeatSlappr
 -Ability to add more than 16 channels
 -Ability to make custom kits
 -Tighten up API.  Make sure all submitted values are legitimate for valid (email addresses, session, etc)
+    -Make sure pattern names are scrubbed for illegal characters.
+-Add ajax loader for when renaming/deleting selected patterns.

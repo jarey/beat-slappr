@@ -228,7 +228,7 @@ Kodiak.Data.Dataset.prototype = {
         for(var n=0; n<rowCount; n++) {
             rowSelected = this.rowSelected(n, null, true);
             if(rowSelected) {
-                selectedArr.push(this.getRow(n));
+                selectedArr.push({index: n, data: this.getRow(n)});
             }
         }
         return selectedArr;
