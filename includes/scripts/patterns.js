@@ -1,6 +1,6 @@
 var patternModal, savePatternModal, sharePatternModal;
 
-var divGuestPatternWrapper, divMyPatternWrapper, cmbWithSelected, divMyPatterns, divPresetPatterns;
+var divGuestPatternWrapper, divMyPatternWrapper, cmbWithSelected, divUserPatterns, divPresetPatterns;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
 var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
@@ -67,7 +67,9 @@ function userPatternInit() {
         divMyPatternWrapper.style.display = "block";
         divGuestPatternWrapper.style.display = "none";
         cmbWithSelected = $('cmbWithSelected');
-        divMyPatterns = $('divMyPatterns');
+        divUserPatterns = $('divUserPatterns');
+        $('lblSelectAll').onclick = function() {userPatternDataset.selectAllRows(true);};
+        $('lblSelectNone').onclick = function() {userPatternDataset.selectAllRows(false);};
     }else {
         type = "system"
         divMyPatternWrapper.style.display = "none";
@@ -88,7 +90,47 @@ function userPatternHandler(obj) {
     var response = decodeJSON(obj.response);
     if(response.success) {
         if(response.data.user) {
-            userPatternDataset = new Kodiak.Data.Dataset(response.data.user);
+            userPatternDataset = new Kodiak.Data.Dataset();
+            userPatternTable = new Kodiak.Controls.Table({
+                applyTo: divUserPatterns,
+                componentId: 'tblUserPatterns',
+                tableDomId: 'tblUserPatterns',
+                rowSelectedClass: 'selectedTableRow',
+                data: userPatternDataset,
+                sortArrow: {
+                    img: 'includes/images/tblArrowSprite.png',
+                    size: {width: 14, height: 14},
+                    up: {x: 0, y: 0},
+                    down: {x: 0, y: -14}
+                },
+                columns: {
+                    Select: {
+                        width: 10,
+                        title: ' ',
+                        selectRowCheckBox: true
+                    },
+                    Name: {
+                        dataField: 'name',
+                        sortable: true,
+                        width: 120,
+                    },
+                    Kit: {
+                        dataField: 'kit.name',
+                        sortable: true,
+                        width: 110
+                    },
+                    Tempo: {
+                        dataField: 'tempo',
+                        sortable: true,
+                        width: 60,
+                        align: 'right'
+                    }
+                }
+            });
+            userPatternDataset.setData({
+                data: response.data.user,
+                sortObj: {field: 'name', dir: 'ASC'}
+            });
         }
         if(response.data.system) {
             systemPatternDataset = new Kodiak.Data.Dataset();
@@ -96,7 +138,6 @@ function userPatternHandler(obj) {
                 applyTo: divPresetPatterns,
                 componentId: 'tblSystemPatterns',
                 tableDomId: 'tblSystemPatterns',
-                rowSelectedClass: 'selectedTableRow',
                 data: systemPatternDataset,
                 sortArrow: {
                     img: 'includes/images/tblArrowSprite.png',
@@ -127,10 +168,6 @@ function userPatternHandler(obj) {
                 data: response.data.system,
                 sortObj: {field: 'name', dir: 'ASC'}
             });
-
-
-
-
         }
     }else {
         divPatternMesg.innerHTML = response.mesg;
