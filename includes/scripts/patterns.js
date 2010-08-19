@@ -5,6 +5,9 @@ var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWi
 
 var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
 
+var userPatternDataIsDirty = true;
+var userPatternArr = [];
+var systemPatternArr = [];
 var patternAjax;
 
 /***INIT***/
@@ -62,9 +65,9 @@ function userPatternInit() {
     divGuestPatternWrapper = $('divGuestPatternWrapper');
     divMyPatternWrapper = $('divMyPatternWrapper');
     divPatternMesg = $('divPatternMesg');
+    divPresetPatterns = $('divPresetPatterns');
 
     if(currentUser) {
-        type = "all";
         divMyPatternWrapper.style.display = "block";
         divGuestPatternWrapper.style.display = "none";
         cmdRenamePattern = $('cmdRenamePattern');
@@ -74,6 +77,18 @@ function userPatternInit() {
         divUserPatterns = $('divUserPatterns');
         $('lblSelectAll').onclick = function() {userPatternDataset.selectAllRows(true);};
         $('lblSelectNone').onclick = function() {userPatternDataset.selectAllRows(false);};
+
+        if(systemPatternArr.length) {
+            type = "user";
+            if(!userPatternDataIsDirty) {
+                var obj = {};
+                obj.response = {success: true, data: {user: userPatternArr}};
+                userPatternHandler(obj);
+                return;
+            }
+        }else {
+            type = "all";
+        }
     }else {
         type = "system"
         divMyPatternWrapper.style.display = "none";
@@ -86,14 +101,23 @@ function userPatternInit() {
         parameters: {cmd: 'get', type: type},
         handler: userPatternHandler
     });
-
-    divPresetPatterns = $('divPresetPatterns');
 }
 
 function userPatternHandler(obj) {
-    var response = decodeJSON(obj.response);
+    var response;
+    if(typeof(obj.response) == "string") {
+        response = decodeJSON(obj.response);
+    }else if(typeof(obj.response) == "object") {
+        response = obj.response;
+    }
+
+    if(systemPatternArr.length) {
+        response.data.system = systemPatternArr;
+    }
+
     if(response.success) {
         if(response.data.user) {
+            userPatternArr = response.data.user;
             userPatternDataset = new Kodiak.Data.Dataset();
             userPatternDataset.selectListener.add(setWithSelectedBtnState);
             userPatternTable = new Kodiak.Controls.Table({
@@ -137,8 +161,10 @@ function userPatternHandler(obj) {
                 sortObj: {field: 'name', dir: 'ASC'}
             });
             setWithSelectedBtnState();
+            userPatternDataIsDirty = false;
         }
         if(response.data.system) {
+            systemPatternArr = response.data.system;
             systemPatternDataset = new Kodiak.Data.Dataset();
             systemPatternTable = new Kodiak.Controls.Table({
                 applyTo: divPresetPatterns,
