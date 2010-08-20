@@ -151,6 +151,7 @@ function userPatternHandler(obj) {
                         selectRowCheckBox: true
                     },
                     Name: {
+                        dataField: 'name',
                         sortable: true,
                         width: 120,
                         renderFn: function(data) {
@@ -158,6 +159,7 @@ function userPatternHandler(obj) {
                         }
                     },
                     Kit: {
+                        dataField: 'kit.name',
                         sortable: true,
                         width: 110,
                         renderFn: function(data) {
@@ -165,6 +167,7 @@ function userPatternHandler(obj) {
                         }
                     },
                     Tempo: {
+                        dataField: 'tempo',
                         sortable: true,
                         width: 60,
                         align: 'right',
@@ -197,6 +200,7 @@ function userPatternHandler(obj) {
                 },
                 columns: {
                     Name: {
+                        dataField: 'name',
                         sortable: true,
                         width: 120,
                         renderFn: function(data) {
@@ -204,6 +208,7 @@ function userPatternHandler(obj) {
                         }
                     },
                     Kit: {
+                        dataField: 'kit.name',
                         sortable: true,
                         width: 120,
                         renderFn: function(data) {
@@ -211,6 +216,7 @@ function userPatternHandler(obj) {
                         }
                     },
                     Tempo: {
+                        dataField: 'tempo',
                         sortable: true,
                         width: 60,
                         align: 'right',
@@ -281,8 +287,14 @@ function renameHandler(obj, newName) {
     if(response.success) {
         divPatternMesg.style.display = "none";
         var selectedPatterns = userPatternDataset.getSelected();
+
         selectedPatterns[0].data.name = newName;
+        userPatternDataset.selectAllRows(false);
+        userPatternDataset.sort(this.sortCol);
         userPatternDataset.updateListener.fire();
+
+        userPatternArr = userPatternDataset.data;
+
     }else {
         divPatternMesg.style.display = "block";
         divPatternMesg.innerHTML = response.mesg;
@@ -291,13 +303,19 @@ function renameHandler(obj, newName) {
 
 function deleteHandler(obj, delIdArr) {
     var response = decodeJSON(obj.response);
+    var n=0;
+    var val;
     if(response.success) {
         divPatternMesg.style.display = "none";
         for(var index in delIdArr) {
-            userPatternDataset.data.splice(index, 1);
+            val = delIdArr[index] - n;
+            userPatternDataset.data.splice(val, 1);
+            n++;
         }
         userPatternDataset.selectAllRows(false);
+        userPatternDataset.sort(this.sortCol);
         userPatternDataset.updateListener.fire();
+        userPatternArr = userPatternDataset.data;
     }else {
         divPatternMesg.style.display = "block";
         divPatternMesg.innerHTML = response.mesg;
