@@ -2,6 +2,11 @@ var kitModal;
 var currentKit;
 var kitArr = [];
 
+//lK is defined in the homepage dynamically.  It stands for loadKit.
+//This defines the initial kit to load on page load.
+var lK;
+
+
 /***INIT***/
 
 if(window.addEventListener) {
@@ -24,8 +29,8 @@ function kitInit() {
         }
     });
 
-    if(!p) {
-        loadKit();
+    if(typeof(lK) == 'object') {
+        setSystemKit(lK[0], lK[1])
     }
 }
 
