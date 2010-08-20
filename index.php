@@ -67,7 +67,7 @@
                         <label class='labelText'>Pattern</label> 
                         <a id='aPatternModal' class='comboWrapper'>
                             <span class='comboLeft'></span>
-                            <span id='currentPattern' class='comboCenter'>Beat 1</span>
+                            <span id='currentPattern' class='comboCenter'></span>
                             <span class='comboRight'></span>
                         </a>
                         &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>

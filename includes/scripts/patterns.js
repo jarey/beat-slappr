@@ -1,5 +1,5 @@
 var patternModal, savePatternModal, sharePatternModal;
-
+var currentPattern;
 var divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
 
@@ -23,6 +23,7 @@ if(window.addEventListener) {
 }
 
 function patternInit() {
+    currentPattern = $("currentPattern");
 
     patternAjax = new Kodiak.Data.Ajax();
 
@@ -150,20 +151,26 @@ function userPatternHandler(obj) {
                         selectRowCheckBox: true
                     },
                     Name: {
-                        dataField: 'name',
                         sortable: true,
                         width: 120,
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(userPatternDataset.getRow(" + data.index + "));'>" + data.val.name + "</div>";
+                        }
                     },
                     Kit: {
-                        dataField: 'kit.name',
                         sortable: true,
-                        width: 110
+                        width: 110,
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(userPatternDataset.getRow(" + data.index + "));'>" + data.val.kit.name + "</div>";
+                        }
                     },
                     Tempo: {
-                        dataField: 'tempo',
                         sortable: true,
                         width: 60,
-                        align: 'right'
+                        align: 'right',
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(userPatternDataset.getRow(" + data.index + "));'>" + data.val.tempo + "</div>";
+                        }
                     }
                 }
             });
@@ -190,20 +197,26 @@ function userPatternHandler(obj) {
                 },
                 columns: {
                     Name: {
-                        dataField: 'name',
                         sortable: true,
                         width: 120,
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(systemPatternDataset.getRow(" + data.index + "));'>" + data.val.name + "</div>";
+                        }
                     },
                     Kit: {
-                        dataField: 'kit.name',
                         sortable: true,
-                        width: 120
+                        width: 120,
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(systemPatternDataset.getRow(" + data.index + "));'>" + data.val.kit.name + "</div>";
+                        }
                     },
                     Tempo: {
-                        dataField: 'tempo',
                         sortable: true,
                         width: 60,
-                        align: 'right'
+                        align: 'right',
+                        renderFn: function(data) {
+                            return "<div onclick='setPattern(systemPatternDataset.getRow(" + data.index + "));'>" + data.val.tempo + "</div>";
+                        }
                     }
                 }
             });
@@ -426,5 +439,9 @@ function setPattern(val) {
         stepsWidget.setValue(parseInt(sequenceArr.steps));
         tempoWidget.setValue(parseInt(sequenceArr.tempo));
         setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));
+        
+        if(sequenceArr.name) {
+            currentPattern.innerHTML = sequenceArr.name;
+        }
     }
 }
