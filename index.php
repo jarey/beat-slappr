@@ -39,17 +39,15 @@
             <?php
                 foreach($kitArr as $key => $val) {
                     if($val['name'] == $initKit) {
-                        echo "function loadKit() {setSystemKit('" . $val['name'] . "'," . $val['id'] . ");}";
+                        echo "lK=['" . $val['name'] . "'," . $val['id'] . "];";
                         break;
                     }
                 }
                 if($_SESSION['email']) {
-                    echo "currentUser=1;";
+                    echo "u=1;";
                 }
                 if($pattern) {
-                    echo "var p='$pattern';";
-                }else {
-                    echo "var p;";
+                    echo "p=$pattern;";
                 }
             ?>        
         </script>

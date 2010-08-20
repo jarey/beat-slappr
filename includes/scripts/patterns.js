@@ -10,6 +10,10 @@ var userPatternArr = [];
 var systemPatternArr = [];
 var patternAjax;
 
+//p is defined in the homepage upon pageload if a 'p' attribute was passed on the url
+//This means the link was of a shared pattern.
+var p;
+
 /***INIT***/
 
 if(window.addEventListener) {
@@ -49,7 +53,7 @@ function patternInit() {
         onShowComplete: sharePatternInit
     });
 
-    if(p) {
+    if(typeof(p) == 'object') {
         setPattern(p);
     }
 }
@@ -414,7 +418,11 @@ function getPattern() {
 
 function setPattern(val) {
     if(val) {
-        sequenceArr = decodeJSON(val);
+        if(typeof(val) == 'string') {
+            sequenceArr = decodeJSON(val);
+        }else if(typeof(val) == 'object') {
+            sequenceArr = val;
+        }
         stepsWidget.setValue(parseInt(sequenceArr.steps));
         tempoWidget.setValue(parseInt(sequenceArr.tempo));
         setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));

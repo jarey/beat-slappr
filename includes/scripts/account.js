@@ -11,6 +11,8 @@ var accountAjax;
 var emailErrorMesg = "The email address you provided was not valid.";
 var passwordErrorMesg = "Password must be provided.";
 
+//u is defined in the homepage upon pageload if an active session exists.
+var u;
 
 /***INIT***/
 
@@ -47,6 +49,12 @@ function accountInit() {
         },
         onShowComplete: signUpInit
     });
+
+    //Set the value of currentUser from variable u, which is generated in the homepage
+    //if an active session exists
+    if(typeof(u) == 'number') {
+        currentUser = u;
+    }
 }
 
 
@@ -243,6 +251,15 @@ function signupHandler(obj) {
 /*********************/
 
 function logout() {
+    //Close all modals:
+    for(var component in Kodiak.Components) {
+        var key = component;
+        var val = Kodiak.Components[key];
+        if(val._isModal) {
+            val.hide();
+        }
+    }
+
     accountAjax.request({
         url:    'api/user.php',
         method: 'post',
@@ -255,7 +272,12 @@ function logoutHandler(obj) {
     var response = decodeJSON(obj.response);
     if(response.success) {
         currentUser = "";
+
         divUserAccount.style.display = "none";
         divGuestAccount.style.display = "block";
+
+        //Initialize userPatternArr and mark as dirty
+        userPatternArr = [];
+        userPatternDataIsDirty = true;
     }
 }
