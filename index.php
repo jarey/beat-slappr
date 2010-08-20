@@ -1,22 +1,20 @@
 <?php
     require_once("config.php");
-    require_once("api/classes/kit.inc.php");
-
-    $kit = new Kit();
-    $kitArr = $kit->getKits();
-
-    $pattern = "";
+    require_once("api/classes/pattern.inc.php");
+    
+    $pattern = new Pattern();
+    $patternArr = $pattern->get("system");
+    
+    $sharePattern = "";
     if($_GET) {
         require_once("api/classes/pattern.inc.php");
         
-        $pattern = new Pattern();
+        $sharePattern = new Pattern();
         if($_GET['p']) {
             $p = $_GET['p'];
         }
-        $pattern = $pattern->getSharedPattern($p);
+        $sharePattern = $sharePattern->getSharedPattern($p);
     }
-
-    $initKit = "TR-808"; //<---Set the initial kit to load here by kit name (case-sensitive).
 
     session_start();
 ?>
@@ -37,17 +35,18 @@
         <script type="text/javascript" src="includes/scripts/toolbox.js"></script>
         <script type="text/javascript">
             <?php
-                foreach($kitArr as $key => $val) {
-                    if($val['name'] == $initKit) {
-                        echo "lK=['" . $val['name'] . "'," . $val['id'] . "];";
-                        break;
-                    }
-                }
                 if($_SESSION['email']) {
                     echo "u=1;";
                 }
-                if($pattern) {
-                    echo "p=$pattern;";
+
+                if($patternArr) {
+                    echo "spa=" . json_encode($patternArr['data']['system']) . ";";                
+                }
+
+                if($sharePattern) {
+                    echo "p=$sharePattern;";
+                }else if($patternArr) {
+                    echo "p=" . json_encode($patternArr['data']['system'][0]) . ";";
                 }
             ?>        
         </script>

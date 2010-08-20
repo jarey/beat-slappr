@@ -14,6 +14,10 @@ var patternAjax;
 //This means the link was of a shared pattern.
 var p;
 
+//spa is defined in the homepage upon pageload.  It is obfuscated for systemPatternArr.
+var spa;
+
+
 /***INIT***/
 
 if(window.addEventListener) {
@@ -53,6 +57,10 @@ function patternInit() {
         },
         onShowComplete: sharePatternInit
     });
+
+    if(typeof(spa) == 'object') {
+        systemPatternArr = spa;
+    }
 
     if(typeof(p) == 'object') {
         setPattern(p);
