@@ -118,6 +118,8 @@ function loginHandler(obj) {
     if(response.success) {
         loginModal.hide();
         currentUser = response.user;
+        userPatternArr = response.pattern.data.user;
+
         divGuestAccount.style.display = "none";
         divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='logout();'>Logout</label>";
         divUserAccount.style.display = "block";

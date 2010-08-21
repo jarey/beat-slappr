@@ -7,7 +7,7 @@ var divGuestPatternSaveWrapper, divUserPatternSaveWrapper, divSavePatternMesg, f
 
 var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
 
-var userPatternDataIsDirty = true;
+var userPatternDataIsDirty = false;
 var userPatternArr = [];
 var systemPatternArr = [];
 var patternAjax;
@@ -19,6 +19,8 @@ var p;
 //spa is defined in the homepage upon pageload.  It is obfuscated for systemPatternArr.
 var spa;
 
+//spa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
+var upa;
 
 /***INIT***/
 
@@ -62,6 +64,10 @@ function patternInit() {
         },
         onShowComplete: sharePatternInit
     });
+
+    if(typeof(upa) == 'object') {
+        userPatternArr = upa;
+    }
 
     if(typeof(spa) == 'object') {
         systemPatternArr = spa;
@@ -373,7 +379,7 @@ function savePatternInit() {
         frmSavePattern.onkeydown = stopPropagation;
 
         txtSavePattern = $("txtSavePattern");
-        txtSavePattern.value = "";
+        txtSavePattern.value = $("currentPattern").innerHTML;
         txtSavePattern.focus();
 
         cmdSavePattern = $("cmdSavePattern");

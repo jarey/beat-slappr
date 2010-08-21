@@ -1,10 +1,12 @@
 <?php
     require_once '../config.php';
     require_once 'classes/user.inc.php';
+    require_once 'classes/pattern.inc.php';
 
     session_start();
 
     $user = new User();
+    $pattern = new Pattern();
 
     if(isset($_REQUEST['cmd'])) {
         $cmd = $_REQUEST['cmd'];
@@ -25,6 +27,7 @@
         case "login":
             if($email && $password) {
                 $login = $user->login($email, $password);
+                $login['pattern'] = $pattern->get("user");
                 echo json_encode($login);
             }else {
                 echo "Missing Required Parameters";

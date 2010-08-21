@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     require_once("config.php");
     require_once("api/classes/kit.inc.php");
     require_once("api/classes/pattern.inc.php");
@@ -7,8 +9,12 @@
     $kitArr = $kit->getKits();
     
     $pattern = new Pattern();
-    $patternArr = $pattern->get("system");
-    
+    if ($_SESSION['user_id']) {
+        $patternArr = $pattern->get("all");
+    }else {
+        $patternArr = $pattern->get("system");
+    }    
+
     $sharePattern = "";
     if($_GET) {
         require_once("api/classes/pattern.inc.php");
@@ -19,8 +25,6 @@
         }
         $sharePattern = $sharePattern->getSharedPattern($p);
     }
-
-    session_start();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -44,7 +48,10 @@
                 }
 
                 if($patternArr) {
-                    echo "spa=" . json_encode($patternArr['data']['system']) . ";";                
+                    if ($_SESSION['user_id']) {
+                        echo "upa=" . json_encode($patternArr['data']['user']) . ";";
+                    }
+                    echo "spa=" . json_encode($patternArr['data']['system']) . ";";
                 }
 
                 if($sharePattern) {
@@ -302,11 +309,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="width: 200px; margin: 60px auto 0 auto;">
-            Debug Controls
-            <input type="button" value="Get Sequence" onclick="$('txtSequence').value = getPattern();" /> <input type="button" value="Set Sequence" onclick="setPattern($('txtSequence').value);" /><br />
-            <textarea id="txtSequence"></textarea>
         </div>
         <textarea id="txtKitWindow" style="display: none;">
             <?php
