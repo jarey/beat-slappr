@@ -9,6 +9,24 @@
             }
         }
         
+        public function save($name, $sequence) {
+            if($_SESSION['user_id']) {        
+                $id = $_SESSION['user_id'];
+                $name = addslashes($name);
+                if(!$this->_patternExists($name, $id)) {
+                    if(mysql_query("INSERT INTO `patterns` (`user_id`, `name`, `pattern`) VALUES($id, '$name', '$sequence')")) {
+                        return array("success" => true, "mesg" => "The pattern has been saved.");
+                    }else {
+                        return array("success" => false, "mesg" => "There was an error adding the sequence.");
+                    }
+                }else {
+                    return array("success" => false, "mesg" => "A pattern with that name already exists.");
+                }
+            }else {
+                return array("success" => false, "mesg" => "Invalid session.");
+            }
+        }
+
         public function rename($from, $to) {
             if($_SESSION['user_id']) {
                 $id = $_SESSION['user_id'];

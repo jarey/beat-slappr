@@ -522,7 +522,7 @@ h3 {
     height: 75px;
 }
 
-#divGuestPatternWrapper {
+.guestWrapper {
     font-size: 12px;
     font-weight: bold;
     text-align: center;

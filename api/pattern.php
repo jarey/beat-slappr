@@ -32,7 +32,10 @@
     }
     if(isset($_REQUEST['items'])) {
         $items = $_REQUEST['items'];
-    }    
+    }
+    if(isset($_REQUEST['name'])) {
+        $name = $_REQUEST['name'];
+    }
 
     if(!$cmd) {
         echo "No command specified.";
@@ -40,6 +43,15 @@
     }
 
     switch($cmd) {
+        case "save":
+            if($name && $sequence) {
+                $save = $pattern->save($name, $sequence);
+                echo json_encode($save);
+            }else {
+                echo "Missing Required Parameters";
+                return;
+            }        
+        break;
         case "rename":
             if($from && $to) {
                 $rename = $pattern->rename($from, $to);

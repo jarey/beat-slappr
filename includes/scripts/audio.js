@@ -8,7 +8,7 @@
     src:        The source of the sound clip to play.
                 Default: ''
     polyphony:  The number of channels to generate.
-                Default: 3.
+                Default: 8.
 */
 
 function AudioChannel(config) {
@@ -29,7 +29,7 @@ AudioChannel.prototype = {
     /***Private Properties***/
     /************************/
 
-    _polyphony:      3,
+    _polyphony:      8,
     _curChannel:     0,
     _src:           '',
     _vol:         0.75,

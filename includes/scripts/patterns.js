@@ -1,7 +1,9 @@
 var patternModal, savePatternModal, sharePatternModal;
 var currentPattern;
+
 var divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg;
 var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
+var divGuestPatternSaveWrapper, divUserPatternSaveWrapper, divSavePatternMesg, frmSavePattern, txtSavePattern, cmdSavePattern, imgSavePatternLoader;
 
 var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
 
@@ -44,8 +46,11 @@ function patternInit() {
     savePatternModal = new Kodiak.Controls.Modal({
         applyTo:     'lblSavePattern',
         componentId: 'savePatternModal',
-        modalClass:  'modalWindow',
-        content:     $('txtSavePatternWindow').value
+        modalClass:  'modalWindow accountModal',
+        onBeforeShow: function() {
+            this.setContent($('txtSavePatternWindow').value);
+        },
+        onShowComplete: savePatternInit
     });
 
     sharePatternModal = new Kodiak.Controls.Modal({
@@ -348,6 +353,73 @@ function setWithSelectedBtnState() {
     }
 }
 
+/*********************************/
+/***SAVE PATTERN MODAL HANDLING***/
+/*********************************/
+
+function savePatternInit() {
+    divGuestPatternSaveWrapper = $("divGuestPatternSaveWrapper");
+    divUserPatternSaveWrapper = $("divUserPatternSaveWrapper");
+
+    divSavePatternMesg = $("divSavePatternMesg");
+    divSavePatternMesg.innerHTML = "";
+    divSavePatternMesg.style.display = "none";
+
+    if(currentUser) {
+        divGuestPatternSaveWrapper.style.display = "none";
+        divUserPatternSaveWrapper.style.display = "block";
+        
+        frmSavePattern = $("frmSavePattern");
+        frmSavePattern.onkeydown = stopPropagation;
+
+        txtSavePattern = $("txtSavePattern");
+        txtSavePattern.value = "";
+        txtSavePattern.focus();
+
+        cmdSavePattern = $("cmdSavePattern");
+        cmdSavePattern.onclick = savePattern;
+
+        imgSavePatternLoader = $("imgSavePatternLoader");
+    }else {
+        divUserPatternSaveWrapper.style.display = "none";
+        divGuestPatternSaveWrapper.style.display = "block";
+    }
+}
+
+function savePattern() {
+    var sequenceStr = ""
+
+    cmdSavePattern.style.display = "none";
+    imgSavePatternLoader.style.display = "inline";
+
+    sequenceStr = encodeJSON(sequenceArr);
+
+    patternAjax.request({
+        url:    'api/pattern.php',
+        method: 'post',
+        parameters: {
+            cmd: 'save',
+            name: txtSavePattern.value,
+            sequence: sequenceStr
+        },
+        handler: savePatternHandler
+    });
+}
+
+function savePatternHandler(obj) {
+        var response = decodeJSON(obj.response);
+        if(response.success) {
+            savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            divSavePatternMesg = $('divSavePatternMesg');
+            userPatternDataIsDirty = true;
+        }else {
+            cmdSavePattern.style.display = "inline";
+            imgSavePatternLoader.style.display = "none";
+        }
+        divSavePatternMesg.style.display = "block";
+        divSavePatternMesg.innerHTML = response.mesg;
+}
+
 /**********************************/
 /***SHARE PATTERN MODAL HANDLING***/
 /**********************************/
@@ -440,7 +512,6 @@ function sharePatternHandler(obj) {
     if(response.success) {
         sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divSharePatternMesg = $('divSharePatternMesg');
-        divSharePatternMesg.className = 'success';
     }else {
         cmdSharepattern.style.display = "inline";
         imgSharePatternLoader.style.display = "none";

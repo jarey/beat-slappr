@@ -1,6 +1,10 @@
 <?php
     require_once("config.php");
+    require_once("api/classes/kit.inc.php");
     require_once("api/classes/pattern.inc.php");
+
+    $kit = new Kit();
+    $kitArr = $kit->getKits();
     
     $pattern = new Pattern();
     $patternArr = $pattern->get("system");
@@ -316,7 +320,7 @@
         <textarea id="txtPatternWindow" style="display: none;">
             <div id="divPatternMesg" class='error' style='display: none;'></div>
             <div class='patternHeader'>My Patterns</div>
-            <div id='divGuestPatternWrapper'>
+            <div id="divGuestPatternWrapper" class="guestWrapper">
                 Log in now to create and edit your own patterns.<br /><br />
                 <label class='lblLink' onclick='loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='signupModal.show();'>sign up</label>
             </div>
@@ -333,10 +337,22 @@
             <div id='divPresetPatterns' class='patternTable presetPatternTable' style='margin-bottom: 0;'></div>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
-            <h4>This is the save pattern window.</h4>
+            <h3>Save Pattern</h3><br /><br />
+            <div id="divSavePatternMesg" class='error'></div>
+            <div id="divGuestPatternSaveWrapper" class="guestWrapper">
+                Log in now to save your pattern.<br /><br />
+                <label class='lblLink' onclick='loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='signupModal.show();'>sign up</label>
+            </div>
+            <div id="divUserPatternSaveWrapper">
+                <form action="" onsubmit="return false;" id="frmSavePattern">
+                    <label class="labelText">Name:</label>
+                    <input type="text" id="txtSavePattern" class="modalText" /><br /><br />
+                    <input type="submit" id="cmdSavePattern" value="save" /> <img id="imgSavePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+                </form>
+            </div>
         </textarea>
         <textarea id="txtSharePatternWindow" style="display: none;">
-            <h3>Share Pattern<h3><br /><br />
+            <h3>Share Pattern</h3><br /><br />
             <div id="divSharePatternMesg" class='error'></div>
             <form action="" onsubmit="return false;" id="frmSharePattern">
                 <div id="divGuestUser" style="display: <?php echo ($_SESSION['user_id']) ? "none" : "block"; ?>;">
