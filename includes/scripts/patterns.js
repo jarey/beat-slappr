@@ -393,7 +393,23 @@ function savePatternInit() {
 }
 
 function savePattern() {
-    var sequenceStr = ""
+    var sequenceStr, pattern;
+    var patternExists = false;
+    var patternName = txtSavePattern.value;
+
+    for(pattern in userPatternArr) {
+        if(userPatternArr[pattern].name == patternName) {
+            patternExists = true;
+            break;
+        }
+    }
+
+    if(patternExists) {
+        var overwrite = confirm("A pattern with this name already exists.  Overwrite?");
+        if(!overwrite) {
+            return;
+        }
+    }
 
     cmdSavePattern.style.display = "none";
     imgSavePatternLoader.style.display = "inline";
@@ -405,25 +421,36 @@ function savePattern() {
         method: 'post',
         parameters: {
             cmd: 'save',
-            name: txtSavePattern.value,
+            name: patternName,
             sequence: sequenceStr
         },
-        handler: savePatternHandler
+        handler: function(obj) {savePatternHandler(obj, patternName);}
     });
 }
 
-function savePatternHandler(obj) {
-        var response = decodeJSON(obj.response);
-        if(response.success) {
-            savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
-            divSavePatternMesg = $('divSavePatternMesg');
-            userPatternDataIsDirty = true;
-        }else {
-            cmdSavePattern.style.display = "inline";
-            imgSavePatternLoader.style.display = "none";
+function savePatternHandler(obj, patternName) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSavePatternMesg = $('divSavePatternMesg');
+        if(response.action == "added") {
+            //if a new pattern was added, clone sequencearr, update the new array's name property to the name
+            //of the new pattern, and push it to userPatternArr.
+
+            var newSequence = {};
+            var util = new Kodiak.Util();
+
+            util.clone(sequenceArr, newSequence);
+            newSequence.name = patternName;
+            userPatternArr.push(newSequence);
         }
-        divSavePatternMesg.style.display = "block";
-        divSavePatternMesg.innerHTML = response.mesg;
+        //userPatternDataIsDirty = true;
+    }else {
+        cmdSavePattern.style.display = "inline";
+        imgSavePatternLoader.style.display = "none";
+    }
+    divSavePatternMesg.style.display = "block";
+    divSavePatternMesg.innerHTML = response.mesg;
 }
 
 /**********************************/
