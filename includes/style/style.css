@@ -43,8 +43,8 @@ h3 {
 
 #divWrapper {
     margin: 0 auto;
+    padding-bottom: 5px;
     width: 812px;
-    height: 313px;
     /*background: url(../images/texture.gif);*/
     background-color: #bbb;
     overflow: hidden;
@@ -304,14 +304,12 @@ h3 {
     border: #838181 1px solid;
     font-size: 10px;
     width: 794px;
-    height: 45px;
     padding: 5px 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
 
 .digitalDisplay {
-    margin-top:5px;
     border:1px solid #888;
     color:#ff0000;
     background-color:#000;
@@ -329,7 +327,7 @@ h3 {
 #shuttleWidgetWrapper {
     float: left;
     width: 210px;
-    margin: 0 5px;
+    margin: -3px 5px 0 5px;
     overflow: hidden;
 }
 
@@ -341,6 +339,7 @@ h3 {
 
 #divViewBarOutterWrapper {
     float: left;
+    margin-top: -3px;
 }
 
 #divViewBarInnerWrapper {
@@ -379,7 +378,7 @@ h3 {
     font-size:20px;
     height:30px;
     line-height:30px;
-    margin:5px 5px 0 0;
+    margin-right:5px;
     padding-right:2px;
     text-align:right;
     width:65px;
@@ -387,7 +386,6 @@ h3 {
 
 #divShuttleButtonWrapper {
     float:right;
-    margin-top:5px;
     overflow:hidden;
     width:210px;
 }
@@ -396,9 +394,9 @@ h3 {
     float: right;
     margin-right: 3px;
     text-align: center;
-    width: 40px;
-    height: 40px;
-    background: url(../images/buttonsprite.png);
+    width: 32px;
+    height: 32px;
+    background: url(../images/buttonsprite.png) no-repeat;
     cursor: pointer;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -409,15 +407,15 @@ h3 {
 }
 
 .btnPause {
-    background-position: 0 -40px;
+    background-position: 0 -32px;
 }
 
 .btnStart {
-    background-position: 0 -80px;
+    background-position: 0 -64px;
 }
 
 .btnClearPattern {
-    background-position: 0 -120px;
+    background-position: 0 -96px;
 }
 
 .modalWindow {
