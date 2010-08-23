@@ -432,6 +432,7 @@ h3 {
 
 .modalWindow input {
     font-size: 12px;
+    margin: 0;
 }
 
 .kitModal {
