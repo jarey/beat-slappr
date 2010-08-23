@@ -1,6 +1,7 @@
 var kitModal;
 var currentKit;
-var kitArr = [];
+var kitCache = [];
+
 
 //lK is defined in the homepage dynamically.  It stands for loadKit.
 //This defines the initial kit to load on page load.
@@ -40,6 +41,13 @@ function kitInit() {
 function setSystemKit(kitName, kitId) {
     kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
     var ajax = new Kodiak.Data.Ajax();
+
+    var cacheIndex = _isCached(kitId);
+    if(cacheIndex) {
+        setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId);
+        return;
+    }
+
     ajax.request({
         url:    'api/kit.php',
         method: 'post',
@@ -71,8 +79,22 @@ function setSystemKitHandler(obj, kitName, kitId) {
             instrumentNameArr[record.channel].innerHTML = record.name;
             channelArr[record.channel].setSrc("data:audio/" + mime + ";base64," + record.src);
         }
+
+        if(!_isCached(kitId)) {
+            kitCache.push({id: kitId, val: obj});
+        }
+
         kitModal.hide();
     }else {
         return false;
     }
+}
+
+function _isCached(id) {
+    for(var prop in kitCache) {
+        if(kitCache[prop].id == id) {
+            return prop;
+        }
+    }
+    return false;
 }
