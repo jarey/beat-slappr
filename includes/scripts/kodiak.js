@@ -313,7 +313,7 @@ Kodiak.Util.prototype = {
         for(prop in from) {
             if(skip[prop] != 'skip') {
                 if(typeof(from[prop]) == 'object' && skip[prop] != 'norecurse') {
-                    if(from[prop].length) {
+                    if(from[prop].constructor == (new Array).constructor) {
                         to[prop] = [];
                     }else {
                         to[prop] = {};

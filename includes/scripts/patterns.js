@@ -19,7 +19,7 @@ var p;
 //spa is defined in the homepage upon pageload.  It is obfuscated for systemPatternArr.
 var spa;
 
-//spa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
+//upa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
 var upa;
 
 /***INIT***/
