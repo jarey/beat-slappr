@@ -289,6 +289,22 @@
                     </div>
                 </div>
                 <div id="divSequencer">
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
+                    <div class="sequencerPositionLED"></div>
                     <div id="divStepWrapper">
                         <div class="clsStep clsStepOne"></div>
                         <div class="clsStep"></div>
@@ -392,5 +408,6 @@
                 <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="loginModal.show();">login</label>
             </form>
         </textarea>
+        <input type="button" onclick="runSequencer();" value="Step In" />
     </body>
 </html> 

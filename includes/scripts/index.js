@@ -4,6 +4,7 @@ var channelArr = [];
 var instrumentNameArr = [];
 var instrumentArr = [];
 var divStepArr = [];
+var sequencerPositionLEDArr = []
 var sequenceArr = {
     tempo:    0,
     steps:    0,
@@ -66,6 +67,7 @@ function init() {
     muteBtnArr = getElementsByClassName('channelMute');
     soloBtnArr = getElementsByClassName('channelSolo');
     instrumentNameArr = getElementsByClassName('instrumentName');
+    sequencerPositionLEDArr = getElementsByClassName('sequencerPositionLED');
 
     divStepArr = $("divStepWrapper").getElementsByTagName('div');
     divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
@@ -334,7 +336,7 @@ function setTotalSteps(val) {
 
     initLoopPosition();
 
-    //removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');        
+    removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');        
         
     totalSteps = val;
     totalMeasures = Math.ceil(totalSteps/measureLength);
@@ -369,11 +371,11 @@ function setCurrentMeasure(val) {
         setStepEvents();
         selectInstrument();
 
-        //if(lastStepMeasure != val) {
-        //    removeClass(divStepArr[currentStepIndex], 'clsStepCurrent');
-        //}else {
-        //    addClass(divStepArr[currentStepIndex], 'clsStepCurrent');
-        //}
+        if(lastStepMeasure != val) {
+            removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
+        }else {
+            addClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
+        }
     }
 }
 
@@ -387,37 +389,45 @@ function _getCurrentStepIndex() {
 }
 
 function runSequencer() {
-    //var lastStepMeasure = _getLastStepMeasure();
-    //var currentStepMeasure = Math.ceil(currentStep / measureLength);
+    var lastStepMeasure = _getLastStepMeasure();
+    var currentStepMeasure = Math.ceil(currentStep / measureLength);
 
-    //var lastStepIndex = lastStep-1;
+    var lastStepIndex = lastStep-1;
     var currentStepIndex = currentStep-1;
-    //var lastStepArr = sequenceArr.pattern[lastStepIndex];
+    var lastStepArr = sequenceArr.pattern[lastStepIndex];
     var stepArr = sequenceArr.pattern[currentStepIndex];    
 
-    //updateShuttlePosition();
-    
-    //Update GUI
-    /*
-    if(lastStepMeasure == currentMeasure) {
-        removeClass(divStepArr[lastStepIndex - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    var step;
+    var noteArr = [];
+
+    //Play sounds for current step
+    for(var step in stepArr) {
+        //setInstrumentClass(stepArr[n]);
+        noteArr.push(channelArr[stepArr[step]]);
     }
-    if(currentStepMeasure == currentMeasure) {
-        addClass(divStepArr[currentStepIndex - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    
+    for(var step in noteArr) {
+        noteArr[step].play();    
     }
 
+    updateShuttlePosition();
+
+    //Update GUI
+    
+    if(lastStepMeasure == currentMeasure) {
+        removeClass(sequencerPositionLEDArr[lastStepIndex - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
+    if(currentStepMeasure == currentMeasure) {
+        addClass(sequencerPositionLEDArr[currentStepIndex - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
+
+    /*
     //Clear trigger illumination from previous step
     for(var n=0; n<lastStepArr.length; n++) {
         releaseHandler(lastStepArr[n])();
     }
     */    
 
-    //2. Play sounds for current step
-    for(var n=0; n<stepArr.length; n++) {
-        //setInstrumentClass(stepArr[n]);
-        channelArr[stepArr[n]].play();
-    }
-    
     lastStep = currentStep;
     currentStep++
     if(currentStep > totalSteps) {
