@@ -343,22 +343,294 @@
                         <div class="sequencerPositionLED"></div>
                     </div>
                     <div id="divStepWrapper">
-                        <div class="clsStep clsStepOne"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep clsStepOne"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep clsStepOne"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep clsStepOne"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
-                        <div class="clsStep"></div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
+                        <div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep clsStepOne"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                            <div class="clsStep"></div>
+                        </div>
                     </div>
                 </div>
             </div>

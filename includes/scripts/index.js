@@ -69,8 +69,14 @@ function init() {
     instrumentNameArr = getElementsByClassName('instrumentName');
     sequencerPositionLEDArr = getElementsByClassName('sequencerPositionLED');
 
-    divStepArr = $("divStepWrapper").getElementsByTagName('div');
+    var divStepWrapper = $("divStepWrapper");
+    for(var n=0; n< divStepWrapper.children.length; n++) {
+        divStepArr[n] = divStepWrapper.children[n].children;
+    }
+
     divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
+
+
     for(var n=0; n<divViewBarArr.length; n++) {
         divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
     }
@@ -171,8 +177,8 @@ function setStepEvents() {
         }
     }
     for(n=0; n<measureLength; n++) {
-        if(divStepArr[n]) {
-            divStepArr[n].onclick = _toggleInstrument(n + ((currentMeasure-1) * measureLength));
+        if(divStepArr[0][n]) {
+            divStepArr[0][n].onclick = _toggleInstrument(n + ((currentMeasure-1) * measureLength));
         }
     }
 }
@@ -193,11 +199,11 @@ function _playInstrument(index) {
         playInstrument(index);
         for(var n=0; n<instrumentChannels; n++) {
             if(n == index) {
-                addClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
+                //addClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
                 currentInstrument = index;
                 selectInstrument();
             }else {
-                removeClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
+                //removeClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
             }
         }
         return false;
@@ -509,12 +515,12 @@ function toggleInstrument(step) {
         for(var n=0; n<sequenceArr.pattern[step].length; n++) {
             if (sequenceArr.pattern[step][n] == currentInstrument) {
                 sequenceArr.pattern[step].splice(n,1);
-                removeClass(divStepArr[measureStep], 'clsStepOn');
+                removeClass(divStepArr[0][measureStep], 'clsStepOn');
                 return;
             }
         }
         sequenceArr.pattern[step].push(currentInstrument);
-        addClass(divStepArr[measureStep], 'clsStepOn');
+        addClass(divStepArr[0][measureStep], 'clsStepOn');
     }
 }
 
@@ -523,15 +529,15 @@ function selectInstrument() {
     var sequenceStep;
     
     for(var n=0; n<measureLength; n++) {
-        removeClass(divStepArr[n], 'clsStepOn');
-        removeClass(divStepArr[n], 'clsStepDisabled');
+        removeClass(divStepArr[0][n], 'clsStepOn');
+        removeClass(divStepArr[0][n], 'clsStepDisabled');
         sequenceStep = (n + start);
         if(sequenceStep >= totalSteps) {
-            addClass(divStepArr[n], 'clsStepDisabled');
+            addClass(divStepArr[0][n], 'clsStepDisabled');
         }else {
             for(var m=0; m<sequenceArr.pattern[sequenceStep].length; m++) {
                 if(sequenceArr.pattern[sequenceStep][m] == currentInstrument) {
-                    addClass(divStepArr[n], 'clsStepOn');
+                    addClass(divStepArr[0][n], 'clsStepOn');
                     break;
                 }
             }
