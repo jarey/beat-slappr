@@ -126,185 +126,222 @@
                 </div>
             </div>
             <div id="divSequencerRow">
-                <div id="divInstrument">
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">Q</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                <div id="divSequencerLeftCol">
+                    <div id="divInstrumentSpacer"></div>
+                    <div id="divInstrument">
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">Q</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol:</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">W</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">W</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">E</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">E</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">R</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">R</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">T</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">T</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">U</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">U</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">I</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">I</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">O</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">O</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">A</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">A</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">S</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">S</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">D</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">D</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">F</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">F</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">G</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">G</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">J</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">J</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div>
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">K</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div>
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">K</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
-                    </div>
-                    <div style="border-right: 0;">
-                        <div class="instrumentName"></div>
-                        <div class="drumPad">L</div>
-                        <div class="channelContentWrapper">
-                            <div class="channelMute" title="Mute">M</div>
-                            <div class="channelSolo" title="Solo">S</div>
+                        <div style="border-bottom: 0;">
+                            <div class="instrumentName"></div>
+                            <div class="instrumentBtnWrapper">
+                                <div class="drumPad">L</div>
+                                <div class="channelContentWrapper">
+                                    <div class="channelMute" title="Mute">M</div>
+                                    <div class="channelSolo" title="Solo">S</div>
+                                </div>
+                                <div class="volumeLabel">Vol</div>
+                                <div class="divVolumeWidget"></div>
+                            </div>
                         </div>
-                        Vol
-                        <div class="divVolumeWidget"></div>
                     </div>
                 </div>
-                <div id="divSequencer">
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
-                    <div class="sequencerPositionLED"></div>
+                <div id="divSequencerRightCol">
+                    <div id="divSequencerPositionWrapper">
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                        <div class="sequencerPositionLED"></div>
+                    </div>
                     <div id="divStepWrapper">
                         <div class="clsStep clsStepOne"></div>
                         <div class="clsStep"></div>

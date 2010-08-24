@@ -193,11 +193,11 @@ function _playInstrument(index) {
         playInstrument(index);
         for(var n=0; n<instrumentChannels; n++) {
             if(n == index) {
-                addClass(instrumentArr[n].parentNode, 'clsStepOn');
+                addClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
                 currentInstrument = index;
                 selectInstrument();
             }else {
-                removeClass(instrumentArr[n].parentNode, 'clsStepOn');
+                removeClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
             }
         }
         return false;
