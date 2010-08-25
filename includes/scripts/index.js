@@ -27,7 +27,7 @@ var instrumentChannels = 16;
 var currentStep    =  1;
 var totalSteps     = 16;
 
-var currentMeasure =  1;
+var currentMeasure =  0;
 var totalMeasures  =  1;
 
 var beatLength     =  4;
@@ -191,10 +191,6 @@ function init() {
         alert("Your browser does not support this app :-\\");
     }
 
-    setStepEvents();
-    setCurrentMeasure(currentMeasure);
-    updateShuttlePosition();
-        
     divPlayPause.onclick = function() {togglePlay(); return false;};
     divJumpToStart.onclick = function() {initLoopPosition(); return false;};
     divClearPattern.onclick = function() {clearPattern(); return false;};
@@ -235,18 +231,16 @@ function updateShuttlePosition() {
 }
 
 function setTotalSteps(val) {
-    var currentStepIndex = _getCurrentStepIndex();
-
     initLoopPosition();
 
-    removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');        
+    removeClass(sequencerPositionLEDArr[_getCurrentStepIndex()], 'clsStepCurrent');        
         
     totalSteps = val;
     totalMeasures = Math.ceil(totalSteps/measureLength);
     lastStep = totalSteps;
 
     setStepEvents();
-    selectInstrument();
+    renderPattern();
 }
 
 function _setCurrentMeasure(val) {
@@ -257,11 +251,12 @@ function _setCurrentMeasure(val) {
 }
 
 function setCurrentMeasure(val) {
-    if(val <= totalMeasures) {
-        var lastStepMeasure = _getLastStepMeasure();
-        var currentStepIndex = _getCurrentStepIndex();
-
+    if(val <= totalMeasures && val != currentMeasure) {
         currentMeasure = val;
+
+        setStepEvents();
+        renderPattern();
+
         for(var n=0; n<divViewBarArr.length; n++) {
             el = divViewBarArr[n];
             if((n+1) == val) {
@@ -271,8 +266,8 @@ function setCurrentMeasure(val) {
             }
         }
 
-        setStepEvents();
-        selectInstrument();
+        var lastStepMeasure = _getLastStepMeasure();
+        var currentStepIndex = _getCurrentStepIndex();
 
         if(lastStepMeasure != val) {
             removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
@@ -280,15 +275,6 @@ function setCurrentMeasure(val) {
             addClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
         }
     }
-}
-
-function _getLastStepMeasure() {
-    return lastStepMeasure = Math.ceil(lastStep / measureLength);
-}
-
-function _getCurrentStepIndex() {
-    var lastStepMeasure = _getLastStepMeasure();
-    return (lastStep - 1) - ((lastStepMeasure - 1) * measureLength);
 }
 
 function runSequencer() {
@@ -421,14 +407,14 @@ function toggleInstrument(instrument, step) {
     }
 }
 
-function selectInstrument() {
+function renderPattern() {
     var start = ((currentMeasure-1) * measureLength);
     var sequenceStep;
     for(var m=0; m<divStepArr.length; m++) {
         for(var n=0; n<measureLength; n++) {
+            sequenceStep = (n + start);
             removeClass(divStepArr[m][n], 'clsStepOn');
             removeClass(divStepArr[m][n], 'clsStepDisabled');
-            sequenceStep = (n + start);
             if(sequenceStep >= totalSteps) {
                 addClass(divStepArr[m][n], 'clsStepDisabled');
             }else {
@@ -445,14 +431,35 @@ function selectInstrument() {
 
 
 
+/***************************************************/
+/***FUNCTIONS FOR GETTING SEQUENCER POSITION INFO***/
+/***************************************************/
+
+function _getLastStepMeasure() {
+    return lastStepMeasure = Math.ceil(lastStep / measureLength);
+}
+
+function _getCurrentStepIndex() {
+    var lastStepMeasure = _getLastStepMeasure();
+    return (lastStep - 1) - ((lastStepMeasure - 1) * measureLength);
+}
+
+
+
 /********************************************************************/
 /***FUNCTIONS FOR INITIALIZING LOOP POSITION AND CLEARING PATTERNS***/
 /********************************************************************/
 
 function initLoopPosition() {
     currentStep = 1;
-    currentMeasure = 1;
-    setCurrentMeasure(currentMeasure);
+    currentMeasure = 0;
+
+    setCurrentMeasure(1);
+    updateShuttlePosition();
+
+    var currentStepIndex = _getCurrentStepIndex();
+    removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
+    addClass(sequencerPositionLEDArr[0], 'clsStepCurrent');
 }
 
 function clearPattern() {
