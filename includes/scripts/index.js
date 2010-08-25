@@ -393,34 +393,39 @@ function _toggleInstrument(instrument, index) {
 }
 
 function toggleInstrument(instrument, step) {
-    var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
     if(step < totalSteps) {
-        for(var n=0; n<sequenceArr.pattern[step].length; n++) {
-            if (sequenceArr.pattern[step][n] == instrument) {
-                sequenceArr.pattern[step].splice(n,1);
-                removeClass(divStepArr[instrument][measureStep], 'clsStepOn');
+        var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
+        var currentStep = sequenceArr.pattern[step];
+        var stepEl = divStepArr[instrument][measureStep];
+        var n;
+        for(n=0; n<currentStep.length; n++) {
+            if (currentStep[n] == instrument) {
+                currentStep.splice(n,1);
+                removeClass(stepEl, 'clsStepOn');
                 return;
             }
         }
-        sequenceArr.pattern[step].push(instrument);
-        addClass(divStepArr[instrument][measureStep], 'clsStepOn');
+        currentStep.push(instrument);
+        addClass(stepEl, 'clsStepOn');
     }
 }
 
 function renderPattern() {
     var start = ((currentMeasure-1) * measureLength);
-    var sequenceStep;
+    var sequenceStep, sequenceEl, stepInstrumentArr;
     for(var m=0; m<divStepArr.length; m++) {
         for(var n=0; n<measureLength; n++) {
             sequenceStep = (n + start);
-            removeClass(divStepArr[m][n], 'clsStepOn');
-            removeClass(divStepArr[m][n], 'clsStepDisabled');
+            sequenceEl = divStepArr[m][n];
+            stepInstrumentArr = sequenceArr.pattern[sequenceStep];
+            removeClass(sequenceEl, 'clsStepOn');
+            removeClass(sequenceEl, 'clsStepDisabled');
             if(sequenceStep >= totalSteps) {
-                addClass(divStepArr[m][n], 'clsStepDisabled');
+                addClass(sequenceEl, 'clsStepDisabled');
             }else {
-                for(var o=0; o<sequenceArr.pattern[sequenceStep].length; o++) {
-                    if(sequenceArr.pattern[sequenceStep][o] == m) {
-                        addClass(divStepArr[m][n], 'clsStepOn');
+                for(var o=0; o<stepInstrumentArr.length; o++) {
+                    if(stepInstrumentArr[o] == m) {
+                        addClass(sequenceEl, 'clsStepOn');
                         break;
                     }
                 }
