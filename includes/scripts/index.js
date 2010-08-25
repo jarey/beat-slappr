@@ -176,9 +176,11 @@ function setStepEvents() {
             sequenceArr.pattern[n] = [];
         }
     }
-    for(n=0; n<measureLength; n++) {
-        if(divStepArr[0][n]) {
-            divStepArr[0][n].onclick = _toggleInstrument(n + ((currentMeasure-1) * measureLength));
+    for(var m=0; m<divStepArr.length; m++) {
+        for(n=0; n<measureLength; n++) {
+            if(divStepArr[m][n]) {
+                divStepArr[m][n].onclick = _toggleInstrument(m, (n + ((currentMeasure-1) * measureLength)));
+            }
         }
     }
 }
@@ -197,15 +199,6 @@ function _setVolume(index) {
 function _playInstrument(index) {
     return function() {
         playInstrument(index);
-        for(var n=0; n<instrumentChannels; n++) {
-            if(n == index) {
-                //addClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
-                currentInstrument = index;
-                selectInstrument();
-            }else {
-                //removeClass(instrumentArr[n].parentNode.parentNode, 'clsStepOn');
-            }
-        }
         return false;
     };
 }
@@ -503,42 +496,43 @@ function _setChannelPlayState() {
     }
 }
 
-function _toggleInstrument(index) {
+function _toggleInstrument(instrument, index) {
     return function() {
-        toggleInstrument(index);
+        toggleInstrument(instrument, index);
     };
 }
 
-function toggleInstrument(step) {
+function toggleInstrument(instrument, step) {
     var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
-    if((currentInstrument >= 0) && (step < totalSteps)) {
+    if(step < totalSteps) {
         for(var n=0; n<sequenceArr.pattern[step].length; n++) {
-            if (sequenceArr.pattern[step][n] == currentInstrument) {
+            if (sequenceArr.pattern[step][n] == instrument) {
                 sequenceArr.pattern[step].splice(n,1);
-                removeClass(divStepArr[0][measureStep], 'clsStepOn');
+                removeClass(divStepArr[instrument][measureStep], 'clsStepOn');
                 return;
             }
         }
-        sequenceArr.pattern[step].push(currentInstrument);
-        addClass(divStepArr[0][measureStep], 'clsStepOn');
+        sequenceArr.pattern[step].push(instrument);
+        addClass(divStepArr[instrument][measureStep], 'clsStepOn');
     }
 }
 
 function selectInstrument() {
     var start = ((currentMeasure-1) * measureLength);
     var sequenceStep;
-    
-    for(var n=0; n<measureLength; n++) {
-        removeClass(divStepArr[0][n], 'clsStepOn');
-        removeClass(divStepArr[0][n], 'clsStepDisabled');
-        sequenceStep = (n + start);
-        if(sequenceStep >= totalSteps) {
-            addClass(divStepArr[0][n], 'clsStepDisabled');
-        }else {
-            for(var m=0; m<sequenceArr.pattern[sequenceStep].length; m++) {
-                if(sequenceArr.pattern[sequenceStep][m] == currentInstrument) {
-                    addClass(divStepArr[0][n], 'clsStepOn');
-                    break;
+    for(var m=0; m<divStepArr.length; m++) {
+        for(var n=0; n<measureLength; n++) {
+            removeClass(divStepArr[m][n], 'clsStepOn');
+            removeClass(divStepArr[m][n], 'clsStepDisabled');
+            sequenceStep = (n + start);
+            if(sequenceStep >= totalSteps) {
+                addClass(divStepArr[m][n], 'clsStepDisabled');
+            }else {
+                for(var o=0; o<sequenceArr.pattern[sequenceStep].length; o++) {
+                    if(sequenceArr.pattern[sequenceStep][o] == m) {
+                        addClass(divStepArr[m][n], 'clsStepOn');
+                        break;
+                    }
                 }
             }
         }

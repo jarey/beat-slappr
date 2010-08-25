@@ -281,14 +281,14 @@ h3 {
 }
 
 .clsStepOn {
-    border: #ff0000 4px solid;
-    width: 32px;
-    height: 18px;
+    border: #ff0000 5px solid;
+    width: 30px;
+    height: 16px;
 }
 
 .clsStepDisabled {
     cursor: default;
-    background-color: #1f1f1f;
+    background-color: #111;
 }
 
 .clsStepCurrent {
