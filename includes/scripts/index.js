@@ -1,3 +1,7 @@
+/**************************************************************************************************************************
+    VARIABLE DECLARATION
+**************************************************************************************************************************/
+
 var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPosition, divVolume;
 
 var channelArr = [];
@@ -41,6 +45,32 @@ var masterVolume;
 var audioFormat;
 var soloCount = 0;
 
+var keyHash = {
+    32: function() {togglePlay();},
+    65: 8,
+    68: 10,
+    69: 2,
+    70: 11,
+    71: 12,
+    73: 6,
+    74: 13,
+    75: 14,
+    76: 15,
+    79: 7,
+    81: 0,
+    82: 3,
+    83: 9,
+    84: 4,
+    85: 5,
+    87: 1
+};
+
+
+
+/**************************************************************************************************************************
+    CONSTRUCTOR/DESTRUCTOR
+**************************************************************************************************************************/
+
 if(window.addEventListener) {
     window.addEventListener('load', init, false);
 }else {
@@ -60,7 +90,7 @@ function init() {
     var validAudioFormats = new AudioChannel().getValidFormats();
     
     window.onkeydown = keyDownHandler;
-    window.onkeyup = releaseAll;
+    window.onkeyup = keyUpHandler;
 
     instrumentArr = getElementsByClassName('drumPad');
     volumeWidgetArr = getElementsByClassName('divVolumeWidget');
@@ -170,6 +200,17 @@ function init() {
     divClearPattern.onclick = function() {clearPattern(); return false;};
 }
 
+window.onbeforeunload = function(){
+	var message = 'Any unsaved changes will be lost!';
+  	return message;
+};
+
+
+
+/**************************************************************************************************************************
+    MACHINE FUNCTIONS
+**************************************************************************************************************************/
+
 function setStepEvents() {
     for(var n=0; n<totalSteps; n++) {
         if(!sequenceArr.pattern[n]) {
@@ -185,149 +226,12 @@ function setStepEvents() {
     }
 }
 
-window.onbeforeunload = function(){
-	var message = 'Any unsaved changes will be lost!';
-  	return message;
-};
-
-function _setVolume(index) {
-    return function(val) {
-        channelArr[index].setVolume((val/100) * (masterVolume/100));
-    }
-}
-
-function _playInstrument(index) {
-    return function() {
-        playInstrument(index);
-        return false;
-    };
-}
-
-function playInstrument(index) {
-    setInstrumentClass(index);
-    channelArr[index].play();
-}
-
-function keyDownHandler(e) {
-    if(!e) {
-        var e = window.event;
-    }
-    switch(e.keyCode) {
-        case 32:
-            togglePlay();
-            break;
-        case 65:
-            playInstrument(8);
-            break;
-        case 68:
-            playInstrument(10);
-            break;
-        case 70:
-            playInstrument(11);
-            break;
-        case 71:
-            playInstrument(12);
-            break;
-        case 74:
-            playInstrument(13);
-            break;
-        case 75:
-            playInstrument(14);
-            break;
-        case 76:
-            playInstrument(15);
-            break;
-        case 83:
-            playInstrument(9);
-            break;
-        case 81:
-            playInstrument(0);
-            break;
-        case 87:
-            playInstrument(1);
-            break;
-        case 69:
-            playInstrument(2);
-            break;
-        case 82:
-            playInstrument(3);
-            break;
-        case 84:
-            playInstrument(4);
-            break;
-        case 85:
-            playInstrument(5);
-            break;
-        case 73:
-            playInstrument(6);
-            break;
-        case 79:
-            playInstrument(7);
-            break;
-    }
-}
-
-function releaseHandler(index) {
-    return function() {
-        removeClass(instrumentArr[index], 'clsInstrumentActive');
-    };
-}
-
-function releaseAll() {
-    for(var n=0; n<instrumentChannels; n++) {
-        removeClass(instrumentArr[n], 'clsInstrumentActive');
-    }
-}
-
-function setInstrumentClass(el) {
-    addClass(instrumentArr[el], 'clsInstrumentActive');
-}
-
-function togglePlay() {
-    playerState = (playerState == 'playing') ? 'paused' : 'playing';
-    togglePlayer(playerState);
-}
-
-function togglePlayer(state) {
-    if(state == 'playing') {
-        addClass(divPlayPause, 'btnPause');
-        removeClass(divPlayPause, 'btnPlay');
-        divPlayPause.title = "Pause";
-        clearInterval(sequencerTimer);
-        runSequencer();
-        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
-    }else if(state == 'paused') {
-        addClass(divPlayPause, 'btnPlay');
-        removeClass(divPlayPause, 'btnPause');
-        divPlayPause.title = "Play";
-        clearInterval(sequencerTimer);
-    }
-}
-
 function updateShuttlePosition() {
     var measure = Math.ceil(currentStep / measureLength);
     var beat = (Math.ceil(currentStep / beatLength)) - ((measure-1) * beatsPerMeasure);
     var step = currentStep - ((measure-1) * measureLength) - ((beat-1) * beatLength);
 
     divLoopPosition.innerHTML = measure + "." + beat + "." + step;
-}
-
-function initLoopPosition() {
-    currentStep = 1;
-    currentMeasure = 1;
-    setCurrentMeasure(currentMeasure);
-}
-
-function clearPattern() {
-    var val = confirm("Are you sure you want to clear this pattern?");
-    if(val) {
-        for(var n=0; n<totalSteps; n++) {
-            sequenceArr.pattern[n] = [];
-        }
-        playerState = 'playing';
-        togglePlay();
-        initLoopPosition();
-    }
 }
 
 function setTotalSteps(val) {
@@ -536,6 +440,131 @@ function selectInstrument() {
                 }
             }
         }
+    }
+}
+
+
+
+/********************************************************************/
+/***FUNCTIONS FOR INITIALIZING LOOP POSITION AND CLEARING PATTERNS***/
+/********************************************************************/
+
+function initLoopPosition() {
+    currentStep = 1;
+    currentMeasure = 1;
+    setCurrentMeasure(currentMeasure);
+}
+
+function clearPattern() {
+    var val = confirm("Are you sure you want to clear this pattern?");
+    if(val) {
+        for(var n=0; n<totalSteps; n++) {
+            sequenceArr.pattern[n] = [];
+        }
+        playerState = 'playing';
+        togglePlay();
+        initLoopPosition();
+    }
+}
+
+
+
+/**********************************************/
+/***FUNCTIONS FOR PLAYING/PAUSING THE PLAYER***/
+/**********************************************/
+
+function togglePlay() {
+    playerState = (playerState == 'playing') ? 'paused' : 'playing';
+    togglePlayer(playerState);
+}
+
+function togglePlayer(state) {
+    if(state == 'playing') {
+        addClass(divPlayPause, 'btnPause');
+        removeClass(divPlayPause, 'btnPlay');
+        divPlayPause.title = "Pause";
+        clearInterval(sequencerTimer);
+        runSequencer();
+        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
+    }else if(state == 'paused') {
+        addClass(divPlayPause, 'btnPlay');
+        removeClass(divPlayPause, 'btnPause');
+        divPlayPause.title = "Play";
+        clearInterval(sequencerTimer);
+    }
+}
+
+/*****************************************/
+/***FUNCTIONS FOR PLAYING AN INSTRUMENT***/
+/*****************************************/
+
+function _playInstrument(index) {
+    return function() {
+        playInstrument(index);
+        return false;
+    };
+}
+
+function playInstrument(index) {
+    setInstrumentClass(index);
+    channelArr[index].play();
+}
+
+function setInstrumentClass(el) {
+    addClass(instrumentArr[el], 'clsInstrumentActive');
+}
+
+function releaseHandler(index) {
+    return function() {
+        removeClass(instrumentArr[index], 'clsInstrumentActive');
+    };
+}
+
+
+
+/********************************************/
+/***WINDOW KEYDOWN/KEYUP HANDLER FUNCTIONS***/
+/********************************************/
+
+function keyDownHandler(e) {
+    if(!e) {
+        var e = window.event;
+    }
+
+    var keyHashVal = keyHash[e.keyCode];
+    var keyHashType = typeof(keyHashVal);
+    if(keyHashType != "undefined") {
+        if(keyHashType == "function") {
+            keyHashVal();
+        }else if(keyHashType == "number") {
+            playInstrument(keyHashVal);
+        }
+    }
+}
+
+function keyUpHandler(e) {
+    if(!e) {
+        var e = window.event;
+    }
+
+    var keyHashVal = keyHash[e.keyCode];
+    var keyHashType = typeof(keyHashVal);
+    if(keyHashType != "undefined") {
+        if(keyHashType == "number") {
+            removeClass(instrumentArr[keyHashVal], 'clsInstrumentActive');
+        }
+    }
+}
+
+
+
+/***********************************/
+/***STEP WIDGET HANDLER FUNCTIONS***/
+/***********************************/
+
+function _setVolume(index) {
+    return function(val) {
+        channelArr[index].setVolume((val/100) * (masterVolume/100));
     }
 }
 
