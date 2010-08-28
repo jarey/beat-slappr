@@ -233,14 +233,13 @@ function updateShuttlePosition() {
 }
 
 function setTotalSteps(val) {
-    initLoopPosition();
-
     removeClass(sequencerPositionLEDArr[_getCurrentStepIndex()], 'clsStepCurrent');        
     totalSteps = val;
     totalMeasures = Math.ceil(totalSteps/measureLength);
     lastStep = totalSteps;
 
     setStepEvents();
+    initLoopPosition();
 }
 
 function _setCurrentMeasure(val) {
