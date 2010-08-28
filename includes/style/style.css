@@ -281,9 +281,7 @@ h3 {
 }
 
 .clsStepOn {
-    border: #ff0000 5px solid;
-    width: 30px;
-    height: 16px;
+    background-color: #ff0000;
 }
 
 .clsStepDisabled {

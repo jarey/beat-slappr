@@ -35,6 +35,7 @@ var measureLength  = 16;
 var beatsPerMeasure = (measureLength / beatLength);
 
 var lastStep = totalSteps;
+var priorityTask;
 var sequencerTimer;
 var sequencerTimeoutLength;
 var currentInstrument;
@@ -106,6 +107,7 @@ function init() {
 
     divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
 
+    priorityTask = new Kodiak.Data.PriorityTask();
 
     for(var n=0; n<divViewBarArr.length; n++) {
         divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
@@ -149,7 +151,7 @@ function init() {
         txtClass:       'stepWidgetTxt',
         incBtnClass:    'stepWidgetInc',
         decBtnClass:    'stepWidgetDec',
-        onValueChange:  setTempo
+        onValueChange:  function(val) {priorityTask.run(function() {setTempo(val);})}
     });
     
     stepsWidget = new StepWidget({
@@ -245,7 +247,7 @@ function setTotalSteps(val) {
 
 function _setCurrentMeasure(val) {
     return function() {
-        setCurrentMeasure(val);
+        priorityTask.run(function() {setCurrentMeasure(val);});
         return false;
     };
 }
@@ -278,50 +280,38 @@ function setCurrentMeasure(val) {
 }
 
 function runSequencer() {
-    var lastStepMeasure = _getLastStepMeasure();
-    var currentStepMeasure = Math.ceil(currentStep / measureLength);
+    //sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
+    priorityTask.add(runSequencer, sequencerTimeoutLength);
 
-    var lastStepIndex = lastStep-1;
-    var currentStepIndex = currentStep-1;
-    var lastStepArr = sequenceArr.pattern[lastStepIndex];
-    var stepArr = sequenceArr.pattern[currentStepIndex];    
-
+    var stepArr = sequenceArr.pattern[currentStep-1];    
     var step;
-    var noteArr = [];
 
     //Play sounds for current step
-    for(var step in stepArr) {
-        //setInstrumentClass(stepArr[n]);
-        noteArr.push(channelArr[stepArr[step]]);
+    for(step in stepArr) {
+        channelArr[stepArr[step]].play();
     }
     
-    for(var step in noteArr) {
-        noteArr[step].play();    
-    }
+    //Update GUI
 
     updateShuttlePosition();
 
-    //Update GUI
+    var lastStepMeasure = _getLastStepMeasure();
+    var currentStepMeasure = Math.ceil(currentStep / measureLength);
     
     if(lastStepMeasure == currentMeasure) {
-        removeClass(sequencerPositionLEDArr[lastStepIndex - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+        removeClass(sequencerPositionLEDArr[(lastStep-1) - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
     }
     if(currentStepMeasure == currentMeasure) {
-        addClass(sequencerPositionLEDArr[currentStepIndex - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+        addClass(sequencerPositionLEDArr[(currentStep-1) - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
     }
-
-    /*
-    //Clear trigger illumination from previous step
-    for(var n=0; n<lastStepArr.length; n++) {
-        releaseHandler(lastStepArr[n])();
-    }
-    */    
 
     lastStep = currentStep;
     currentStep++
     if(currentStep > totalSteps) {
         currentStep = 1;
     }
+    
+    priorityTask.fire();
 }
 
 function _toggleSolo(index) {
@@ -388,7 +378,7 @@ function _setChannelPlayState() {
 
 function _toggleInstrument(instrument, index) {
     return function() {
-        toggleInstrument(instrument, index);
+        priorityTask.run(function() {toggleInstrument(instrument, index);});
     };
 }
 
@@ -399,7 +389,7 @@ function toggleInstrument(instrument, step) {
         var stepEl = divStepArr[instrument][measureStep];
         var n;
         for(n=0; n<currentStep.length; n++) {
-            if (currentStep[n] == instrument) {
+            if(currentStep[n] == instrument) {
                 currentStep.splice(n,1);
                 removeClass(stepEl, 'clsStepOn');
                 return;
@@ -497,12 +487,13 @@ function togglePlayer(state) {
         divPlayPause.title = "Pause";
         clearInterval(sequencerTimer);
         runSequencer();
-        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
+        //sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
     }else if(state == 'paused') {
         addClass(divPlayPause, 'btnPlay');
         removeClass(divPlayPause, 'btnPause');
         divPlayPause.title = "Play";
-        clearInterval(sequencerTimer);
+        priorityTask.clear();
+        //clearInterval(sequencerTimer);
     }
 }
 
@@ -586,10 +577,12 @@ function setTempo(val) {
 
     //The following block clears the sequencer timer and resets it to the new timeout value.
     //This will work more smoothly once the sequencer algorithm is updated.
+    /*
     if(playerState == 'playing') {
         clearInterval(sequencerTimer);
         sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);    
     }
+    */
 }
 
 function setSteps(val) {

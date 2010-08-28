@@ -40,6 +40,7 @@
         <script type="text/javascript" src="includes/scripts/audio.js"></script>
         <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
         <script type="text/javascript" src="includes/scripts/kodiak.js"></script>
+        <script type="text/javascript" src="includes/scripts/taskscheduler.js"></script>
         <script type="text/javascript" src="includes/scripts/toolbox.js"></script>
         <script type="text/javascript">
             <?php

@@ -561,17 +561,21 @@ function getPattern() {
 
 function setPattern(val) {
     if(val) {
-        if(typeof(val) == 'string') {
-            sequenceArr = decodeJSON(val);
-        }else if(typeof(val) == 'object') {
-            sequenceArr = val;
-        }
-        stepsWidget.setValue(parseInt(sequenceArr.steps));
-        tempoWidget.setValue(parseInt(sequenceArr.tempo));
-        setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));
-        
-        if(sequenceArr.name) {
-            currentPattern.innerHTML = sequenceArr.name;
-        }
+        priorityTask.run(
+            function() {
+                if(typeof(val) == 'string') {
+                    sequenceArr = decodeJSON(val);
+                }else if(typeof(val) == 'object') {
+                    sequenceArr = val;
+                }
+                stepsWidget.setValue(parseInt(sequenceArr.steps));
+                tempoWidget.setValue(parseInt(sequenceArr.tempo));
+                setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));
+                
+                if(sequenceArr.name) {
+                    currentPattern.innerHTML = sequenceArr.name;
+                }
+            }
+        );
     }
 }

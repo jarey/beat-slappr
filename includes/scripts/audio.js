@@ -98,10 +98,8 @@ AudioChannel.prototype = {
     },
     
     play: function() {
-        var channel = this._channelArr[this._curChannel];
-
-        channel.load();
-        channel.play();
+        this._channelArr[this._curChannel].load();
+        this._channelArr[this._curChannel].play();
 
         this._curChannel++;
         if(this._curChannel == this._polyphony) {
