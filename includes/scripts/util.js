@@ -1,12 +1,12 @@
-function addClass(ele,cls) {
-    if(!this.hasClass(ele,cls)) {
+function addClass(ele,cls, skip) {
+    if(skip || !this.hasClass(ele,cls)) {
         ele.className += " " + cls;
     }
 }
 
-function removeClass(ele,cls) {
-    if (hasClass(ele,cls)) {
-        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+function removeClass(ele,cls, skip) {
+    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    if(skip || hasClass(ele,cls)) {
         ele.className=ele.className.replace(reg,' ');
     }
 }

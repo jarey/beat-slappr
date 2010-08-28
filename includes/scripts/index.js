@@ -402,22 +402,40 @@ function toggleInstrument(instrument, step) {
 
 function renderPattern() {
     var start = ((currentMeasure-1) * measureLength);
-    var sequenceStep, sequenceEl, stepInstrumentArr;
+    var sequenceStep, sequenceEl, sequenceElClass, sequenceElDisabled, sequenceElOn, stepInstrumentArr, stepOn;
+    var stepDisabledRegex = new RegExp('(\\s|^)clsStepDisabled(\\s|$)');
+    var stepOnRegex = new RegExp('(\\s|^)clsStepOn(\\s|$)');
+
     for(var m=0; m<divStepArr.length; m++) {
         for(var n=0; n<measureLength; n++) {
             sequenceStep = (n + start);
             sequenceEl = divStepArr[m][n];
             stepInstrumentArr = sequenceArr.pattern[sequenceStep];
-            removeClass(sequenceEl, 'clsStepOn');
-            removeClass(sequenceEl, 'clsStepDisabled');
+            
+            sequenceElClass = sequenceEl.className;
+            sequenceElDisabled = sequenceElClass.match(stepDisabledRegex);
+            sequenceElOn = sequenceElClass.match(stepOnRegex);
+
             if(sequenceStep >= totalSteps) {
-                addClass(sequenceEl, 'clsStepDisabled');
+                if(!sequenceElDisabled) {
+                    addClass(sequenceEl, 'clsStepDisabled', true);
+                }
             }else {
+                if(sequenceElDisabled) {
+                    removeClass(sequenceEl, 'clsStepDisabled', true);
+                }
+                stepOn = false;
                 for(var o=0; o<stepInstrumentArr.length; o++) {
                     if(stepInstrumentArr[o] == m) {
-                        addClass(sequenceEl, 'clsStepOn');
+                        stepOn = true;
+                        if(!sequenceElOn) {
+                            addClass(sequenceEl, 'clsStepOn', true);
+                        }
                         break;
                     }
+                }
+                if(!stepOn && sequenceElOn) {
+                    removeClass(sequenceEl, 'clsStepOn', true);
                 }
             }
         }
