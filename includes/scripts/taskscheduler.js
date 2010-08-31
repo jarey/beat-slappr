@@ -6,7 +6,7 @@ Kodiak.Data.PriorityTask.prototype = {
     timeout:   0,
     blocked:   false,
     blockTime: 60,
-    loopTime:  20,
+    loopTime:  15,
     _timeout:   0,
     _isCleared: true,
     _fn:        function() {},

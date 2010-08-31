@@ -81,7 +81,7 @@
                             <span id='currentPattern' class='comboCenter'></span>
                             <span class='comboRight'></span>
                         </a>
-                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>
+                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
                     </div>
                     <div id="divLoginWrapper" style="float: right;">
                         <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
@@ -690,6 +690,19 @@
                 <label class="labelText">Share with: <span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
                 <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
                 <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+            </form>
+        </textarea>
+        <textarea id="txtDownloadPatternWindow" style="display: none;">
+            <h3>Download Loop</h3><br /><br />
+            <form action="download.php" method="post" onsubmit="return false;" name="frmDownloadPattern" id="frmDownloadPattern">
+                <label class="labelText">Steps:</label><br />
+                <input type="text" name="stepStart" maxlength="2" style="width: 30px;" value="1" /> - <input type="text" name="stepEnd" id="txtStepEnd" maxlength="2" style="width: 30px;" /><br /><br />
+                <label class="labelText">Format:</label><br />
+                <input type="radio" name="format" checked="checked" value="wav" /> wav<br />
+                <input type="radio" name="format" value="ogg" /> ogg<br />
+                <input type="radio" name="format" value="mp3" /> mp3 (may not loop properly)<br /><br />
+                <input type="hidden" name="sequence" id="sequence" />
+                <input type="submit" id="cmdDownloadPattern" value="Download" />
             </form>
         </textarea>
         <textarea id="txtLoginWindow" style="display: none;">

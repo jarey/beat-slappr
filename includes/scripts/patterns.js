@@ -1,4 +1,4 @@
-var patternModal, savePatternModal, sharePatternModal;
+var patternModal, savePatternModal, sharePatternModal, downloadPatternModal;
 var currentPattern;
 
 var divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg;
@@ -63,6 +63,16 @@ function patternInit() {
             this.setContent($('txtSharePatternWindow').value);
         },
         onShowComplete: sharePatternInit
+    });
+
+    downloadPatternModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblDownloadPattern',
+        componentId: 'downloadPatternModal',
+        modalClass:  'modalWindow accountModal',
+        onBeforeShow:   function() {
+            this.setContent($('txtDownloadPatternWindow').value);
+        },
+        onShowComplete: downloadPatternInit
     });
 
     if(typeof(upa) == 'object') {
@@ -578,4 +588,25 @@ function setPattern(val) {
             }
         );
     }
+}
+
+/*************************************/
+/***DOWNLOAD PATTERN MODAL HANDLING***/
+/*************************************/
+
+function downloadPatternInit() {
+    $("cmdDownloadPattern").onclick = downloadPattern;
+    $("txtStepEnd").value = totalSteps;
+}
+
+function downloadPattern() {
+    var onbeforeunload = window.onbeforeunload;
+
+    window.onbeforeunload = "";
+
+    $("sequence").value = encodeJSON(sequenceArr);
+    
+    $("frmDownloadPattern").submit();
+    
+    setTimeout(function() {window.onbeforeunload = onbeforeunload}, 1000);
 }
