@@ -396,6 +396,7 @@ function savePatternInit() {
         cmdSavePattern.onclick = savePattern;
 
         imgSavePatternLoader = $("imgSavePatternLoader");
+        $('cmdCancelSave').onclick = function() {savePatternModal.hide();};
     }else {
         divUserPatternSaveWrapper.style.display = "none";
         divGuestPatternSaveWrapper.style.display = "block";
@@ -504,6 +505,7 @@ function sharePatternInit() {
     cmdSharePattern.onclick = sharePattern;
 
     imgSharePatternLoader = $('imgSharePatternLoader');
+    $('cmdCancelShare').onclick = function() {sharePatternModal.hide();};
 }
 
 function sharePattern() {
@@ -611,6 +613,7 @@ function setPattern(val) {
 function downloadPatternInit() {
     $("cmdDownloadPattern").onclick = downloadPattern;
     $("txtStepEnd").value = totalSteps;
+    $('cmdCancelDownload').onclick = function() {downloadPatternModal.hide();};
 }
 
 function downloadPattern() {

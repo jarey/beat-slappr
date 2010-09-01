@@ -477,7 +477,7 @@ h3 {
 }
 
 .patternModal {
-    width: 310px;
+    width: 510px;
 }
 
 .comboWrapper {
@@ -543,13 +543,13 @@ h3 {
 .patternTable {
     overflow: auto;
     border: #aaa 1px solid;
-    width: 308px;
+    width: 508px;
     height: 100px;
     margin-bottom: 5px;
 }
 
 .userPatternTable {
-    height: 150px;
+    height: 250px;
 }
 
 .presetPatternTable {

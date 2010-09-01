@@ -675,7 +675,7 @@
                 <form action="" onsubmit="return false;" id="frmSavePattern">
                     <label class="labelText">Name:</label>
                     <input type="text" id="txtSavePattern" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdSavePattern" value="save" /> <img id="imgSavePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+                    <input type="submit" id="cmdSavePattern" value="save" /> <img id="imgSavePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelSave"  value="cancel" />
                 </form>
             </div>
         </textarea>
@@ -689,7 +689,7 @@
                 </div>
                 <label class="labelText">Share with: <span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
                 <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
-                <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+                <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelShare"  value="cancel" />
             </form>
         </textarea>
         <textarea id="txtDownloadPatternWindow" style="display: none;">
@@ -702,7 +702,7 @@
                 <input type="radio" name="format" value="ogg" /> ogg<br />
                 <input type="radio" name="format" value="mp3" /> mp3 (may not loop properly)<br /><br />
                 <input type="hidden" name="sequence" id="sequence" />
-                <input type="submit" id="cmdDownloadPattern" value="Download" />
+                <input type="submit" id="cmdDownloadPattern" value="download" /> <input type="button" id="cmdCancelDownload"  value="cancel" />
             </form>
         </textarea>
         <textarea id="txtLoginWindow" style="display: none;">
