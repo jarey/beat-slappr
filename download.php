@@ -54,14 +54,15 @@
         
         $execStr = "sox -m ";
         $execStr .= getStepSounds($sequenceArr, $fileDir, $soundArr, 0);
+
         for($n = 1; $n < $patternStepEnd; $n++) {
 
             foreach($sequenceArr->pattern[$n] as $key => $val) {
-                $execStr .= ' "|sox ' . $fileDir . $soundArr[$val] . ' -p pad ' . round(($stepTimeInterval * $n), 3) . ' 1"';
+                $execStr .= ' "|sox -v ' . ($sequenceArr->chVol->$val / 1000) . ' ' . $fileDir . $soundArr[$val] . ' -p pad ' . round(($stepTimeInterval * $n), 3) . ' 1"';
             }
         }
 
-        system($execStr . ' ' . $outFile . ' norm 0 trim 0 ' . $patternTimeLength);
+        system($execStr . ' ' . $outFile . ' gain -n trim 0 ' . $patternTimeLength);
 
         if($outFormat == "mp3") {
             $mimeType = "audio/mpeg";
@@ -96,7 +97,7 @@
     function getStepSounds($sequence, $dir, $soundArr, $step) {
         $str = "";
         foreach($sequence->pattern[$step] as $key => $val) {
-            $str .= $dir . $soundArr[$val] . ' ';
+            $str .= '-v ' . ($sequence->chVol->$val / 1000) . ' ' . $dir . $soundArr[$val] . ' ';
         }
         $str = trim($str);
         if($str) {
