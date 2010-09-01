@@ -443,16 +443,25 @@ function savePatternHandler(obj, patternName) {
     if(response.success) {
         savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divSavePatternMesg = $('divSavePatternMesg');
+        var util = new Kodiak.Util();
         if(response.action == "added") {
             //if a new pattern was added, clone sequencearr, update the new array's name property to the name
             //of the new pattern, and push it to userPatternArr.
 
             var newSequence = {};
-            var util = new Kodiak.Util();
-
             util.clone(sequenceArr, newSequence);
             newSequence.name = patternName;
             userPatternArr.push(newSequence);
+        }else if(response.action == "updated") {
+            //if an existing pattern was updated, look up the pattern in userPatternArr and update it's value
+            //with a clone of sequenceArr.
+
+            for(var pattern in userPatternArr) {
+                if(userPatternArr[pattern].name == sequenceArr.name) {
+                    util.clone(sequenceArr, userPatternArr[pattern]);
+                    break;
+                }
+            }
         }
         //userPatternDataIsDirty = true;
     }else {
@@ -578,6 +587,11 @@ function setPattern(val) {
                 }else if(typeof(val) == 'object') {
                     sequenceArr = val;
                 }
+                
+                for(var ch in sequenceArr.chVol) {
+                    volumeWidgetArr[ch].setValue(sequenceArr.chVol[ch]);
+                }
+
                 stepsWidget.setValue(parseInt(sequenceArr.steps));
                 tempoWidget.setValue(parseInt(sequenceArr.tempo));
                 setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));

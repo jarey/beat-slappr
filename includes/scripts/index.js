@@ -12,6 +12,7 @@ var sequencerPositionLEDArr = []
 var sequenceArr = {
     tempo:    0,
     steps:    0,
+    chVol:    {},
     kit:      {},
     pattern:  []
 };
@@ -135,7 +136,7 @@ function init() {
             txtClass:          'stepWidgetChannelTxt',
             incBtnClass:       'stepWidgetInc',
             decBtnClass:       'stepWidgetDec',
-	        onValueChange:     _setVolume(n)
+	        onValueChange:     _setChVolume(n)
         });
     }
 
@@ -580,8 +581,9 @@ function keyUpHandler(e) {
 /***STEP WIDGET HANDLER FUNCTIONS***/
 /***********************************/
 
-function _setVolume(index) {
+function _setChVolume(index) {
     return function(val) {
+        sequenceArr.chVol[index] = val;
         channelArr[index].setVolume((val/100) * (masterVolume/100));
     }
 }
@@ -589,15 +591,6 @@ function _setVolume(index) {
 function setTempo(val) {
     sequenceArr.tempo = val;
     sequencerTimeoutLength = Math.round((1000*((60/val)/beatLength)));
-
-    //The following block clears the sequencer timer and resets it to the new timeout value.
-    //This will work more smoothly once the sequencer algorithm is updated.
-    /*
-    if(playerState == 'playing') {
-        clearInterval(sequencerTimer);
-        sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);    
-    }
-    */
 }
 
 function setSteps(val) {
