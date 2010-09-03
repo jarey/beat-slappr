@@ -14,13 +14,238 @@ var passwordErrorMesg = "Password must be provided.";
 //u is defined in the homepage upon pageload if an active session exists.
 var u;
 
-/***INIT***/
+/************************************/
+/***FORGOT PASSWORD MODAL HANDLING***/
+/************************************/
 
-if(window.addEventListener) {
-    window.addEventListener('load', accountInit, false);
-}else {
-    window.attachEvent('onload', accountInit);
+function forgotPasswordHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        loginModal.setContent("<label class='lblLink' style='float: right;' onclick='loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divResetMesg = $('divResetMesg');
+        divResetMesg.className = 'success';
+    }else {
+        cmdResetPassword.style.display = "inline";
+        imgResetLoader.style.display = "none";
+    }
+    divResetMesg.innerHTML = response.mesg;
 }
+
+function forgotPassword() {
+
+    /***VALIDATION***/
+    if(!isValidEmail(txtResetEmail.value)) {
+        divResetMesg.innerHTML = emailErrorMesg;
+        return false;
+    }
+
+    /***POST VALIDATION***/
+ 
+    cmdResetPassword.style.display = "none";
+    imgResetLoader.style.display = "inline";
+
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'resetPassword', email: txtResetEmail.value},
+        handler: forgotPasswordHandler
+    });
+}
+
+function forgotPasswordInit() {
+    loginModal.setContent($('txtForgotPasswordWindow').value);
+
+    frmResetPassword = $('frmResetPassword');
+    frmResetPassword.onkeydown = stopPropagation;
+
+    txtResetEmail = $('txtResetEmail');
+    txtResetEmail.value = '';
+    txtResetEmail.focus();
+
+    divResetMesg = $('divResetMesg');
+    divResetMesg.className = 'error';
+    divResetMesg.innerHTML = '';
+
+    cmdResetPassword = $('cmdResetPassword');
+    cmdResetPassword.onclick = forgotPassword;
+
+    imgResetLoader = $('imgResetLoader');
+}
+
+/**************************/
+/***LOGIN MODAL HANDLING***/
+/**************************/
+
+function loginHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        loginModal.hide();
+        currentUser = response.user;
+        userPatternArr = response.pattern.data.user;
+
+        divGuestAccount.style.display = "none";
+        divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='logout();'>Logout</label>";
+        divUserAccount.style.display = "block";
+    }else {
+        divLoginMesg.innerHTML = response.mesg;
+        cmdLogin.style.display = "inline";
+        imgLoginLoader.style.display = "none";
+    }
+}
+
+function login() {
+
+    /***VALIDATION***/
+
+    var errorArr = [];
+    if(!isValidEmail(txtLoginEmail.value)) {
+        errorArr.push(emailErrorMesg);
+    }
+    if(!txtLoginPassword.value) {
+        errorArr.push(passwordErrorMesg);
+    }
+    if(errorArr.length) {
+        divLoginMesg.innerHTML = errorArr.join('<br />');
+        return false;
+    }
+
+    /***POST VALIDATION***/
+
+    cmdLogin.style.display = "none";
+    imgLoginLoader.style.display = "inline";
+
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'login', email: txtLoginEmail.value, password: hex_md5(txtLoginPassword.value)},
+        handler: loginHandler
+    });
+}
+
+function loginInit() {
+    frmLogin = $('frmLogin');
+    frmLogin.onkeydown = stopPropagation;
+
+    txtLoginEmail = $('txtLoginEmail');
+    txtLoginEmail.value = '';
+    txtLoginEmail.focus();
+
+    txtLoginPassword = $('txtLoginPassword');
+    txtLoginPassword.value = '';
+
+    divLoginMesg = $('divLoginMesg');
+    divLoginMesg.innerHTML = '';
+
+    cmdLogin = $('cmdLogin');
+    cmdLogin.onclick = login;
+
+    imgLoginLoader = $('imgLoginLoader');
+
+    $('lblForgotPassword').onclick = forgotPasswordInit;
+}
+
+
+
+/***************************/
+/***SIGNUP MODAL HANDLING***/
+/***************************/
+
+function signupHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        signupModal.setContent("<label class='lblLink' style='float: right;' onclick='signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSignupMesg = $('divSignupMesg');
+        divSignupMesg.className = 'success';
+    }else {
+        cmdSignUp.style.display = "inline";
+        imgSignupLoader.style.display = "none";
+    }
+    divSignupMesg.innerHTML = response.mesg;
+}
+
+function signup() {
+
+    /***VALIDATION***/
+
+    if(!isValidEmail(txtSignupEmail.value)) {
+        divSignupMesg.innerHTML = emailErrorMesg;
+        return false;
+    }
+
+    /***POST VALIDATION***/
+ 
+    cmdSignUp.style.display = "none";
+    imgSignupLoader.style.display = "inline";
+
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'create', email: txtSignupEmail.value},
+        handler: signupHandler
+    });
+}
+
+function signUpInit() {
+    frmSignup = $('frmSignup');
+    frmSignup.onkeydown = stopPropagation;
+
+    txtSignupEmail = $('txtSignupEmail');
+    txtSignupEmail.value = '';
+    txtSignupEmail.focus();
+
+    divSignupMesg = $('divSignupMesg');
+    divSignupMesg.className = 'error';
+    divSignupMesg.innerHTML = '';
+
+    cmdSignUp = $('cmdSignUp');
+    cmdSignUp.onclick = signup;
+
+    imgSignupLoader = $('imgSignupLoader');
+}
+
+
+
+/*********************/
+/***LOGOUT HANDLING***/
+/*********************/
+
+function logoutHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        currentUser = "";
+
+        divUserAccount.style.display = "none";
+        divGuestAccount.style.display = "block";
+
+        //Initialize userPatternArr and mark as dirty
+        userPatternArr = [];
+        userPatternDataIsDirty = true;
+    }
+}
+
+function logout() {
+    //Close all modals:
+    for(var component in Kodiak.Components) {
+        if(Kodiak.Components[component]) {
+            var val = Kodiak.Components[component];
+            if(val._isModal) {
+                val.hide();
+            }
+        }
+    }
+
+
+    accountAjax.request({
+        url:    'api/user.php',
+        method: 'post',
+        parameters: {cmd: 'logout'},
+        handler: logoutHandler
+    });
+}
+
+
+
+/***INIT***/
 
 function accountInit() {
     accountAjax = new Kodiak.Data.Ajax();
@@ -57,229 +282,8 @@ function accountInit() {
     }
 }
 
-
-/**************************/
-/***LOGIN MODAL HANDLING***/
-/**************************/
-
-function loginInit() {
-    frmLogin = $('frmLogin');
-    frmLogin.onkeydown = stopPropagation;
-
-    txtLoginEmail = $('txtLoginEmail');
-    txtLoginEmail.value = '';
-    txtLoginEmail.focus();
-
-    txtLoginPassword = $('txtLoginPassword');
-    txtLoginPassword.value = '';
-
-    divLoginMesg = $('divLoginMesg');
-    divLoginMesg.innerHTML = '';
-
-    cmdLogin = $('cmdLogin');
-    cmdLogin.onclick = login;
-
-    imgLoginLoader = $('imgLoginLoader');
-
-    $('lblForgotPassword').onclick = forgotPasswordInit;
-}
-
-function login() {
-
-    /***VALIDATION***/
-
-    var errorArr = [];
-    if(!isValidEmail(txtLoginEmail.value)) {
-        errorArr.push(emailErrorMesg);
-    }
-    if(!txtLoginPassword.value) {
-        errorArr.push(passwordErrorMesg);
-    }
-    if(errorArr.length) {
-        divLoginMesg.innerHTML = errorArr.join('<br />');
-        return false;
-    }
-
-    /***POST VALIDATION***/
-
-    cmdLogin.style.display = "none";
-    imgLoginLoader.style.display = "inline";
-
-    accountAjax.request({
-        url:    'api/user.php',
-        method: 'post',
-        parameters: {cmd: 'login', email: txtLoginEmail.value, password: hex_md5(txtLoginPassword.value)},
-        handler: loginHandler
-    });
-}
-
-function loginHandler(obj) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        loginModal.hide();
-        currentUser = response.user;
-        userPatternArr = response.pattern.data.user;
-
-        divGuestAccount.style.display = "none";
-        divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='logout();'>Logout</label>";
-        divUserAccount.style.display = "block";
-    }else {
-        divLoginMesg.innerHTML = response.mesg;
-        cmdLogin.style.display = "inline";
-        imgLoginLoader.style.display = "none";
-    }
-}
-
-
-/************************************/
-/***FORGOT PASSWORD MODAL HANDLING***/
-/************************************/
-
-function forgotPasswordInit() {
-    loginModal.setContent($('txtForgotPasswordWindow').value);
-
-    frmResetPassword = $('frmResetPassword');
-    frmResetPassword.onkeydown = stopPropagation;
-
-    txtResetEmail = $('txtResetEmail');
-    txtResetEmail.value = '';
-    txtResetEmail.focus();
-
-    divResetMesg = $('divResetMesg');
-    divResetMesg.className = 'error';
-    divResetMesg.innerHTML = '';
-
-    cmdResetPassword = $('cmdResetPassword');
-    cmdResetPassword.onclick = forgotPassword;
-
-    imgResetLoader = $('imgResetLoader');
-}
-
-function forgotPassword() {
-
-    /***VALIDATION***/
-    if(!isValidEmail(txtResetEmail.value)) {
-        divResetMesg.innerHTML = emailErrorMesg;
-        return false;
-    }
-
-    /***POST VALIDATION***/
- 
-    cmdResetPassword.style.display = "none";
-    imgResetLoader.style.display = "inline";
-
-    accountAjax.request({
-        url:    'api/user.php',
-        method: 'post',
-        parameters: {cmd: 'resetPassword', email: txtResetEmail.value},
-        handler: forgotPasswordHandler
-    });
-}
-
-function forgotPasswordHandler(obj) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        loginModal.setContent("<label class='lblLink' style='float: right;' onclick='loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
-        divResetMesg = $('divResetMesg');
-        divResetMesg.className = 'success';
-    }else {
-        cmdResetPassword.style.display = "inline";
-        imgResetLoader.style.display = "none";
-    }
-    divResetMesg.innerHTML = response.mesg;
-}
-
-
-/***************************/
-/***SIGNUP MODAL HANDLING***/
-/***************************/
-
-function signUpInit() {
-    frmSignup = $('frmSignup');
-    frmSignup.onkeydown = stopPropagation;
-
-    txtSignupEmail = $('txtSignupEmail');
-    txtSignupEmail.value = '';
-    txtSignupEmail.focus();
-
-    divSignupMesg = $('divSignupMesg');
-    divSignupMesg.className = 'error';
-    divSignupMesg.innerHTML = '';
-
-    cmdSignUp = $('cmdSignUp');
-    cmdSignUp.onclick = signup;
-
-    imgSignupLoader = $('imgSignupLoader');
-}
-
-function signup() {
-
-    /***VALIDATION***/
-
-    if(!isValidEmail(txtSignupEmail.value)) {
-        divSignupMesg.innerHTML = emailErrorMesg;
-        return false;
-    }
-
-    /***POST VALIDATION***/
- 
-    cmdSignUp.style.display = "none";
-    imgSignupLoader.style.display = "inline";
-
-    accountAjax.request({
-        url:    'api/user.php',
-        method: 'post',
-        parameters: {cmd: 'create', email: txtSignupEmail.value},
-        handler: signupHandler
-    });
-}
-
-function signupHandler(obj) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        signupModal.setContent("<label class='lblLink' style='float: right;' onclick='signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
-        divSignupMesg = $('divSignupMesg');
-        divSignupMesg.className = 'success';
-    }else {
-        cmdSignUp.style.display = "inline";
-        imgSignupLoader.style.display = "none";
-    }
-    divSignupMesg.innerHTML = response.mesg;
-}
-
-
-/*********************/
-/***LOGOUT HANDLING***/
-/*********************/
-
-function logout() {
-    //Close all modals:
-    for(var component in Kodiak.Components) {
-        var key = component;
-        var val = Kodiak.Components[key];
-        if(val._isModal) {
-            val.hide();
-        }
-    }
-
-    accountAjax.request({
-        url:    'api/user.php',
-        method: 'post',
-        parameters: {cmd: 'logout'},
-        handler: logoutHandler
-    });
-}
-
-function logoutHandler(obj) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        currentUser = "";
-
-        divUserAccount.style.display = "none";
-        divGuestAccount.style.display = "block";
-
-        //Initialize userPatternArr and mark as dirty
-        userPatternArr = [];
-        userPatternDataIsDirty = true;
-    }
+if(window.addEventListener) {
+    window.addEventListener('load', accountInit, false);
+}else {
+    window.attachEvent('onload', accountInit);
 }

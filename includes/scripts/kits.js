@@ -8,52 +8,16 @@ var kitCache = [];
 var lK;
 
 
-/***INIT***/
-
-if(window.addEventListener) {
-    window.addEventListener('load', kitInit, false);
-}else {
-    window.attachEvent('onload', kitInit);
-}
-
-function kitInit() {
-    currentKit = $("currentKit");
-
-    kitModal = new Kodiak.Controls.Modal({
-        applyTo:      'aKitModal',
-        componentId:  'kitModal',
-        modalClass:   'modalWindow kitModal',
-        orientation:  'right',
-        closeOnBlur:  true,
-        onBeforeShow: function() {
-            this.setContent($('txtKitWindow').value);
-        }
-    });
-
-    if(typeof(lK) == 'object') {
-        setSystemKit(lK[0], lK[1])
-    }
-}
-
 
 /***KITS***/
 
-function setSystemKit(kitName, kitId) {
-    kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
-    var ajax = new Kodiak.Data.Ajax();
-
-    var cacheIndex = _isCached(kitId);
-    if(cacheIndex) {
-        setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId);
-        return;
+function _isCached(id) {
+    for(var prop in kitCache) {
+        if(kitCache[prop].id == id) {
+            return prop;
+        }
     }
-
-    ajax.request({
-        url:    'api/kit.php',
-        method: 'post',
-        parameters: {cmd: 'getKitChannels', id: kitId, format: audioFormat},
-        handler: function(obj) {setSystemKitHandler(obj, kitName, kitId);}
-    });
+    return false;
 }
 
 function setSystemKitHandler(obj, kitName, kitId) {
@@ -90,11 +54,48 @@ function setSystemKitHandler(obj, kitName, kitId) {
     }
 }
 
-function _isCached(id) {
-    for(var prop in kitCache) {
-        if(kitCache[prop].id == id) {
-            return prop;
-        }
+function setSystemKit(kitName, kitId) {
+    kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
+    var ajax = new Kodiak.Data.Ajax();
+
+    var cacheIndex = _isCached(kitId);
+    if(cacheIndex) {
+        setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId);
+        return;
     }
-    return false;
+
+    ajax.request({
+        url:    'api/kit.php',
+        method: 'post',
+        parameters: {cmd: 'getKitChannels', id: kitId, format: audioFormat},
+        handler: function(obj) {setSystemKitHandler(obj, kitName, kitId);}
+    });
+}
+
+/***INIT***/
+
+
+function kitInit() {
+    currentKit = $("currentKit");
+
+    kitModal = new Kodiak.Controls.Modal({
+        applyTo:      'aKitModal',
+        componentId:  'kitModal',
+        modalClass:   'modalWindow kitModal',
+        orientation:  'right',
+        closeOnBlur:  true,
+        onBeforeShow: function() {
+            this.setContent($('txtKitWindow').value);
+        }
+    });
+
+    if(typeof(lK) == 'object') {
+        setSystemKit(lK[0], lK[1]);
+    }
+}
+
+if(window.addEventListener) {
+    window.addEventListener('load', kitInit, false);
+}else {
+    window.attachEvent('onload', kitInit);
 }

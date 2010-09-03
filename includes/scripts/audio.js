@@ -87,9 +87,9 @@ AudioChannel.prototype = {
         var channel = this._channelArr[this._curChannel];
         if(channel.canPlayType) {
             //Currently canPlayType(type) returns: "no", "maybe" or "probably"
-            playTypes.ogg = (channel.canPlayType("audio/ogg") != "no") && (channel.canPlayType("audio/ogg") != "");
-            playTypes.mp3 = (channel.canPlayType("audio/mpeg") != "no") && (channel.canPlayType("audio/mpeg") != "");
-            playTypes.wav = (channel.canPlayType("audio/wav") != "no") && (channel.canPlayType("audio/wav") != "");
+            playTypes.ogg = (channel.canPlayType("audio/ogg") != "no") && (channel.canPlayType("audio/ogg") !== "");
+            playTypes.mp3 = (channel.canPlayType("audio/mpeg") != "no") && (channel.canPlayType("audio/mpeg") !== "");
+            playTypes.wav = (channel.canPlayType("audio/wav") != "no") && (channel.canPlayType("audio/wav") !== "");
 
             return playTypes;
         }

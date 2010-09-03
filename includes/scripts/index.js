@@ -8,7 +8,7 @@ var channelArr = [];
 var instrumentNameArr = [];
 var instrumentArr = [];
 var divStepArr = [];
-var sequencerPositionLEDArr = []
+var sequencerPositionLEDArr = [];
 var sequenceArr = {
     tempo:    0,
     steps:    0,
@@ -47,6 +47,74 @@ var masterVolume;
 var audioFormat;
 var soloCount = 0;
 
+function _getLastStepMeasure() {
+    return Math.ceil(lastStep / measureLength);
+}
+
+function updateShuttlePosition() {
+    var measure = Math.ceil(currentStep / measureLength);
+    var beat = (Math.ceil(currentStep / beatLength)) - ((measure-1) * beatsPerMeasure);
+    var step = currentStep - ((measure-1) * measureLength) - ((beat-1) * beatLength);
+
+    divLoopPosition.innerHTML = measure + "." + beat + "." + step;
+}
+
+function runSequencer() {
+    //sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
+    priorityTask.add(runSequencer, sequencerTimeoutLength);
+
+    var stepArr = sequenceArr.pattern[currentStep-1];    
+
+    //Play sounds for current step
+    for(var n=0; n<stepArr.length; n++) {
+        channelArr[stepArr[n]].play();
+    }
+    
+    //Update GUI
+
+    updateShuttlePosition();
+
+    var lastStepMeasure = _getLastStepMeasure();
+    var currentStepMeasure = Math.ceil(currentStep / measureLength);
+    
+    if(lastStepMeasure == currentMeasure) {
+        removeClass(sequencerPositionLEDArr[(lastStep-1) - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
+    if(currentStepMeasure == currentMeasure) {
+        addClass(sequencerPositionLEDArr[(currentStep-1) - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
+    }
+
+    lastStep = currentStep;
+    currentStep++;
+    if(currentStep > totalSteps) {
+        currentStep = 1;
+    }
+    
+    priorityTask.fire();
+}
+
+function togglePlayer(state) {
+    if(state == 'playing') {
+        addClass(divPlayPause, 'btnPause');
+        removeClass(divPlayPause, 'btnPlay');
+        divPlayPause.title = "Pause";
+        clearInterval(sequencerTimer);
+        runSequencer();
+        //sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
+    }else if(state == 'paused') {
+        addClass(divPlayPause, 'btnPlay');
+        removeClass(divPlayPause, 'btnPause');
+        divPlayPause.title = "Play";
+        priorityTask.clear();
+        //clearInterval(sequencerTimer);
+    }
+}
+
+function togglePlay() {
+    playerState = (playerState == 'playing') ? 'paused' : 'playing';
+    togglePlayer(playerState);
+}
+
 var keyHash = {
     32: function() {togglePlay();},
     65: 8,
@@ -67,319 +135,6 @@ var keyHash = {
     87: 1
 };
 
-
-
-/**************************************************************************************************************************
-    CONSTRUCTOR/DESTRUCTOR
-**************************************************************************************************************************/
-
-if(window.addEventListener) {
-    window.addEventListener('load', init, false);
-}else {
-    window.attachEvent('onload', init);
-}
-
-function init() {
-    divPlayPause = $('divPlayPause');
-    divJumpToStart = $('divJumpToStart');
-    divClearPattern = $('divClearPattern');
-    
-    divTempo = $("divTempo");
-    divSteps = $("divSteps");
-    divVolume = $("divVolume");
-    divLoopPosition = $("divLoopPosition");
-    
-    var validAudioFormats = new AudioChannel().getValidFormats();
-    
-    window.onkeydown = keyDownHandler;
-    window.onkeyup = keyUpHandler;
-
-    instrumentArr = getElementsByClassName('drumPad');
-    volumeWidgetArr = getElementsByClassName('divVolumeWidget');
-    muteBtnArr = getElementsByClassName('channelMute');
-    soloBtnArr = getElementsByClassName('channelSolo');
-    instrumentNameArr = getElementsByClassName('instrumentName');
-    sequencerPositionLEDArr = getElementsByClassName('sequencerPositionLED');
-
-    var divStepWrapper = $("divStepWrapper");
-    for(var n=0; n< divStepWrapper.children.length; n++) {
-        divStepArr[n] = divStepWrapper.children[n].children;
-    }
-
-    divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
-
-    priorityTask = new Kodiak.Data.PriorityTask();
-
-    for(var n=0; n<divViewBarArr.length; n++) {
-        divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
-    }
-
-    for(var n=0; n<instrumentChannels; n++) {
-        instrumentArr[n].onmousedown = _playInstrument(n);
-        instrumentArr[n].onmouseup = releaseHandler(n);
-
-        channelArr[n] = new AudioChannel();
-
-        muteBtnArr[n].onmousedown = _toggleMute(n);
-        soloBtnArr[n].onmousedown = _toggleSolo(n);
-        volumeWidgetArr[n] = new StepWidget({
-	        container:      volumeWidgetArr[n],
-        	minValue:       0,
-	        maxValue:       100,
-	        initValue:      75,
-            btnWidth:       15,
-            txtPadding:      2,
-            clickTimeout:   50,
-            title:          'Volume',
-            maxLength:      3,
-            bodyClass:         'stepWidgetChannelBody',
-            txtClass:          'stepWidgetChannelTxt',
-            incBtnClass:       'stepWidgetInc',
-            decBtnClass:       'stepWidgetDec',
-	        onValueChange:     _setChVolume(n)
-        });
-    }
-
-    tempoWidget = new StepWidget({
-        container:      divTempo,
-    	minValue:       20,
-        maxValue:       200,
-        initValue:      120,
-        btnWidth:       15,
-        title:          'Tempo',
-        maxLength:      3,
-        bodyClass:      'stepWidgetBody',
-        txtClass:       'stepWidgetTxt',
-        incBtnClass:    'stepWidgetInc',
-        decBtnClass:    'stepWidgetDec',
-        onValueChange:  function(val) {priorityTask.run(function() {setTempo(val);})}
-    });
-    
-    stepsWidget = new StepWidget({
-        container:         divSteps,
-    	minValue:          1,
-        maxValue:          64,
-        initValue:         16,
-        btnWidth:          15,
-        title:             'Steps',
-        maxLength:         2,
-        bodyClass:         'stepWidgetBody',
-        txtClass:          'stepWidgetTxt',
-        incBtnClass:       'stepWidgetInc',
-        decBtnClass:       'stepWidgetDec',
-        onValueChange:     setSteps
-    });
-    
-    masterVolumeWidget = new StepWidget({
-        container:        divVolume,
-    	minValue:         0,
-        maxValue:         100,
-        initValue:        75,
-        btnWidth:         15,
-        title:            'Master Volume',
-        maxLength:        3,
-        bodyClass:        'stepWidgetBody',
-        txtClass:         'stepWidgetTxt',
-        incBtnClass:      'stepWidgetInc',
-        decBtnClass:      'stepWidgetDec',
-        onValueChange:    setMasterVolume
-    });
-
-    var validFormats = channelArr[0].getValidFormats();
-    if(validFormats.ogg) {
-        audioFormat = 'ogg';
-    }else if(validFormats.mp3) {
-        audioFormat = 'mp3';
-    }else {
-        alert("Your browser does not support this app :-\\");
-    }
-
-    divPlayPause.onclick = function() {togglePlay(); return false;};
-    divJumpToStart.onclick = function() {initLoopPosition(); return false;};
-    divClearPattern.onclick = function() {clearPattern(); return false;};
-}
-
-window.onbeforeunload = function(){
-	var message = 'Any unsaved changes will be lost!';
-  	return message;
-};
-
-
-
-/**************************************************************************************************************************
-    MACHINE FUNCTIONS
-**************************************************************************************************************************/
-
-function setStepEvents() {
-    for(var n=0; n<totalSteps; n++) {
-        if(!sequenceArr.pattern[n]) {
-            sequenceArr.pattern[n] = [];
-        }
-    }
-    for(var m=0; m<divStepArr.length; m++) {
-        for(n=0; n<measureLength; n++) {
-            if(divStepArr[m][n]) {
-                divStepArr[m][n].onclick = _toggleInstrument(m, (n + ((currentMeasure-1) * measureLength)));
-            }
-        }
-    }
-}
-
-function updateShuttlePosition() {
-    var measure = Math.ceil(currentStep / measureLength);
-    var beat = (Math.ceil(currentStep / beatLength)) - ((measure-1) * beatsPerMeasure);
-    var step = currentStep - ((measure-1) * measureLength) - ((beat-1) * beatLength);
-
-    divLoopPosition.innerHTML = measure + "." + beat + "." + step;
-}
-
-function setTotalSteps(val) {
-    removeClass(sequencerPositionLEDArr[_getCurrentStepIndex()], 'clsStepCurrent');        
-    totalSteps = val;
-    totalMeasures = Math.ceil(totalSteps/measureLength);
-    lastStep = totalSteps;
-
-    setStepEvents();
-    initLoopPosition();
-}
-
-function _setCurrentMeasure(val) {
-    return function() {
-        priorityTask.run(function() {setCurrentMeasure(val);});
-        return false;
-    };
-}
-
-function setCurrentMeasure(val) {
-    if(val <= totalMeasures && val != currentMeasure) {
-        currentMeasure = val;
-
-        setStepEvents();
-        renderPattern();
-
-        for(var n=0; n<divViewBarArr.length; n++) {
-            el = divViewBarArr[n];
-            if((n+1) == val) {
-                addClass(el, 'barCurrent');
-            }else {
-                removeClass(el, 'barCurrent');
-            }
-        }
-
-        var lastStepMeasure = _getLastStepMeasure();
-        var currentStepIndex = _getCurrentStepIndex();
-
-        if(lastStepMeasure != val) {
-            removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
-        }else {
-            addClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
-        }
-    }
-}
-
-function runSequencer() {
-    //sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
-    priorityTask.add(runSequencer, sequencerTimeoutLength);
-
-    var stepArr = sequenceArr.pattern[currentStep-1];    
-    var step;
-
-    //Play sounds for current step
-    for(step in stepArr) {
-        channelArr[stepArr[step]].play();
-    }
-    
-    //Update GUI
-
-    updateShuttlePosition();
-
-    var lastStepMeasure = _getLastStepMeasure();
-    var currentStepMeasure = Math.ceil(currentStep / measureLength);
-    
-    if(lastStepMeasure == currentMeasure) {
-        removeClass(sequencerPositionLEDArr[(lastStep-1) - ((lastStepMeasure - 1) * measureLength)], 'clsStepCurrent');
-    }
-    if(currentStepMeasure == currentMeasure) {
-        addClass(sequencerPositionLEDArr[(currentStep-1) - ((currentStepMeasure - 1) * measureLength)], 'clsStepCurrent');
-    }
-
-    lastStep = currentStep;
-    currentStep++
-    if(currentStep > totalSteps) {
-        currentStep = 1;
-    }
-    
-    priorityTask.fire();
-}
-
-function _toggleSolo(index) {
-    return function() {
-        toggleSolo(index);
-        return false;
-    };
-}
-
-function toggleSolo(index) {
-    var soloBtn = soloBtnArr[index];
-
-    if(hasClass(soloBtn, 'channelSoloOn')) {
-        removeClass(soloBtn, 'channelSoloOn');
-        soloCount--;
-    }else {
-        addClass(soloBtn, 'channelSoloOn');
-        soloCount++;
-    }
-
-    _setChannelPlayState();
-}
-
-function _toggleMute(index) {
-    return function() {
-        toggleMute(index);
-        return false;
-    };
-}
-
-function toggleMute(index) {
-    var muteBtn = muteBtnArr[index];
-        if(hasClass(muteBtn, 'channelMuteOn')) {
-            removeClass(muteBtn, 'channelMuteOn');
-        }else {
-            addClass(muteBtn, 'channelMuteOn');
-        }
-    _setChannelPlayState();
-}
-
-function _setChannelPlayState() {
-    if(soloCount) {
-        for(var n=0; n<instrumentChannels; n++) {
-            if(hasClass(soloBtnArr[n], 'channelSoloOn')) {
-                if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
-                    channelArr[n].setMute(true);
-                }else {
-                    channelArr[n].setMute(false);
-                }
-            }else {
-                channelArr[n].setMute(true);
-            }
-        }
-    }else {
-        for(var n=0; n<instrumentChannels; n++) {
-            if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
-                channelArr[n].setMute(true);
-            }else {
-                channelArr[n].setMute(false);
-            }
-        }
-    }
-}
-
-function _toggleInstrument(instrument, index) {
-    return function() {
-        priorityTask.run(function() {toggleInstrument(instrument, index);});
-    };
-}
-
 function toggleInstrument(instrument, step) {
     if(step < totalSteps) {
         var measureStep = (step - ((Math.ceil((step+1)/measureLength)-1) * measureLength));
@@ -395,6 +150,27 @@ function toggleInstrument(instrument, step) {
         }
         currentStep.push(instrument);
         addClass(stepEl, 'clsStepOn');
+    }
+}
+
+function _toggleInstrument(instrument, index) {
+    return function() {
+        priorityTask.run(function() {toggleInstrument(instrument, index);});
+    };
+}
+
+function setStepEvents() {
+    for(var n=0; n<totalSteps; n++) {
+        if(!sequenceArr.pattern[n]) {
+            sequenceArr.pattern[n] = [];
+        }
+    }
+    for(var m=0; m<divStepArr.length; m++) {
+        for(n=0; n<measureLength; n++) {
+            if(divStepArr[m][n]) {
+                divStepArr[m][n].onclick = _toggleInstrument(m, (n + ((currentMeasure-1) * measureLength)));
+            }
+        }
     }
 }
 
@@ -440,26 +216,107 @@ function renderPattern() {
     }
 }
 
-
-
-/***************************************************/
-/***FUNCTIONS FOR GETTING SEQUENCER POSITION INFO***/
-/***************************************************/
-
-function _getLastStepMeasure() {
-    return lastStepMeasure = Math.ceil(lastStep / measureLength);
-}
-
 function _getCurrentStepIndex() {
     var lastStepMeasure = _getLastStepMeasure();
     return (lastStep - 1) - ((lastStepMeasure - 1) * measureLength);
 }
 
+function setCurrentMeasure(val) {
+    if(val <= totalMeasures && val != currentMeasure) {
+        currentMeasure = val;
 
+        setStepEvents();
+        renderPattern();
 
-/********************************************************************/
-/***FUNCTIONS FOR INITIALIZING LOOP POSITION AND CLEARING PATTERNS***/
-/********************************************************************/
+        for(var n=0; n<divViewBarArr.length; n++) {
+            el = divViewBarArr[n];
+            if((n+1) == val) {
+                addClass(el, 'barCurrent');
+            }else {
+                removeClass(el, 'barCurrent');
+            }
+        }
+
+        var lastStepMeasure = _getLastStepMeasure();
+        var currentStepIndex = _getCurrentStepIndex();
+
+        if(lastStepMeasure != val) {
+            removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
+        }else {
+            addClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
+        }
+    }
+}
+
+function _setCurrentMeasure(val) {
+    return function() {
+        priorityTask.run(function() {setCurrentMeasure(val);});
+        return false;
+    };
+}
+
+function _setChannelPlayState() {
+    var n;
+    if(soloCount) {
+        for(n=0; n<instrumentChannels; n++) {
+            if(hasClass(soloBtnArr[n], 'channelSoloOn')) {
+                if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
+                    channelArr[n].setMute(true);
+                }else {
+                    channelArr[n].setMute(false);
+                }
+            }else {
+                channelArr[n].setMute(true);
+            }
+        }
+    }else {
+        for(n=0; n<instrumentChannels; n++) {
+            if(hasClass(muteBtnArr[n], 'channelMuteOn')) {
+                channelArr[n].setMute(true);
+            }else {
+                channelArr[n].setMute(false);
+            }
+        }
+    }
+}
+
+function toggleSolo(index) {
+    var soloBtn = soloBtnArr[index];
+
+    if(hasClass(soloBtn, 'channelSoloOn')) {
+        removeClass(soloBtn, 'channelSoloOn');
+        soloCount--;
+    }else {
+        addClass(soloBtn, 'channelSoloOn');
+        soloCount++;
+    }
+
+    _setChannelPlayState();
+}
+
+function _toggleSolo(index) {
+    return function() {
+        toggleSolo(index);
+        return false;
+    };
+}
+
+function toggleMute(index) {
+    var muteBtn = muteBtnArr[index];
+        if(hasClass(muteBtn, 'channelMuteOn')) {
+            removeClass(muteBtn, 'channelMuteOn');
+        }else {
+            addClass(muteBtn, 'channelMuteOn');
+        }
+    _setChannelPlayState();
+}
+
+function _toggleMute(index) {
+    return function() {
+        toggleMute(index);
+        return false;
+    };
+}
 
 function initLoopPosition() {
     currentStep = 1;
@@ -485,37 +342,14 @@ function clearPattern() {
     }
 }
 
-
-
-/**********************************************/
-/***FUNCTIONS FOR PLAYING/PAUSING THE PLAYER***/
-/**********************************************/
-
-function togglePlay() {
-    playerState = (playerState == 'playing') ? 'paused' : 'playing';
-    togglePlayer(playerState);
+function setInstrumentClass(el) {
+    addClass(instrumentArr[el], 'clsInstrumentActive');
 }
 
-function togglePlayer(state) {
-    if(state == 'playing') {
-        addClass(divPlayPause, 'btnPause');
-        removeClass(divPlayPause, 'btnPlay');
-        divPlayPause.title = "Pause";
-        clearInterval(sequencerTimer);
-        runSequencer();
-        //sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
-    }else if(state == 'paused') {
-        addClass(divPlayPause, 'btnPlay');
-        removeClass(divPlayPause, 'btnPause');
-        divPlayPause.title = "Play";
-        priorityTask.clear();
-        //clearInterval(sequencerTimer);
-    }
+function playInstrument(index) {
+    setInstrumentClass(index);
+    channelArr[index].play();
 }
-
-/*****************************************/
-/***FUNCTIONS FOR PLAYING AN INSTRUMENT***/
-/*****************************************/
 
 function _playInstrument(index) {
     return function() {
@@ -524,30 +358,15 @@ function _playInstrument(index) {
     };
 }
 
-function playInstrument(index) {
-    setInstrumentClass(index);
-    channelArr[index].play();
-}
-
-function setInstrumentClass(el) {
-    addClass(instrumentArr[el], 'clsInstrumentActive');
-}
-
 function releaseHandler(index) {
     return function() {
         removeClass(instrumentArr[index], 'clsInstrumentActive');
     };
 }
 
-
-
-/********************************************/
-/***WINDOW KEYDOWN/KEYUP HANDLER FUNCTIONS***/
-/********************************************/
-
 function keyDownHandler(e) {
     if(!e) {
-        var e = window.event;
+        e = window.event;
     }
 
     var keyHashVal = keyHash[e.keyCode];
@@ -563,7 +382,7 @@ function keyDownHandler(e) {
 
 function keyUpHandler(e) {
     if(!e) {
-        var e = window.event;
+        e = window.event;
     }
 
     var keyHashVal = keyHash[e.keyCode];
@@ -575,22 +394,26 @@ function keyUpHandler(e) {
     }
 }
 
-
-
-/***********************************/
-/***STEP WIDGET HANDLER FUNCTIONS***/
-/***********************************/
-
 function _setChVolume(index) {
     return function(val) {
         sequenceArr.chVol[index] = val;
         channelArr[index].setVolume((val/100) * (masterVolume/100));
-    }
+    };
 }
 
 function setTempo(val) {
     sequenceArr.tempo = val;
     sequencerTimeoutLength = Math.round((1000*((60/val)/beatLength)));
+}
+
+function setTotalSteps(val) {
+    removeClass(sequencerPositionLEDArr[_getCurrentStepIndex()], 'clsStepCurrent');        
+    totalSteps = val;
+    totalMeasures = Math.ceil(totalSteps/measureLength);
+    lastStep = totalSteps;
+
+    setStepEvents();
+    initLoopPosition();
 }
 
 function setSteps(val) {
@@ -615,3 +438,138 @@ function setMasterVolume(val) {
         channelArr[n].setVolume(Math.round((channelVolume * masterVolume)/100)/100);
     }
 }
+
+/**************************************************************************************************************************
+    CONSTRUCTOR/DESTRUCTOR
+**************************************************************************************************************************/
+
+function init() {
+    divPlayPause = $('divPlayPause');
+    divJumpToStart = $('divJumpToStart');
+    divClearPattern = $('divClearPattern');
+    
+    divTempo = $("divTempo");
+    divSteps = $("divSteps");
+    divVolume = $("divVolume");
+    divLoopPosition = $("divLoopPosition");
+    
+    var validAudioFormats = new AudioChannel().getValidFormats();
+    
+    window.onkeydown = keyDownHandler;
+    window.onkeyup = keyUpHandler;
+
+    instrumentArr = getElementsByClassName('drumPad');
+    volumeWidgetArr = getElementsByClassName('divVolumeWidget');
+    muteBtnArr = getElementsByClassName('channelMute');
+    soloBtnArr = getElementsByClassName('channelSolo');
+    instrumentNameArr = getElementsByClassName('instrumentName');
+    sequencerPositionLEDArr = getElementsByClassName('sequencerPositionLED');
+
+    var divStepWrapper = $("divStepWrapper");
+    for(var n=0; n< divStepWrapper.children.length; n++) {
+        divStepArr[n] = divStepWrapper.children[n].children;
+    }
+
+    divViewBarArr = $("divViewBarInnerWrapper").getElementsByTagName('div');
+
+    priorityTask = new Kodiak.Data.PriorityTask();
+
+    for(n=0; n<divViewBarArr.length; n++) {
+        divViewBarArr[n].onmousedown = _setCurrentMeasure(n+1);
+    }
+
+    for(n=0; n<instrumentChannels; n++) {
+        instrumentArr[n].onmousedown = _playInstrument(n);
+        instrumentArr[n].onmouseup = releaseHandler(n);
+
+        channelArr[n] = new AudioChannel();
+
+        muteBtnArr[n].onmousedown = _toggleMute(n);
+        soloBtnArr[n].onmousedown = _toggleSolo(n);
+        volumeWidgetArr[n] = new StepWidget({
+	        container:      volumeWidgetArr[n],
+            minValue:       0,
+	        maxValue:       100,
+	        initValue:      75,
+            btnWidth:       15,
+            txtPadding:      2,
+            clickTimeout:   50,
+            title:          'Volume',
+            maxLength:      3,
+            bodyClass:         'stepWidgetChannelBody',
+            txtClass:          'stepWidgetChannelTxt',
+            incBtnClass:       'stepWidgetInc',
+            decBtnClass:       'stepWidgetDec',
+	        onValueChange:     _setChVolume(n)
+        });
+    }
+
+    tempoWidget = new StepWidget({
+        container:      divTempo,
+        minValue:       20,
+        maxValue:       200,
+        initValue:      120,
+        btnWidth:       15,
+        title:          'Tempo',
+        maxLength:      3,
+        bodyClass:      'stepWidgetBody',
+        txtClass:       'stepWidgetTxt',
+        incBtnClass:    'stepWidgetInc',
+        decBtnClass:    'stepWidgetDec',
+        onValueChange:  function(val) {priorityTask.run(function() {setTempo(val);});}
+    });
+    
+    stepsWidget = new StepWidget({
+        container:         divSteps,
+        minValue:          1,
+        maxValue:          64,
+        initValue:         16,
+        btnWidth:          15,
+        title:             'Steps',
+        maxLength:         2,
+        bodyClass:         'stepWidgetBody',
+        txtClass:          'stepWidgetTxt',
+        incBtnClass:       'stepWidgetInc',
+        decBtnClass:       'stepWidgetDec',
+        onValueChange:     setSteps
+    });
+    
+    masterVolumeWidget = new StepWidget({
+        container:        divVolume,
+        minValue:         0,
+        maxValue:         100,
+        initValue:        75,
+        btnWidth:         15,
+        title:            'Master Volume',
+        maxLength:        3,
+        bodyClass:        'stepWidgetBody',
+        txtClass:         'stepWidgetTxt',
+        incBtnClass:      'stepWidgetInc',
+        decBtnClass:      'stepWidgetDec',
+        onValueChange:    setMasterVolume
+    });
+
+    var validFormats = channelArr[0].getValidFormats();
+    if(validFormats.ogg) {
+        audioFormat = 'ogg';
+    }else if(validFormats.mp3) {
+        audioFormat = 'mp3';
+    }else {
+        alert("Your browser does not support this app :-\\");
+    }
+
+    divPlayPause.onclick = function() {togglePlay(); return false;};
+    divJumpToStart.onclick = function() {initLoopPosition(); return false;};
+    divClearPattern.onclick = function() {clearPattern(); return false;};
+}
+
+if(window.addEventListener) {
+    window.addEventListener('load', init, false);
+}else {
+    window.attachEvent('onload', init);
+}
+
+window.onbeforeunload = function(){
+	var message = 'Any unsaved changes will be lost!';
+    return message;
+};
