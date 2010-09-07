@@ -31,17 +31,22 @@
     <head>
         <title>Beat Slappr</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
-        <script type="text/javascript" src="includes/scripts/index.js"></script>
-        <script type="text/javascript" src="includes/scripts/kits.js"></script>
-        <script type="text/javascript" src="includes/scripts/patterns.js"></script>
-        <script type="text/javascript" src="includes/scripts/account.js"></script>
-        <script type="text/javascript" src="includes/scripts/md5.js"></script>
-        <script type="text/javascript" src="includes/scripts/util.js"></script>
-        <script type="text/javascript" src="includes/scripts/audio.js"></script>
-        <script type="text/javascript" src="includes/scripts/stepwidget.js"></script>
-        <script type="text/javascript" src="includes/scripts/kodiak.js"></script>
-        <script type="text/javascript" src="includes/scripts/taskscheduler.js"></script>
-        <script type="text/javascript" src="includes/scripts/toolbox.js"></script>
+        <?php
+            if(DEV) {
+                // Get all the files from showcase-all.list
+                $dir = 'includes/scripts/';
+                $jsFileArr = file($dir . 'js.list');
+                $count = sizeof($jsFileArr);
+                for ($i=0; $i<$count; $i++) {
+                    $jsFileArr[$i] = preg_replace('/([\r\n])+/i', '', $jsFileArr[$i]);
+                    if(strlen($jsFileArr[$i])) {
+                        echo "<script src='" . $dir . $jsFileArr[$i] . "'></script>\n";
+                    }
+                }
+            }else {
+                echo "<script src='includes/scripts/script.js'></script>";
+            }
+        ?>
         <script type="text/javascript">
             <?php
                 if($_SESSION['email']) {

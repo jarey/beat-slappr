@@ -65,4 +65,10 @@
     define("DB_USERNAME", "beat_slappr");
     define("DB_PASSWORD", "K5uGBQXL5DaAqJH4");
 
+
+    /**************************/
+    /***ENVIRONMENT SETTINGS***/
+    /**************************/  
+
+    define("DEV", true);
 ?>
