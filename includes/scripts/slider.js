@@ -3,8 +3,10 @@ var Slider = function(config){
 	var _this = this;
 	
 	if(config) {
-		for(prop in config) {
-			this[prop] = config[prop];
+		for(var prop in config) {
+            if(config[prop]) {
+                this[prop] = config[prop];
+            }
 		}
 		if(this.container && typeof(this.container) != 'object') {
 			alert('Invalid Container');
@@ -108,22 +110,16 @@ Slider.prototype = {
 		this._innerDiv.style.top = this._slideRangePx - initPos + "px"; 
 	},
 	
-	_findElPos: function(obj) {
-	    var curleft = curtop = 0;
-	    if (obj.offsetParent) {
-	        curleft = obj.offsetLeft
-	        curtop = obj.offsetTop
-	        while (obj = obj.offsetParent) {
-	            curleft += obj.offsetLeft
-	            curtop += obj.offsetTop
-	        }
-	    }
-	    return {
-			elLeft: curleft,
-			elTop:  curtop
-		};
-	},
-	
+    _findElPos: function(el) {
+        var pos = {elLeft: 0, elTop: 0};
+        do{
+            pos.elLeft += el.offsetLeft;
+            pos.elTop += el.offsetTop;
+            el = el.offsetParent;
+        }while(el);
+        return pos;
+    },
+
 	_getDocumentPos: function(scope) {
 		var sliderMargin = this._innerDiv.offsetHeight / 2;
 		scope._documentPos = scope._findElPos(scope._outterDiv);

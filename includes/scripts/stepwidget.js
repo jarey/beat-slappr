@@ -1,8 +1,10 @@
 var StepWidget = function(config) {
     var _this = this;
     if(config) {
-        for(prop in config) {
-            this[prop] = config[prop];
+        for(var prop in config) {
+            if(config[prop]) {
+                this[prop] = config[prop];
+            }
         }
         if(this.container && typeof(this.container) != 'object') {
             alert('Invalid Container');
@@ -19,17 +21,17 @@ var StepWidget = function(config) {
 
     this.textEl.onkeydown = function(e) {
 	    if(!e) {
-	        var e = window.event;
+	        e = window.event;
 	    }
 
-    	if(!e || !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || (e.keyCode >= 35 && e.keyCode <= 40) || (e.keyCode == 8) || (e.keyCode == 46))) {
+        if(!e || !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || (e.keyCode >= 35 && e.keyCode <= 40) || (e.keyCode == 8) || (e.keyCode == 46))) {
             return false;
         }
     };
 
     this.textEl.onchange = function() {_this.changeValue(_this);};
     this.incEl.onmousedown = function() {_this.incValue(_this); return false;};
-    this.decEl.onmousedown = function() {_this.decValue(_this); return false};
+    this.decEl.onmousedown = function() {_this.decValue(_this); return false;};
 };
 
 StepWidget.prototype = {
@@ -103,7 +105,7 @@ StepWidget.prototype = {
         }else if(scope.textEl.value > scope.maxValue) {
             scope.setValue(scope.maxValue);
         }else {
-            scope.setValue(parseInt(scope.textEl.value));
+            scope.setValue(parseInt(scope.textEl.value, 10));
         }
     },
     
@@ -153,5 +155,5 @@ StepWidget.prototype = {
             scope.setValue(scope._value-1);
         }
         scope._timeout = setTimeout(function() {scope._decValue(scope);}, scope.clickTimeout);
-    },
+    }
 };

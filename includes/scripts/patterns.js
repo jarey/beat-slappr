@@ -22,126 +22,66 @@ var spa;
 //upa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
 var upa;
 
-/***INIT***/
 
-if(window.addEventListener) {
-    window.addEventListener('load', patternInit, false);
-}else {
-    window.attachEvent('onload', patternInit);
+
+/*******************************/
+/***GET/SET PATTERN FUNCTIONS***/
+/*******************************/
+
+function getPattern() {
+    var str = encodeJSON(sequenceArr);
+    return str;
 }
 
-function patternInit() {
-    currentPattern = $("currentPattern");
+function setPattern(val) {
+    if(val) {
+        priorityTask.run(
+            function() {
+                if(typeof(val) == 'string') {
+                    sequenceArr = decodeJSON(val);
+                }else if(typeof(val) == 'object') {
+                    sequenceArr = val;
+                }
+                
+                for(var ch in sequenceArr.chVol) {
+                    if(sequenceArr.chVol[ch]) {
+                        volumeWidgetArr[ch].setValue(sequenceArr.chVol[ch]);
+                    }
+                }
 
-    patternAjax = new Kodiak.Data.Ajax();
-
-    patternModal = new Kodiak.Controls.Modal({
-        applyTo:     'aPatternModal',
-        componentId: 'patternModal',
-        modalClass:  'modalWindow patternModal',
-        onBeforeShow: function() {
-            this.setContent($('txtPatternWindow').value);
-        },
-        onShowComplete: userPatternInit
-    });
-
-    savePatternModal = new Kodiak.Controls.Modal({
-        applyTo:     'lblSavePattern',
-        componentId: 'savePatternModal',
-        modalClass:  'modalWindow accountModal',
-        onBeforeShow: function() {
-            this.setContent($('txtSavePatternWindow').value);
-        },
-        onShowComplete: savePatternInit
-    });
-
-    sharePatternModal = new Kodiak.Controls.Modal({
-        applyTo:     'lblSharePattern',
-        componentId: 'sharePatternModal',
-        modalClass:  'modalWindow accountModal',
-        onBeforeShow:   function() {
-            this.setContent($('txtSharePatternWindow').value);
-        },
-        onShowComplete: sharePatternInit
-    });
-
-    downloadPatternModal = new Kodiak.Controls.Modal({
-        applyTo:     'lblDownloadPattern',
-        componentId: 'downloadPatternModal',
-        modalClass:  'modalWindow accountModal',
-        onBeforeShow:   function() {
-            this.setContent($('txtDownloadPatternWindow').value);
-        },
-        onShowComplete: downloadPatternInit
-    });
-
-    if(typeof(upa) == 'object') {
-        userPatternArr = upa;
-    }
-
-    if(typeof(spa) == 'object') {
-        systemPatternArr = spa;
-    }
-
-    if(typeof(p) == 'object') {
-        setPattern(p);
+                stepsWidget.setValue(parseInt(sequenceArr.steps, 10));
+                tempoWidget.setValue(parseInt(sequenceArr.tempo, 10));
+                setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id, 10));
+                
+                if(sequenceArr.name) {
+                    currentPattern.innerHTML = sequenceArr.name;
+                }
+            }
+        );
     }
 }
-
 
 
 /****************************/
 /***PATTERN MODAL HANDLING***/
 /****************************/
 
-function userPatternInit() {
-    var type;
-    divGuestPatternWrapper = $('divGuestPatternWrapper');
-    divMyPatternWrapper = $('divMyPatternWrapper');
-    divPatternMesg = $('divPatternMesg');
-    divPresetPatterns = $('divPresetPatterns');
+function setWithSelectedBtnState() {
+    var selectedRowCount = userPatternDataset.getSelectedRowCount();
+    var buttonState = false;
 
-    if(currentUser) {
-        divMyPatternWrapper.style.display = "block";
-        divGuestPatternWrapper.style.display = "none";
-        cmdRenamePattern = $('cmdRenamePattern');
-        cmdRenamePattern.onclick = function() {doWithSelected('rename');};
-        cmdDeletePattern = $('cmdDeletePattern');
-        cmdDeletePattern.onclick = function() {doWithSelected('delete');};
-        divUserPatterns = $('divUserPatterns');
-        $('lblSelectAll').onclick = function() {userPatternDataset.selectAllRows(true);};
-        $('lblSelectNone').onclick = function() {userPatternDataset.selectAllRows(false);};
-
-        if(systemPatternArr.length) {
-            type = "user";
-            if(!userPatternDataIsDirty) {
-                var obj = {};
-                obj.response = {success: true, data: {user: userPatternArr}};
-                userPatternHandler(obj);
-                return;
-            }
-        }else {
-            type = "all";
-        }
+    if(selectedRowCount) {
+        buttonState = false;
     }else {
-        divMyPatternWrapper.style.display = "none";
-        divGuestPatternWrapper.style.display = "block";
-
-        if(systemPatternArr.length) {
-            var obj = {};
-            obj.response = {success: true, data: {system: systemPatternArr}};
-            userPatternHandler(obj);
-            return;            
-        }
-        type = "system"
+        buttonState = true;
     }
 
-    patternAjax.request({
-        url:    'api/pattern.php',
-        method: 'post',
-        parameters: {cmd: 'get', type: type},
-        handler: userPatternHandler
-    });
+    cmdRenamePattern.disabled = buttonState;
+    cmdDeletePattern.disabled = buttonState;    
+
+    if(selectedRowCount > 1) {
+        cmdRenamePattern.disabled = true;
+    }
 }
 
 function userPatternHandler(obj) {
@@ -265,52 +205,6 @@ function userPatternHandler(obj) {
     }
 }
 
-function doWithSelected(val) {
-    var selectedPatterns = userPatternDataset.getSelected();
-    switch(val) {
-        case "rename":
-            if(selectedPatterns.length == 1) {
-                var originalName = selectedPatterns[0].data.name;
-                var newName = prompt("New name:", originalName);
-                if(newName && newName != originalName) {
-                     patternAjax.request({
-                        url:    'api/pattern.php',
-                        method: 'post',
-                        parameters: {cmd: 'rename', from: originalName, to: newName},
-                        handler: function(obj) {renameHandler(obj, newName);}
-                    });
-                }
-            }
-        break;
-        case "delete":
-            if(selectedPatterns) {
-                if(confirm("Are you sure you want to delete the selected patterns?  This can't be undone!")) {
-                    var postObj = {
-                        cmd:   'delete',
-                        items: ''
-                    };
-                    var delIdArr = [];
-                    var delNameArr = [];
-                    var key, val, pattern;
-                    for(pattern in selectedPatterns) {
-                        key = selectedPatterns[pattern].index;
-                        val = selectedPatterns[pattern].data.name;
-                        delIdArr.push(key);
-                        delNameArr.push(val);
-                    }
-                    postObj.items = delNameArr.join("|-|");
-                     patternAjax.request({
-                        url:    'api/pattern.php',
-                        method: 'post',
-                        parameters: postObj,
-                        handler: function(obj) {deleteHandler(obj, delIdArr);}
-                    });
-                }
-            }
-        break;
-    }
-}
-
 function renameHandler(obj, newName) {
     var response = decodeJSON(obj.response);
     if(response.success) {
@@ -337,9 +231,11 @@ function deleteHandler(obj, delIdArr) {
     if(response.success) {
         divPatternMesg.style.display = "none";
         for(var index in delIdArr) {
-            val = delIdArr[index] - n;
-            userPatternDataset.data.splice(val, 1);
-            n++;
+            if(delIdArr[index]) {
+                val = delIdArr[index] - n;
+                userPatternDataset.data.splice(val, 1);
+                n++;
+            }
         }
         userPatternDataset.selectAllRows(false);
         userPatternDataset.sort(this.sortCol);
@@ -351,56 +247,141 @@ function deleteHandler(obj, delIdArr) {
     }
 }
 
-function setWithSelectedBtnState() {
-    var selectedRowCount = userPatternDataset.getSelectedRowCount();
-    var buttonState = false;
-
-    if(selectedRowCount) {
-        buttonState = false;
-    }else {
-        buttonState = true;
-    }
-
-    cmdRenamePattern.disabled = buttonState;
-    cmdDeletePattern.disabled = buttonState;    
-
-    if(selectedRowCount > 1) {
-        cmdRenamePattern.disabled = true;
+function doWithSelected(val) {
+    var selectedPatterns = userPatternDataset.getSelected();
+    switch(val) {
+        case "rename":
+            if(selectedPatterns.length == 1) {
+                var originalName = selectedPatterns[0].data.name;
+                var newName = prompt("New name:", originalName);
+                if(newName && newName != originalName) {
+                     patternAjax.request({
+                        url:    'api/pattern.php',
+                        method: 'post',
+                        parameters: {cmd: 'rename', from: originalName, to: newName},
+                        handler: function(obj) {renameHandler(obj, newName);}
+                    });
+                }
+            }
+        break;
+        case "delete":
+            if(selectedPatterns) {
+                if(confirm("Are you sure you want to delete the selected patterns?  This can't be undone!")) {
+                    var postObj = {
+                        cmd:   'delete',
+                        items: ''
+                    };
+                    var delIdArr = [];
+                    var delNameArr = [];
+                    var key, value, pattern;
+                    for(pattern in selectedPatterns) {
+                        if(selectedPatterns[pattern]) {
+                            key = selectedPatterns[pattern].index;
+                            value = selectedPatterns[pattern].data.name;
+                            delIdArr.push(key);
+                            delNameArr.push(value);
+                        }
+                    }
+                    postObj.items = delNameArr.join("|-|");
+                     patternAjax.request({
+                        url:    'api/pattern.php',
+                        method: 'post',
+                        parameters: postObj,
+                        handler: function(obj) {deleteHandler(obj, delIdArr);}
+                    });
+                }
+            }
+        break;
     }
 }
+
+function userPatternInit() {
+    var type;
+    var obj = {};
+    
+    divGuestPatternWrapper = $('divGuestPatternWrapper');
+    divMyPatternWrapper = $('divMyPatternWrapper');
+    divPatternMesg = $('divPatternMesg');
+    divPresetPatterns = $('divPresetPatterns');
+
+    if(currentUser) {
+        divMyPatternWrapper.style.display = "block";
+        divGuestPatternWrapper.style.display = "none";
+        cmdRenamePattern = $('cmdRenamePattern');
+        cmdRenamePattern.onclick = function() {doWithSelected('rename');};
+        cmdDeletePattern = $('cmdDeletePattern');
+        cmdDeletePattern.onclick = function() {doWithSelected('delete');};
+        divUserPatterns = $('divUserPatterns');
+        $('lblSelectAll').onclick = function() {userPatternDataset.selectAllRows(true);};
+        $('lblSelectNone').onclick = function() {userPatternDataset.selectAllRows(false);};
+
+        if(systemPatternArr.length) {
+            type = "user";
+            if(!userPatternDataIsDirty) {
+                obj.response = {success: true, data: {user: userPatternArr}};
+                userPatternHandler(obj);
+                return;
+            }
+        }else {
+            type = "all";
+        }
+    }else {
+        divMyPatternWrapper.style.display = "none";
+        divGuestPatternWrapper.style.display = "block";
+
+        if(systemPatternArr.length) {
+            obj.response = {success: true, data: {system: systemPatternArr}};
+            userPatternHandler(obj);
+            return;            
+        }
+        type = "system";
+    }
+
+    patternAjax.request({
+        url:    'api/pattern.php',
+        method: 'post',
+        parameters: {cmd: 'get', type: type},
+        handler: userPatternHandler
+    });
+}
+
 
 /*********************************/
 /***SAVE PATTERN MODAL HANDLING***/
 /*********************************/
 
-function savePatternInit() {
-    divGuestPatternSaveWrapper = $("divGuestPatternSaveWrapper");
-    divUserPatternSaveWrapper = $("divUserPatternSaveWrapper");
+function savePatternHandler(obj, patternName) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSavePatternMesg = $('divSavePatternMesg');
+        var util = new Kodiak.Util();
+        if(response.action == "added") {
+            //if a new pattern was added, clone sequencearr, update the new array's name property to the name
+            //of the new pattern, and push it to userPatternArr.
 
-    divSavePatternMesg = $("divSavePatternMesg");
-    divSavePatternMesg.innerHTML = "";
-    divSavePatternMesg.style.display = "none";
+            var newSequence = {};
+            util.clone(sequenceArr, newSequence);
+            newSequence.name = patternName;
+            userPatternArr.push(newSequence);
+        }else if(response.action == "updated") {
+            //if an existing pattern was updated, look up the pattern in userPatternArr and update it's value
+            //with a clone of sequenceArr.
 
-    if(currentUser) {
-        divGuestPatternSaveWrapper.style.display = "none";
-        divUserPatternSaveWrapper.style.display = "block";
-        
-        frmSavePattern = $("frmSavePattern");
-        frmSavePattern.onkeydown = stopPropagation;
-
-        txtSavePattern = $("txtSavePattern");
-        txtSavePattern.value = $("currentPattern").innerHTML;
-        txtSavePattern.focus();
-
-        cmdSavePattern = $("cmdSavePattern");
-        cmdSavePattern.onclick = savePattern;
-
-        imgSavePatternLoader = $("imgSavePatternLoader");
-        $('cmdCancelSave').onclick = function() {savePatternModal.hide();};
+            for(var pattern in userPatternArr) {
+                if(userPatternArr[pattern].name == sequenceArr.name) {
+                    util.clone(sequenceArr, userPatternArr[pattern]);
+                    break;
+                }
+            }
+        }
+        //userPatternDataIsDirty = true;
     }else {
-        divUserPatternSaveWrapper.style.display = "none";
-        divGuestPatternSaveWrapper.style.display = "block";
+        cmdSavePattern.style.display = "inline";
+        imgSavePatternLoader.style.display = "none";
     }
+    divSavePatternMesg.style.display = "block";
+    divSavePatternMesg.innerHTML = response.mesg;
 }
 
 function savePattern() {
@@ -439,73 +420,51 @@ function savePattern() {
     });
 }
 
-function savePatternHandler(obj, patternName) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
-        divSavePatternMesg = $('divSavePatternMesg');
-        var util = new Kodiak.Util();
-        if(response.action == "added") {
-            //if a new pattern was added, clone sequencearr, update the new array's name property to the name
-            //of the new pattern, and push it to userPatternArr.
+function savePatternInit() {
+    divGuestPatternSaveWrapper = $("divGuestPatternSaveWrapper");
+    divUserPatternSaveWrapper = $("divUserPatternSaveWrapper");
 
-            var newSequence = {};
-            util.clone(sequenceArr, newSequence);
-            newSequence.name = patternName;
-            userPatternArr.push(newSequence);
-        }else if(response.action == "updated") {
-            //if an existing pattern was updated, look up the pattern in userPatternArr and update it's value
-            //with a clone of sequenceArr.
+    divSavePatternMesg = $("divSavePatternMesg");
+    divSavePatternMesg.innerHTML = "";
+    divSavePatternMesg.style.display = "none";
 
-            for(var pattern in userPatternArr) {
-                if(userPatternArr[pattern].name == sequenceArr.name) {
-                    util.clone(sequenceArr, userPatternArr[pattern]);
-                    break;
-                }
-            }
-        }
-        //userPatternDataIsDirty = true;
+    if(currentUser) {
+        divGuestPatternSaveWrapper.style.display = "none";
+        divUserPatternSaveWrapper.style.display = "block";
+        
+        frmSavePattern = $("frmSavePattern");
+        frmSavePattern.onkeydown = stopPropagation;
+
+        txtSavePattern = $("txtSavePattern");
+        txtSavePattern.value = $("currentPattern").innerHTML;
+        txtSavePattern.focus();
+
+        cmdSavePattern = $("cmdSavePattern");
+        cmdSavePattern.onclick = savePattern;
+
+        imgSavePatternLoader = $("imgSavePatternLoader");
+        $('cmdCancelSave').onclick = function() {savePatternModal.hide();};
     }else {
-        cmdSavePattern.style.display = "inline";
-        imgSavePatternLoader.style.display = "none";
+        divUserPatternSaveWrapper.style.display = "none";
+        divGuestPatternSaveWrapper.style.display = "block";
     }
-    divSavePatternMesg.style.display = "block";
-    divSavePatternMesg.innerHTML = response.mesg;
 }
+
 
 /**********************************/
 /***SHARE PATTERN MODAL HANDLING***/
 /**********************************/
 
-function sharePatternInit() {
-    divSharePatternMesg = $('divSharePatternMesg');
-    divSharePatternMesg.innerHTML = "";
-
-    frmSharePattern = $('frmSharePattern');
-    frmSharePattern.onkeydown = stopPropagation;
-
-    divShareUser = $('divShareUser');
-    divGuestUser = $('divGuestUser');
-
-    txtShareWithEmail = $('txtShareWithEmail');
-    txtShareWithEmail.value = '';
-
-    if(currentUser) {
-        divGuestUser.style.display = "none";
-        txtUserEmail = "";
-        txtShareWithEmail.focus();
+function sharePatternHandler(obj) {
+    var response = decodeJSON(obj.response);
+    if(response.success) {
+        sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+        divSharePatternMesg = $('divSharePatternMesg');
     }else {
-        divGuestUser.style.display = "block";
-        txtUserEmail = $('txtUserEmail');
-        txtUserEmail.value = '';
-        txtUserEmail.focus();
+        cmdSharepattern.style.display = "inline";
+        imgSharePatternLoader.style.display = "none";
     }
-
-    cmdSharePattern = $('cmdSharePattern');
-    cmdSharePattern.onclick = sharePattern;
-
-    imgSharePatternLoader = $('imgSharePatternLoader');
-    $('cmdCancelShare').onclick = function() {sharePatternModal.hide();};
+    divSharePatternMesg.innerHTML = response.mesg;
 }
 
 function sharePattern() {
@@ -561,60 +520,41 @@ function sharePattern() {
     });
 }
 
-function sharePatternHandler(obj) {
-    var response = decodeJSON(obj.response);
-    if(response.success) {
-        sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
-        divSharePatternMesg = $('divSharePatternMesg');
+function sharePatternInit() {
+    divSharePatternMesg = $('divSharePatternMesg');
+    divSharePatternMesg.innerHTML = "";
+
+    frmSharePattern = $('frmSharePattern');
+    frmSharePattern.onkeydown = stopPropagation;
+
+    divShareUser = $('divShareUser');
+    divGuestUser = $('divGuestUser');
+
+    txtShareWithEmail = $('txtShareWithEmail');
+    txtShareWithEmail.value = '';
+
+    if(currentUser) {
+        divGuestUser.style.display = "none";
+        txtUserEmail = "";
+        txtShareWithEmail.focus();
     }else {
-        cmdSharepattern.style.display = "inline";
-        imgSharePatternLoader.style.display = "none";
+        divGuestUser.style.display = "block";
+        txtUserEmail = $('txtUserEmail');
+        txtUserEmail.value = '';
+        txtUserEmail.focus();
     }
-    divSharePatternMesg.innerHTML = response.mesg;
+
+    cmdSharePattern = $('cmdSharePattern');
+    cmdSharePattern.onclick = sharePattern;
+
+    imgSharePatternLoader = $('imgSharePatternLoader');
+    $('cmdCancelShare').onclick = function() {sharePatternModal.hide();};
 }
 
-//Below functions will eventually be used for pattern modal
-
-function getPattern() {
-    var str = encodeJSON(sequenceArr);
-    return str;
-}
-
-function setPattern(val) {
-    if(val) {
-        priorityTask.run(
-            function() {
-                if(typeof(val) == 'string') {
-                    sequenceArr = decodeJSON(val);
-                }else if(typeof(val) == 'object') {
-                    sequenceArr = val;
-                }
-                
-                for(var ch in sequenceArr.chVol) {
-                    volumeWidgetArr[ch].setValue(sequenceArr.chVol[ch]);
-                }
-
-                stepsWidget.setValue(parseInt(sequenceArr.steps));
-                tempoWidget.setValue(parseInt(sequenceArr.tempo));
-                setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id));
-                
-                if(sequenceArr.name) {
-                    currentPattern.innerHTML = sequenceArr.name;
-                }
-            }
-        );
-    }
-}
 
 /*************************************/
 /***DOWNLOAD PATTERN MODAL HANDLING***/
 /*************************************/
-
-function downloadPatternInit() {
-    $("cmdDownloadPattern").onclick = downloadPattern;
-    $("txtStepEnd").value = totalSteps;
-    $('cmdCancelDownload').onclick = function() {downloadPatternModal.hide();};
-}
 
 function downloadPattern() {
     var onbeforeunload = window.onbeforeunload;
@@ -625,5 +565,80 @@ function downloadPattern() {
     
     $("frmDownloadPattern").submit();
     
-    setTimeout(function() {window.onbeforeunload = onbeforeunload}, 1000);
+    setTimeout(function() {window.onbeforeunload = onbeforeunload;}, 1000);
+}
+
+function downloadPatternInit() {
+    $("cmdDownloadPattern").onclick = downloadPattern;
+    $("txtStepEnd").value = totalSteps;
+    $('cmdCancelDownload').onclick = function() {downloadPatternModal.hide();};
+}
+
+
+/******************/
+/***PATTERN INIT***/
+/******************/
+
+function patternInit() {
+    currentPattern = $("currentPattern");
+
+    patternAjax = new Kodiak.Data.Ajax();
+
+    patternModal = new Kodiak.Controls.Modal({
+        applyTo:     'aPatternModal',
+        componentId: 'patternModal',
+        modalClass:  'modalWindow patternModal',
+        onBeforeShow: function() {
+            this.setContent($('txtPatternWindow').value);
+        },
+        onShowComplete: userPatternInit
+    });
+
+    savePatternModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblSavePattern',
+        componentId: 'savePatternModal',
+        modalClass:  'modalWindow accountModal',
+        onBeforeShow: function() {
+            this.setContent($('txtSavePatternWindow').value);
+        },
+        onShowComplete: savePatternInit
+    });
+
+    sharePatternModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblSharePattern',
+        componentId: 'sharePatternModal',
+        modalClass:  'modalWindow accountModal',
+        onBeforeShow:   function() {
+            this.setContent($('txtSharePatternWindow').value);
+        },
+        onShowComplete: sharePatternInit
+    });
+
+    downloadPatternModal = new Kodiak.Controls.Modal({
+        applyTo:     'lblDownloadPattern',
+        componentId: 'downloadPatternModal',
+        modalClass:  'modalWindow accountModal',
+        onBeforeShow:   function() {
+            this.setContent($('txtDownloadPatternWindow').value);
+        },
+        onShowComplete: downloadPatternInit
+    });
+
+    if(typeof(upa) == 'object') {
+        userPatternArr = upa;
+    }
+
+    if(typeof(spa) == 'object') {
+        systemPatternArr = spa;
+    }
+
+    if(typeof(p) == 'object') {
+        setPattern(p);
+    }
+}
+
+if(window.addEventListener) {
+    window.addEventListener('load', patternInit, false);
+}else {
+    window.attachEvent('onload', patternInit);
 }

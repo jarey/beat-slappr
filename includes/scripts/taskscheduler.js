@@ -58,7 +58,9 @@ Kodiak.Data.PriorityTask.prototype = {
     fire: function() {
         //needs to eventually be updated to only run through queue as long as state is not blocked!
         for(var fn in this.eventQueue) {
-            this.eventQueue[fn]();
+            if(this.eventQueue[fn]) {
+                this.eventQueue[fn]();
+            }
         }
         this.eventQueue = [];
     }
