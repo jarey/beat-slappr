@@ -1,7 +1,7 @@
 <?php
 
     /*********************/
-    /***DEV CONFIG FILE***/
+    /***LAB CONFIG FILE***/
     /*********************/
 
 
@@ -68,12 +68,12 @@
     define("DB_HOSTNAME", "localhost");
     define("DB_NAME", "beat_slappr");
     define("DB_USERNAME", "beat_slappr");
-    define("DB_PASSWORD", "K5uGBQXL5DaAqJH4");
+    define("DB_PASSWORD", "YJKUH9wUArYyYM69");
 
 
     /**************************/
     /***ENVIRONMENT SETTINGS***/
     /**************************/  
 
-    define("DEV", true);
+    define("DEV", false);
 ?>
