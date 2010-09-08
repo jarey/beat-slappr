@@ -1,7 +1,9 @@
 var StepWidget = function(config) {
-    var _this = this;
+    var _this = this,
+        prop;
+
     if(config) {
-        for(var prop in config) {
+        for(prop in config) {
             if(config[prop]) {
                 this[prop] = config[prop];
             }

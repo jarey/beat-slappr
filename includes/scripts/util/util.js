@@ -20,9 +20,11 @@ function $(el) {
 }
 
 function getElementsByClassName(className) {
-    elArr = document.getElementsByTagName('*');
-    elClassArr = [];
-    for(var n=0; n<elArr.length; n++) {
+    var n,
+        elArr = document.getElementsByTagName('*'),
+        elClassArr = [];
+    
+    for(n=0; n<elArr.length; n++) {
         if(hasClass(elArr[n], className)) {
             elClassArr.push(elArr[n]);
         }
@@ -31,13 +33,17 @@ function getElementsByClassName(className) {
 }
 
 function encodeJSON(arr, parentIsArray) {
-    var parts = [];
-    var is_list = (Object.prototype.toString.apply(arr) === '[object Array]');
+    var parts = [],
+        is_list = (Object.prototype.toString.apply(arr) === '[object Array]'),
+        value,
+        str,
+        key,
+        json;
 
-    for(var key in arr) {
+    for(key in arr) {
         if(arr[key]) {
-            var value = arr[key];
-            var str = "";
+            value = arr[key];
+            str = "";
 
             if(typeof value == "object") { //Custom handling for arrays
                 if(is_list) {
@@ -66,7 +72,8 @@ function encodeJSON(arr, parentIsArray) {
             }
         }
     }
-    var json = parts.join(",");
+
+    json = parts.join(",");
     
     if(is_list) {
         return '[' + json + ']';//Return numerical JSON
@@ -75,7 +82,7 @@ function encodeJSON(arr, parentIsArray) {
     }
 }
 
-var decodeJSON = function(str) {
+function decodeJSON(str) {
     var val;
     try {
         val = eval('(' + str + ')');
@@ -83,7 +90,7 @@ var decodeJSON = function(str) {
         val = err;
     }
     return val;
-};
+}
 
 function isValidEmail(email) {
     if(email.match(/^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,4}$/i)) {

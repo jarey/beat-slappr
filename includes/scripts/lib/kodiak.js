@@ -40,9 +40,11 @@ Kodiak.Data.Ajax.prototype = {
     },
     
     submitForm: function(obj) {
-        var formFields = obj.form.elements;
-        var postObj = {};
-        for(var field in formFields) {
+        var formFields = obj.form.elements,
+            postObj = {},
+            field;
+
+        for(field in formFields) {
             if(formFields[field].name && formFields[field].value) {
                 postObj[formFields[field].name] = encodeURI(formFields[field].value);
             }
@@ -70,8 +72,9 @@ Kodiak.Data.Ajax.prototype = {
     
     _objToPostStr: function(obj) {
         if(typeof(obj) == 'object') {
-            var postStr = "";
-            for(var prop in obj) {
+            var postStr = "",
+                prop;
+            for(prop in obj) {
                 if(obj[prop]) {
                     postStr += prop + "=" + escape(obj[prop]) + "&";
                 }
@@ -135,9 +138,10 @@ Kodiak.Data.Dataset.prototype = {
         if(!params) {
             params = {};
         }
-        var _this = this;
-        var field = params.field;
-        var dir = params.dir;
+        var _this = this,
+            field = params.field,
+            dir = params.dir;
+
         if(!field && !dir) {
             if(this.sortCol.length) {
                 field = this.sortCol[0];
@@ -155,17 +159,19 @@ Kodiak.Data.Dataset.prototype = {
         }
 
         this.data.sort(function(a, b){
-            var n = 0;
-            var sortVal;
-            
+            var n = 0,
+                sortVal,
+                sortArr = [],
+                sortFieldArr = field.split('.'),
+                m,
+                prop;
+
             if(dir == "DESC") {
                 n = 2;
             }
-            var sortArr = [];
-            var sortFieldArr = field.split('.');
 
             sortArr[0] = a[sortFieldArr[0]];
-            for(var m=1; m<sortFieldArr.length; m++) {
+            for(m=1; m<sortFieldArr.length; m++) {
                 sortArr[0] = sortArr[0][sortFieldArr[m]];
             }
             if(typeof(a[field]) == 'string') {
@@ -181,7 +187,7 @@ Kodiak.Data.Dataset.prototype = {
             }
 
             if(_this.alwaysOnTop) {
-                for(var prop in _this.alwaysOnTop) {
+                for(prop in _this.alwaysOnTop) {
                     if(a[prop] == _this.alwaysOnTop[prop] && b[prop] == _this.alwaysOnTop[prop]) {
                         sortVal = ((sortArr[0] < sortArr[1]) ? (-1+n) : (sortArr[0] > sortArr[1]) ? (1-n) : 0);                    
                     }else if(a[prop] == _this.alwaysOnTop[prop]) {
@@ -205,9 +211,11 @@ Kodiak.Data.Dataset.prototype = {
     },
     
     getColumns: function() {
-        var colArr = [];
-        var headerCol = this.data[0];
-        for(var prop in headerCol) {
+        var colArr = [],
+            headerCol = this.data[0],
+            prop;
+
+        for(prop in headerCol) {
             if(headerCol[prop]) {
                 colArr.push(prop);
             }
@@ -224,10 +232,12 @@ Kodiak.Data.Dataset.prototype = {
     },
     
     getSelected: function() {
-        var selectedArr = [];
-        var rowSelected;
-        var rowCount = this.getRowCount();
-        for(var n=0; n<rowCount; n++) {
+        var selectedArr = [],
+            rowSelected,
+            rowCount = this.getRowCount(),
+            n;
+
+        for(n=0; n<rowCount; n++) {
             rowSelected = this.rowSelected(n, '', true);
             if(rowSelected) {
                 selectedArr.push({index: n, data: this.getRow(n)});
@@ -237,11 +247,12 @@ Kodiak.Data.Dataset.prototype = {
     },
     
     getSelectedRowCount: function() {
-        var selectedArr = [];
-        var rowSelected;
-        var selectedRowCount = 0;
-        var rowCount = this.getRowCount();
-        for(var n=0; n<rowCount; n++) {
+        var rowSelected,
+            selectedRowCount = 0,
+            rowCount = this.getRowCount(),
+            n = 0;
+
+        for(n=0; n<rowCount; n++) {
             rowSelected = this.rowSelected(n, '', true);
             if(rowSelected) {
                 selectedRowCount++;
@@ -251,7 +262,8 @@ Kodiak.Data.Dataset.prototype = {
     },
     
     selectAllRows: function(state, skipUpdate) {
-        for(var n=0; n<this.getRowCount(); n++) {
+        var n;
+        for(n=0; n<this.getRowCount(); n++) {
             this.rowSelected(n, state, true);
         }
         if(!skipUpdate) {
@@ -283,10 +295,11 @@ Kodiak.Util.prototype = {
     },
     
     printObj: function(obj) {
-        var propTable = "";
+        var propTable = "",
+            prop;
         
         propTable += "<table>";
-        for(var prop in obj) {
+        for(prop in obj) {
             if(obj[prop]) {
                 propTable +='<tr><td>' + prop + ':&nbsp;&nbsp</td><td>';
                 if(typeof(obj[prop]) == 'object') {
@@ -310,10 +323,11 @@ Kodiak.Util.prototype = {
     },
     
     clone: function(from, to, skip) {
+        var prop;
         if(!skip) {
             skip = {};  //skip obj used for specifying properties to skip or no recurse into. use values 'skip' and 'norecurse', respectively.
         }
-        for(var prop in from) {
+        for(prop in from) {
             if(skip[prop] != 'skip') {
                 if(typeof(from[prop]) == 'object' && skip[prop] != 'norecurse') {
                     if(from[prop].constructor == Array.prototype.constructor) {
@@ -350,9 +364,10 @@ Kodiak.Util.prototype = {
     //Desc:  gets the value of a radio button series which is wrapped in element el
     //Args:  el: parent element of radio elements.
     getRadioVal: function(el) {
-        el = toEl(el);
+        var n;
+        el = this.toEl(el);
         el = el.getElementsByTagName('input');
-        for(var n=0; n<el.length; n++) {
+        for(n=0; n<el.length; n++) {
             if(el[n].type == 'radio' && el[n].checked) {
                 return el[n].value;
             }
@@ -374,7 +389,8 @@ Kodiak.Util.Listener.prototype = {
     },
     
     fire: function() {
-        for(var n=0; n<this.eventStack.length; n++) {
+        var n;
+        for(n=0; n<this.eventStack.length; n++) {
             this.eventStack[n]();
         }
     }
@@ -411,9 +427,11 @@ Kodiak.Controls.Table.prototype = {
     
     renderTable: function(force) {
         if((!this._tableRendered || force === true)) {
-            var _this = this;
-            var prop, col, title, divHeaderStyle;
-            var tableStr = "" +
+            var prop,
+                col,
+                title,
+                divHeaderStyle,
+                tableStr = "" +
                 "<table id='" + this.tableDomId + "'><thead><tr>";
                     for(prop in this.columns) {
                         if(this.columns[prop]) {
@@ -457,15 +475,20 @@ Kodiak.Controls.Table.prototype = {
     },
     
     _setSortArrow: function() {    
-        var n=0, col, node;
-        var dir = {DESC: 'up', ASC: 'down'};
-        var sortableCols = this.applyTo.getElementsByTagName('th');
-        for(var prop in this.columns) {
+        var n=0,
+            col,
+            node,
+            dir = {DESC: 'up', ASC: 'down'},
+            sortableCols = this.applyTo.getElementsByTagName('th'),
+            prop,
+            m;
+
+        for(prop in this.columns) {
             if(this.columns[prop]) {
                 col = this.columns[prop];
                 node = sortableCols[n].childNodes[0];
                 if(col.sortable && col.dataField) {
-                    for(var m=0; m<node.childNodes.length; m++) {
+                    for(m=0; m<node.childNodes.length; m++) {
                         node.childNodes[m].onclick = this._makeSortFn(col.dataField);
                     }
                     node = node.childNodes[1].style;
@@ -482,12 +505,18 @@ Kodiak.Controls.Table.prototype = {
     },
     
     renderData: function() {
-        var tBody = this.applyTo.childNodes[0].childNodes[1];
-
-        var row, fieldData, prop, col, dataFieldArr;
-        var tableStr = "<table><tbody>";
+        var row,
+            fieldData,
+            prop,
+            col,
+            n,
+            m,
+            dataFieldArr,
+            tableStr = "<table><tbody>",
+            table,
+            tableDiv;
         
-        for(var n=0; n<this.data.getRowCount(); n++) {
+        for(n=0; n<this.data.getRowCount(); n++) {
             row = this.data.getRow(n);
             tableStr += "<tr>";
             for(prop in this.columns) {
@@ -496,7 +525,7 @@ Kodiak.Controls.Table.prototype = {
                     if(col.dataField) {
                         dataFieldArr = col.dataField.split('.');
                         fieldData = row[dataFieldArr[0]];
-                        for(var m=1; m<dataFieldArr.length; m++) {
+                        for(m=1; m<dataFieldArr.length; m++) {
                             fieldData = fieldData[dataFieldArr[m]];
                         }
                     }else {
@@ -517,8 +546,8 @@ Kodiak.Controls.Table.prototype = {
         }
         tableStr += "</tbody></table>";
         
-        var table = this.applyTo.childNodes[0];
-        var tableDiv = this.applyTo.childNodes[1];
+        table = this.applyTo.childNodes[0];
+        tableDiv = this.applyTo.childNodes[1];
         tableDiv.innerHTML = tableStr;
 
         if(table.childNodes.length > 1) {
@@ -530,13 +559,18 @@ Kodiak.Controls.Table.prototype = {
     },
 
     _setSelectedRows: function() {
-        var tBody = this.applyTo.childNodes[0].childNodes[1];
-        var row, el;
-        var _this = this;
-        for(var n=0; n<this.data.getRowCount(); n++) {
+        var tBody = this.applyTo.childNodes[0].childNodes[1],
+            row,
+            el,
+            n,
+            prop,
+            col,
+            colIndex;
+
+        for(n=0; n<this.data.getRowCount(); n++) {
             row = tBody.childNodes[n];
             colIndex = 0;
-            for(var prop in this.columns) {
+            for(prop in this.columns) {
                 if(this.columns[prop]) {
                     col = this.columns[prop];
                     if(col.selectRowCheckBox) {
@@ -554,8 +588,8 @@ Kodiak.Controls.Table.prototype = {
     },
     
     _selectRow: function(el, n) {
-        var row = el.parentNode.parentNode;
         var rowSelected;
+
         if(el.checked) {
             rowSelected = true;
         }else {
@@ -604,13 +638,14 @@ Kodiak.Controls.Modal = function(config) {
 
     this._initModal();
     this.applyTo.onmousedown = function(e) {_this.toggleModal(e, _this); return false;};
-    window.addEventListener('resize', function() {redraw(_this);}, false);
 
     function redraw(scope) {
         if(scope._modalActive) {
             scope._setModalPosition(scope);
         }
     }
+
+    window.addEventListener('resize', function() {redraw(_this);}, false);
 };
 
 Kodiak.Controls.Modal.prototype = {
@@ -637,11 +672,15 @@ Kodiak.Controls.Modal.prototype = {
     },
 
     show: function(e) {
-        var _this = this;
-        for(var component in Kodiak.Components) {
+        var _this = this,
+        component,
+        key,
+        val;
+        
+        for(component in Kodiak.Components) {
             if(Kodiak.Components[component]) {
-                var key = component;
-                var val = Kodiak.Components[key];
+                key = component;
+                val = Kodiak.Components[key];
                 if(val._isModal && val != this) {
                     val.hide();
                 }

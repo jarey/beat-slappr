@@ -453,7 +453,7 @@ function init() {
     divVolume = $("divVolume");
     divLoopPosition = $("divLoopPosition");
     
-    var validAudioFormats = new AudioChannel().getValidFormats();
+    var validAudioFormats = new AudioChannel({polyphony: 1}).getValidFormats();
     
     window.onkeydown = keyDownHandler;
     window.onkeyup = keyUpHandler;

@@ -6,7 +6,7 @@ Kodiak.Data.PriorityTask.prototype = {
     timeout:   0,
     blocked:   false,
     blockTime: 60,
-    loopTime:  15,
+    loopTime:  10,
     _timeout:   0,
     _isCleared: true,
     _fn:        function() {},
@@ -41,9 +41,9 @@ Kodiak.Data.PriorityTask.prototype = {
     },
     
     _async: function() {
-        var sTime = new Date().getTime();
-        var eTime = sTime;
-        var delay = this.executionTime - sTime;
+        var sTime = new Date().getTime(),
+            eTime = sTime,
+            delay = this.executionTime - sTime;
         
         while((delay - (eTime - sTime)) > 0) {
             eTime = new Date().getTime();
@@ -57,7 +57,9 @@ Kodiak.Data.PriorityTask.prototype = {
     
     fire: function() {
         //needs to eventually be updated to only run through queue as long as state is not blocked!
-        for(var fn in this.eventQueue) {
+        var fn;
+
+        for(fn in this.eventQueue) {
             if(this.eventQueue[fn]) {
                 this.eventQueue[fn]();
             }

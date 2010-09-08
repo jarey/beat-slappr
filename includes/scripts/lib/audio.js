@@ -11,13 +11,14 @@
 */
 
 function AudioChannel(config) {
-    var polyphony;
-    
+    var polyphony = 0;
     if(config) {
         if(config.src) {
             this.setSrc(config.src);
         }
-        polyphony = config.polyphony;
+        if(config.polyphony) {
+            polyphony = config.polyphony;
+        }
     }
     this.init(polyphony);
 }
@@ -40,18 +41,20 @@ AudioChannel.prototype = {
     /********************/
 
     init: function(polyphony) {
+        var n;
         if(polyphony) {
             this._polyphony = polyphony;
         }
         this._channelArr = [];
-        for(var n=0; n<this._polyphony; n++) {
+        for(n=0; n<this._polyphony; n++) {
             this._channelArr.push(new Audio());
         }
     },
     
     setVolume: function(val) {
+        var n;
         this._vol = val;
-        for(var n=0; n<this._polyphony; n++) {
+        for(n=0; n<this._polyphony; n++) {
             this._channelArr[n].volume = val;
         }
     },
@@ -61,8 +64,9 @@ AudioChannel.prototype = {
     },
     
     setMute: function(state) {
+        var n;
         this._muted = state;
-        for(var n=0; n<this._polyphony; n++) {
+        for(n=0; n<this._polyphony; n++) {
             this._channelArr[n].muted = state;
         }
     },
@@ -72,8 +76,9 @@ AudioChannel.prototype = {
     },
     
     setSrc: function(src) {
+        var n;
         this._src = src;
-        for(var n=0; n<this._polyphony; n++) {
+        for(n=0; n<this._polyphony; n++) {
             this._channelArr[n].src = src;
         }
     },
@@ -83,8 +88,9 @@ AudioChannel.prototype = {
     },
     
     getValidFormats: function() {
-        var playTypes = {};
-        var channel = this._channelArr[this._curChannel];
+        var playTypes = {},
+            channel = this._channelArr[this._curChannel];
+
         if(channel.canPlayType) {
             //Currently canPlayType(type) returns: "no", "maybe" or "probably"
             playTypes.ogg = (channel.canPlayType("audio/ogg") != "no") && (channel.canPlayType("audio/ogg") !== "");
