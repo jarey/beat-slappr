@@ -41,12 +41,39 @@ echo "Copying files..."
 rsync -a --exclude 'build' --exclude 'db' --exclude '.git' --exclude 'todo.txt' --exclude 'config.php' ../ build
 
 
+####################
+#####PACK STYLE#####
+####################
+
+echo ""
+echo "Packing CSS..."
+
+java -jar tools/yuicompressor-2.4.2.jar --line-break 8000 -v -o build/includes/style/style.css build/includes/style/style.css
+
+
 ######################
 #####PACK SCRIPTS#####
 ######################
 
-#echo "Minifying JavaScript..."
-#./tools/minify.php -i "build/index.js build/reference/js/fader.js build/reference/js/hijax2.js" -o "build/index.js" -delete
+echo ""
+echo "Packing JavaScript..."
+
+catStr=""
+scriptDir="build/includes/scripts"
+
+while read line
+do   
+    if [ ! -z $line ]
+    then
+        catStr="$catStr $scriptDir/$line"
+    fi
+done <$scriptDir/js.list
+
+cat $catStr > build/script.js 
+rm -dr build/includes/scripts/*
+mv build/script.js $scriptDir/script.js
+
+java -jar tools/yuicompressor-2.4.2.jar --line-break 8000 -v -o $scriptDir/script.js $scriptDir/script.js
 
 
 #########################################
