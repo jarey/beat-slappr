@@ -1,26 +1,26 @@
-var patternModal, savePatternModal, sharePatternModal, downloadPatternModal;
-var currentPattern;
+var patternModal, savePatternModal, sharePatternModal, downloadPatternModal,
+    currentPattern,
 
-var divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg;
-var divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader;
-var divGuestPatternSaveWrapper, divUserPatternSaveWrapper, divSavePatternMesg, frmSavePattern, txtSavePattern, cmdSavePattern, imgSavePatternLoader;
+    divGuestPatternWrapper, divMyPatternWrapper, cmdRenamePattern, cmdDeletePattern, divUserPatterns, divPresetPatterns, divPatternMesg,
+    divSharePatternMesg, frmSharePattern, divGuestUser, txtUserEmail, txtShareWithEmail, cmdSharePattern, imgSharePatternLoader,
+    divGuestPatternSaveWrapper, divUserPatternSaveWrapper, divSavePatternMesg, frmSavePattern, txtSavePattern, cmdSavePattern, imgSavePatternLoader,
 
-var userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable;
+    userPatternDataset, systemPatternDataset, userPatternTable, systemPatternTable,
 
-var userPatternDataIsDirty = false;
-var userPatternArr = [];
-var systemPatternArr = [];
-var patternAjax;
+    userPatternDataIsDirty = false,
+    userPatternArr = [],
+    systemPatternArr = [],
+    patternAjax,
 
-//p is defined in the homepage upon pageload if a 'p' attribute was passed on the url
-//This means the link was of a shared pattern.
-var p;
+    //p is defined in the homepage upon pageload if a 'p' attribute was passed on the url
+    //This means the link was of a shared pattern.
+    p,
 
-//spa is defined in the homepage upon pageload.  It is obfuscated for systemPatternArr.
-var spa;
+    //spa is defined in the homepage upon pageload.  It is obfuscated for systemPatternArr.
+    spa,
 
-//upa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
-var upa;
+    //upa is defined in the homepage upon pageload.  It is obfuscated for userPatternArr.
+    upa;
 
 
 
@@ -37,13 +37,14 @@ function setPattern(val) {
     if(val) {
         priorityTask.run(
             function() {
+                var ch;
                 if(typeof(val) == 'string') {
                     sequenceArr = decodeJSON(val);
                 }else if(typeof(val) == 'object') {
                     sequenceArr = val;
                 }
                 
-                for(var ch in sequenceArr.chVol) {
+                for(ch in sequenceArr.chVol) {
                     if(sequenceArr.chVol[ch]) {
                         volumeWidgetArr[ch].setValue(sequenceArr.chVol[ch]);
                     }
@@ -67,8 +68,8 @@ function setPattern(val) {
 /****************************/
 
 function setWithSelectedBtnState() {
-    var selectedRowCount = userPatternDataset.getSelectedRowCount();
-    var buttonState = false;
+    var selectedRowCount = userPatternDataset.getSelectedRowCount(),
+        buttonState = false;
 
     if(selectedRowCount) {
         buttonState = false;
@@ -206,10 +207,12 @@ function userPatternHandler(obj) {
 }
 
 function renameHandler(obj, newName) {
-    var response = decodeJSON(obj.response);
+    var response = decodeJSON(obj.response),
+        selectedPatterns;
+    
     if(response.success) {
         divPatternMesg.style.display = "none";
-        var selectedPatterns = userPatternDataset.getSelected();
+        selectedPatterns = userPatternDataset.getSelected();
 
         selectedPatterns[0].data.name = newName;
         userPatternDataset.selectAllRows(false);
@@ -225,12 +228,14 @@ function renameHandler(obj, newName) {
 }
 
 function deleteHandler(obj, delIdArr) {
-    var response = decodeJSON(obj.response);
-    var n=0;
-    var val;
+    var response = decodeJSON(obj.response),
+        n=0,
+        val,
+        index;
+
     if(response.success) {
         divPatternMesg.style.display = "none";
-        for(var index in delIdArr) {
+        for(index in delIdArr) {
             if(delIdArr[index]) {
                 val = delIdArr[index] - n;
                 userPatternDataset.data.splice(val, 1);
@@ -248,12 +253,21 @@ function deleteHandler(obj, delIdArr) {
 }
 
 function doWithSelected(val) {
-    var selectedPatterns = userPatternDataset.getSelected();
+    var selectedPatterns = userPatternDataset.getSelected(),
+        originalName,
+        newName,
+        postObj,
+        delIdArr,
+        delNameArr,
+        key,
+        value,
+        pattern;
+
     switch(val) {
         case "rename":
             if(selectedPatterns.length == 1) {
-                var originalName = selectedPatterns[0].data.name;
-                var newName = prompt("New name:", originalName);
+                originalName = selectedPatterns[0].data.name;
+                newName = prompt("New name:", originalName);
                 if(newName && newName != originalName) {
                      patternAjax.request({
                         url:    'api/pattern.php',
@@ -267,13 +281,12 @@ function doWithSelected(val) {
         case "delete":
             if(selectedPatterns) {
                 if(confirm("Are you sure you want to delete the selected patterns?  This can't be undone!")) {
-                    var postObj = {
+                    postObj = {
                         cmd:   'delete',
                         items: ''
                     };
-                    var delIdArr = [];
-                    var delNameArr = [];
-                    var key, value, pattern;
+                    delIdArr = [];
+                    delNameArr = [];
                     for(pattern in selectedPatterns) {
                         if(selectedPatterns[pattern]) {
                             key = selectedPatterns[pattern].index;
@@ -296,8 +309,8 @@ function doWithSelected(val) {
 }
 
 function userPatternInit() {
-    var type;
-    var obj = {};
+    var type,
+        obj = {};
     
     divGuestPatternWrapper = $('divGuestPatternWrapper');
     divMyPatternWrapper = $('divMyPatternWrapper');
@@ -351,16 +364,20 @@ function userPatternInit() {
 /*********************************/
 
 function savePatternHandler(obj, patternName) {
-    var response = decodeJSON(obj.response);
+    var response = decodeJSON(obj.response),
+        util,
+        newSequence,
+        pattern;
+
     if(response.success) {
         savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
         divSavePatternMesg = $('divSavePatternMesg');
-        var util = new Kodiak.Util();
+        util = new Kodiak.Util();
         if(response.action == "added") {
             //if a new pattern was added, clone sequencearr, update the new array's name property to the name
             //of the new pattern, and push it to userPatternArr.
 
-            var newSequence = {};
+            newSequence = {};
             util.clone(sequenceArr, newSequence);
             newSequence.name = patternName;
             userPatternArr.push(newSequence);
@@ -368,7 +385,7 @@ function savePatternHandler(obj, patternName) {
             //if an existing pattern was updated, look up the pattern in userPatternArr and update it's value
             //with a clone of sequenceArr.
 
-            for(var pattern in userPatternArr) {
+            for(pattern in userPatternArr) {
                 if(userPatternArr[pattern].name == sequenceArr.name) {
                     util.clone(sequenceArr, userPatternArr[pattern]);
                     break;
@@ -385,9 +402,11 @@ function savePatternHandler(obj, patternName) {
 }
 
 function savePattern() {
-    var sequenceStr, pattern;
-    var patternExists = false;
-    var patternName = txtSavePattern.value;
+    var sequenceStr,
+        pattern,
+        patternExists = false,
+        patternName = txtSavePattern.value,
+        overwrite;
 
     for(pattern in userPatternArr) {
         if(userPatternArr[pattern].name == patternName) {
@@ -397,7 +416,7 @@ function savePattern() {
     }
 
     if(patternExists) {
-        var overwrite = confirm("A pattern with this name already exists.  Overwrite?");
+        overwrite = confirm("A pattern with this name already exists.  Overwrite?");
         if(!overwrite) {
             return;
         }
@@ -471,9 +490,11 @@ function sharePattern() {
  
     /***VALIDATION***/
 
-    var user = "";
-    var sequenceStr = "";
-    var errorArr = [];
+    var user = "",
+        sequenceStr = "",
+        errorArr = [],
+        shareArr,
+        share;
 
     if(txtUserEmail && !isValidEmail(txtUserEmail.value)) {
         errorArr.push(emailErrorMesg);
@@ -481,8 +502,8 @@ function sharePattern() {
     if(!txtShareWithEmail.value) {
         errorArr.push("You must provide at least one recipient");
     }else {
-        var shareArr = txtShareWithEmail.value.split(',');    
-        for(var share in shareArr) {
+        shareArr = txtShareWithEmail.value.split(',');    
+        for(share in shareArr) {
             if(!isValidEmail(shareArr[share].replace(/^\s+|\s+$/g,""))) {
                 errorArr.push("One or more of the recipient's addresses you provided is invalid");
                 break;

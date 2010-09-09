@@ -1,18 +1,18 @@
-var kitModal;
-var currentKit;
-var kitCache = [];
+var kitModal,
+    currentKit,
+    kitCache = [],
 
-
-//lK is defined in the homepage dynamically.  It stands for loadKit.
-//This defines the initial kit to load on page load.
-var lK;
+    //lK is defined in the homepage dynamically.  It stands for loadKit.
+    //This defines the initial kit to load on page load.
+    lK;
 
 
 
 /***KITS***/
 
 function _isCached(id) {
-    for(var prop in kitCache) {
+    var prop;
+    for(prop in kitCache) {
         if(kitCache[prop].id == id) {
             return prop;
         }
@@ -22,9 +22,9 @@ function _isCached(id) {
 
 function setSystemKitHandler(obj, kitName, kitId) {
     if(obj.success) {
-        var response = decodeJSON(obj.response);
-        var record;
-        var mime = "";
+        var response = decodeJSON(obj.response),
+            record,
+            mime = "";
 
         currentKit.innerHTML = kitName;
         sequenceArr.kit = {id: kitId, name: kitName};
@@ -56,9 +56,9 @@ function setSystemKitHandler(obj, kitName, kitId) {
 
 function setSystemKit(kitName, kitId) {
     kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
-    var ajax = new Kodiak.Data.Ajax();
+    var ajax = new Kodiak.Data.Ajax(),
+        cacheIndex = _isCached(kitId);
 
-    var cacheIndex = _isCached(kitId);
     if(cacheIndex) {
         setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId);
         return;

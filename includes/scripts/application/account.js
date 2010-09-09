@@ -1,18 +1,18 @@
-var loginModal, signupModal;
-var divGuestAccount, divUserAccount;
+var loginModal, signupModal,
+    divGuestAccount, divUserAccount,
 
-var frmSignup, divSignupMesg, txtSignupEmail, cmdSignUp, cmdSignupLoader;
-var frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword, cmdLogin, imgLoginLoader;
-var frmResetPassword, divResetMesg, txtResetEmail, cmdResetPassword, cmdResetLoader;
+    frmSignup, divSignupMesg, txtSignupEmail, cmdSignUp, cmdSignupLoader,
+    frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword, cmdLogin, imgLoginLoader,
+    frmResetPassword, divResetMesg, txtResetEmail, cmdResetPassword, cmdResetLoader,
 
-var currentUser;
-var accountAjax;
+    currentUser,
+    accountAjax,
 
-var emailErrorMesg = "The email address you provided was not valid.";
-var passwordErrorMesg = "Password must be provided.";
+    emailErrorMesg = "The email address you provided was not valid.",
+    passwordErrorMesg = "Password must be provided.",
 
-//u is defined in the homepage upon pageload if an active session exists.
-var u;
+    //u is defined in the homepage upon pageload if an active session exists.
+    u;
 
 /************************************/
 /***FORGOT PASSWORD MODAL HANDLING***/
@@ -224,10 +224,13 @@ function logoutHandler(obj) {
 }
 
 function logout() {
+    var component,
+        val;
+
     //Close all modals:
-    for(var component in Kodiak.Components) {
+    for(component in Kodiak.Components) {
         if(Kodiak.Components[component]) {
-            var val = Kodiak.Components[component];
+            val = Kodiak.Components[component];
             if(val._isModal) {
                 val.hide();
             }
