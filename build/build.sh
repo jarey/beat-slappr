@@ -118,7 +118,7 @@ do
 
     mv config/config.$build.php config.php
     curDate=`date +%Y_%m_%d_%H_%M_%S`
-    tar czf ../packages/build__`echo $curDate`__`echo $build`__`echo $gitHash`.tar.gz * --exclude "config"
+    tar czf ../packages/build__`echo $curDate`__`echo $gitHash`__`echo $build`.tar.gz * --exclude "config"
     rm config.php
 done
 
