@@ -96,7 +96,10 @@ then
 fi
 
 gitHash=`git rev-parse HEAD`
+
 echo $gitHash > build/rev.txt
+echo `date +%Y_%m_%d_%H_%M_%S` >> build/rev.txt
+
 gitHash=${gitHash:(-4)}
 
 cd build
