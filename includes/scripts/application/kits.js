@@ -24,7 +24,8 @@ function setSystemKitHandler(obj, kitName, kitId) {
     if(obj.success) {
         var response = decodeJSON(obj.response),
             record,
-            mime = "";
+            mime = "",
+            n;
 
         currentKit.innerHTML = kitName;
         sequenceArr.kit = {id: kitId, name: kitName};

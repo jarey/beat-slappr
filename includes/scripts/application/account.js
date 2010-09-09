@@ -117,7 +117,7 @@ function login() {
     accountAjax.request({
         url:    'api/user.php',
         method: 'post',
-        parameters: {cmd: 'login', email: txtLoginEmail.value, password: hex_md5(txtLoginPassword.value)},
+        parameters: {cmd: 'login', email: txtLoginEmail.value, password: md5(txtLoginPassword.value)},
         handler: loginHandler
     });
 }

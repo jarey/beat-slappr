@@ -534,7 +534,7 @@ function sharePattern() {
             cmd: 'share',
             user: user,
             sequence: sequenceStr,
-            hash: hex_md5(user + sequenceStr + Math.random()),
+            hash: md5(user + sequenceStr + Math.random()),
             recipients: txtShareWithEmail.value
         },
         handler: sharePatternHandler
