@@ -29,6 +29,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>Beat Slappr</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <?php
@@ -92,7 +93,7 @@
                         <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
                             <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
                         </div>
-                        <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>">
+                        <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
                         <?php if ($_SESSION['user_id']) { ?>
                             <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='logout();'>Logout</label>
                         <?php } ?>

@@ -100,6 +100,8 @@ gitHash=`git rev-parse HEAD`
 echo $gitHash > build/rev.txt
 echo `date +%Y_%m_%d_%H_%M_%S` >> build/rev.txt
 
+#echo `sed -r 's/^\s+//g' build/index.php | tr -d "\n"` > build/index.php
+
 gitHash=${gitHash:(-4)}
 
 cd build
