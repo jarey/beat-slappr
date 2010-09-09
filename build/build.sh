@@ -95,13 +95,18 @@ then
     mkdir packages
 fi
 
+#get the hash of the git head
 gitHash=`git rev-parse HEAD`
 
+#build the rev.txt file.  This will contain the git head hash as well as build time.
 echo $gitHash > build/rev.txt
 echo `date +%Y_%m_%d_%H_%M_%S` >> build/rev.txt
 
-#echo `sed -r 's/^\s+//g' build/index.php | tr -d "\n"` > build/index.php
+#remove all trailing spaces from main application page.
+sed -i -r 's/^[ \t]*//g' build/index.php
 
+#trim the gitHash variable to only the last 4 characters.  This will be inserted into
+#the package filename.
 gitHash=${gitHash:(-4)}
 
 cd build
