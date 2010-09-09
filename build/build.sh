@@ -96,10 +96,11 @@ then
 fi
 
 gitHash=`git rev-parse HEAD`
+echo $gitHash > build/rev.txt
 gitHash=${gitHash:(-4)}
 
 cd build
-    
+
 for build in ${buildArr[@]}
 do
     echo ""
