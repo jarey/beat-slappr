@@ -117,9 +117,22 @@ do
     echo "Creating $build package..."
 
     mv config/config.$build.php config.php
+    if [ -f config/htaccess.$build ]
+    then
+        mv config/htaccess.$build .htaccess
+        htaccess='.htaccess'
+    else
+        htaccess=''
+    fi
+
     curDate=`date +%Y_%m_%d_%H_%M_%S`
-    tar czf ../packages/build__`echo $curDate`__`echo $gitHash`__`echo $build`.tar.gz * --exclude "config"
+    tar czf ../packages/build__$curDate.__$gitHash.__$build.tar.gz * $htaccess --exclude "config"
+
     rm config.php
+    if [ -f .htaccess ]
+    then
+        rm .htaccess
+    fi
 done
 
 cd ..
