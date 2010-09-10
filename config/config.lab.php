@@ -9,21 +9,21 @@
     /***DEFINES THE APPLICATION'S NAME***/
     /************************************/
 
-    define("APP_NAME", "beat-slappr");
+    define("APP_NAME", "PatternSketch");
 
 
     /***************************************************/
     /***DEFINES THE APPLICATION ADMIN'S EMAIL ADDRESS***/
     /***************************************************/
 
-    DEFINE("SYSTEM_ADMIN_EMAIL", "admin@beat-slappr.com");
+    DEFINE("SYSTEM_ADMIN_EMAIL", "admin@patternsketch.com");
 
 
     /*************************************************/
     /***DEFINES THE APPLICATION'S BCC EMAIL ADDRESS***/
     /*************************************************/
 
-    DEFINE("SYSTEM_BCC_EMAIL", "bcc@beat-slappr.com");
+    DEFINE("SYSTEM_BCC_EMAIL", "bcc@patternsketch.com");
 
 
     /*********************************************/
@@ -38,7 +38,7 @@
     Example: /var/www/mysite.com
     ************************************************/
 
-    define("APP_PATH", DOC_PATH . "/" . APP_NAME . "/");
+    define("APP_PATH", DOC_PATH . "/patternsketch/");
 
 
     /**************************************************
@@ -51,7 +51,7 @@
     }
     $appURL .= "://" . $_SERVER['SERVER_NAME'];
 
-    define("APP_URL", $appURL . "/" . APP_NAME . "/");
+    define("APP_URL", $appURL . "/patternsketch/");
 
 
     /***********************************************************************/
@@ -66,9 +66,9 @@
     /***********************/
 
     define("DB_HOSTNAME", "localhost");
-    define("DB_NAME", "beat_slappr");
-    define("DB_USERNAME", "beat_slappr");
-    define("DB_PASSWORD", "YJKUH9wUArYyYM69");
+    define("DB_NAME", "patternsketch");
+    define("DB_USERNAME", "PatternSketch");
+    define("DB_PASSWORD", "QT4rnFvvEvLDmnsY");
 
 
     /**************************/

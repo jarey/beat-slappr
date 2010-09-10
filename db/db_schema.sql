@@ -2,8 +2,8 @@
 /***CREATE DATABASE IF IT DOES NOT EXIST***/
 /******************************************/
 
-create database if not exists beat_slappr;
-use beat_slappr;
+create database if not exists patternsketch;
+use patternsketch;
 
 
 /*******************/

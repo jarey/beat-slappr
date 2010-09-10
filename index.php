@@ -30,7 +30,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <title>Beat Slappr</title>
+        <title><?php echo APP_NAME; ?></title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <?php
             if(DEV) {
