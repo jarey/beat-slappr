@@ -41,7 +41,7 @@ function encodeJSON(arr, parentIsArray) {
         json;
 
     for(key in arr) {
-        if(arr[key]) {
+        if(arr.hasOwnProperty(key)) {
             value = arr[key];
             str = "";
 
