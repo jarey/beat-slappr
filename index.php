@@ -52,11 +52,15 @@
             <?php
                 if($_SESSION['email']) {
                     echo "u=1;";
+                }else {
+                    echo "u='';";
                 }
 
                 if($patternArr) {
                     if ($_SESSION['user_id']) {
                         echo "upa=" . json_encode($patternArr['data']['user']) . ";";
+                    }else {
+                        echo "upa='';";
                     }
                     echo "spa=" . json_encode($patternArr['data']['system']) . ";";
                 }
@@ -95,7 +99,7 @@
                         </div>
                         <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
                         <?php if ($_SESSION['user_id']) { ?>
-                            <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='logout();'>Logout</label>
+                            <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='account.logout();'>Logout</label>
                         <?php } ?>
                         </div>
                     </div>
@@ -646,7 +650,7 @@
             <?php
                 echo "<div id='divKitWrapper' class='modalWrapper'>";
                     foreach($kitArr as $key => $val) {
-                        echo "<div class='modalWrapperRow' onclick='setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
+                        echo "<div class='modalWrapperRow' onclick='kit.setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
                     }
                 echo "</div>";
             ?>
@@ -656,7 +660,7 @@
             <div class='patternHeader'>My Patterns</div>
             <div id="divGuestPatternWrapper" class="guestWrapper">
                 Log in now to create and edit your own patterns.<br /><br />
-                <label class='lblLink' onclick='loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='signupModal.show();'>sign up</label>
+                <label class='lblLink' onclick='account.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='account.signupModal.show();'>sign up</label>
             </div>
             <div id='divMyPatternWrapper' style='display: none;'>
                 <div id='divWithSelectedPatterns'>
@@ -675,7 +679,7 @@
             <div id="divSavePatternMesg" class='error'></div>
             <div id="divGuestPatternSaveWrapper" class="guestWrapper">
                 Log in now to save your pattern.<br /><br />
-                <label class='lblLink' onclick='loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='signupModal.show();'>sign up</label>
+                <label class='lblLink' onclick='account.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='account.signupModal.show();'>sign up</label>
             </div>
             <div id="divUserPatternSaveWrapper">
                 <form action="" onsubmit="return false;" id="frmSavePattern">
@@ -717,7 +721,7 @@
             <form action="" onsubmit="return false;" id="frmLogin">
                 <label class='labelText'>email:</label><br /><input type="text" id="txtLoginEmail" class="modalText" /><br />
                 <label class='labelText'>password:</label><br /><input type="password" id="txtLoginPassword" class="modalText" /><br /><br />
-                <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="signupModal.show();">sign up</label><br /><br />
+                <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="account.signupModal.show();">sign up</label><br /><br />
             </form>
             <label id="lblForgotPassword" class="lblLink">forgot password</label>
         </textarea>
@@ -734,7 +738,7 @@
             <div id="divSignupMesg" class='error'></div>
             <form action="" onsubmit="return false;" id="frmSignup">
                 <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" class="modalText" /><br /><br />
-                <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="loginModal.show();">login</label>
+                <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="account.loginModal.show();">login</label>
             </form>
         </textarea>
     </body>

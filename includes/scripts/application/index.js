@@ -64,7 +64,12 @@ var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPo
         84: 4,
         85: 5,
         87: 1
-    };
+    },
+    
+    account,
+    kit,
+    pattern,
+    p, spa, upa, u;
 
 function _getLastStepMeasure() {
     return Math.ceil(lastStep / measureLength);
@@ -583,6 +588,10 @@ function init() {
     divPlayPause.onclick = function() {togglePlay(); return false;};
     divJumpToStart.onclick = function() {initLoopPosition(); return false;};
     divClearPattern.onclick = function() {clearPattern(); return false;};
+
+    kit = new Kit();
+    pattern = new Pattern(p, spa, upa);
+    account = new Account(u);
 }
 
 if(window.addEventListener) {

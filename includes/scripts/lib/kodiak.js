@@ -290,10 +290,6 @@ Kodiak.Data.Dataset.prototype = {
 Kodiak.Util = function() {};
 
 Kodiak.Util.prototype = {
-    decodeJSON: function(str) {
-        return eval('(' + str + ')');
-    },
-    
     printObj: function(obj) {
         var propTable = "",
             prop;

@@ -1,4 +1,4 @@
-var StepWidget = function(config) {
+function StepWidget(config) {
     var _this = this,
         prop;
 
