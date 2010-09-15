@@ -16,9 +16,9 @@ function Account() {
     var loginModal, signupModal,
         divGuestAccount, divUserAccount,
 
-        frmSignup, divSignupMesg, txtSignupEmail, cmdSignUp, imgSignupLoader,
-        frmLogin, divLoginMesg, txtLoginEmail, txtLoginPassword, cmdLogin, imgLoginLoader,
-        frmResetPassword, divResetMesg, txtResetEmail, cmdResetPassword, imgResetLoader,
+        divSignupMesg, txtSignupEmail, cmdSignUp, imgSignupLoader,
+        divLoginMesg, txtLoginEmail, txtLoginPassword, cmdLogin, imgLoginLoader,
+        divResetMesg, txtResetEmail, cmdResetPassword, imgResetLoader,
 
         currentUser,
         accountAjax,
@@ -67,8 +67,7 @@ function Account() {
     function forgotPasswordInit() {
         loginModal.setContent($('txtForgotPasswordWindow').value);
 
-        frmResetPassword = $('frmResetPassword');
-        frmResetPassword.onkeydown = stopPropagation;
+        $('frmResetPassword').onkeydown = stopPropagation;
 
         txtResetEmail = $('txtResetEmail');
         txtResetEmail.value = '';
@@ -136,8 +135,7 @@ function Account() {
     }
 
     function loginInit() {
-        frmLogin = $('frmLogin');
-        frmLogin.onkeydown = stopPropagation;
+        $('frmLogin').onkeydown = stopPropagation;
 
         txtLoginEmail = $('txtLoginEmail');
         txtLoginEmail.value = '';
@@ -199,8 +197,7 @@ function Account() {
     }
 
     function signUpInit() {
-        frmSignup = $('frmSignup');
-        frmSignup.onkeydown = stopPropagation;
+        $('frmSignup').onkeydown = stopPropagation;
 
         txtSignupEmail = $('txtSignupEmail');
         txtSignupEmail.value = '';

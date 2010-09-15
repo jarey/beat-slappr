@@ -6,7 +6,8 @@ lib/stepwidget.js
 lib/taskscheduler.js
 lib/audio.js
 
-application/index.js
+application/sampler.js
 application/account.js
 application/kits.js
 application/patterns.js
+application/index.js

@@ -621,7 +621,7 @@ function Pattern() {
 
     function downloadPatternInit() {
         $("cmdDownloadPattern").onclick = downloadPattern;
-        $("txtStepEnd").value = totalSteps;
+        $("txtStepEnd").value = sampler.getTotalSteps();
         $('cmdCancelDownload').onclick = function() {downloadPatternModal.hide();};
     }
 
