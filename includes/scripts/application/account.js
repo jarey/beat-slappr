@@ -33,7 +33,7 @@ function Account() {
     function forgotPasswordHandler(obj) {
         var response = decodeJSON(obj.response);
         if(response.success) {
-            loginModal.setContent("<label class='lblLink' style='float: right;' onclick='account.loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            loginModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.loginModal.hide();'>Close</label><div id='divResetMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
             divResetMesg = $('divResetMesg');
             divResetMesg.className = 'success';
         }else {
@@ -164,7 +164,7 @@ function Account() {
     function signupHandler(obj) {
         var response = decodeJSON(obj.response);
         if(response.success) {
-            signupModal.setContent("<label class='lblLink' style='float: right;' onclick='account.signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            signupModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.signupModal.hide();'>Close</label><div id='divSignupMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
             divSignupMesg = $('divSignupMesg');
             divSignupMesg.className = 'success';
         }else {
