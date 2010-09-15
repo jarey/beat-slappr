@@ -1,3 +1,9 @@
+application/index.js
+application/sampler.js
+application/account.js
+application/kits.js
+application/patterns.js
+
 util/util.js
 util/md5.js
 
@@ -5,9 +11,3 @@ lib/kodiak.js
 lib/stepwidget.js
 lib/taskscheduler.js
 lib/audio.js
-
-application/sampler.js
-application/account.js
-application/kits.js
-application/patterns.js
-application/index.js

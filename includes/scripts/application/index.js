@@ -15,7 +15,13 @@
 
 */
 
-var sampler, p, spa, upa, u, lK;
+var sampler, p, spa, upa, u, lK,
+    Kodiak = {
+        Data: {},
+        Controls: {},
+        Components: {}
+    };
+
 function constructor() {
     sampler = new Sampler();
 
