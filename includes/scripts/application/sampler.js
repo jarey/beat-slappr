@@ -517,6 +517,10 @@ function Sampler() {
     }
     this.getTotalSteps = getTotalSteps;
 
+    function getSequenceArr() {
+        return sequenceArr;
+    }
+    this.getSequenceArr = getSequenceArr;
 
     /**************************************************************************************************************************
         CONSTRUCTOR/DESTRUCTOR

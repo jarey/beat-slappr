@@ -612,7 +612,7 @@ function Pattern() {
 
         window.onbeforeunload = "";
 
-        $("sequence").value = encodeJSON(sequenceArr);
+        $("sequence").value = encodeJSON(sampler.getSequenceArr());
         
         $("frmDownloadPattern").submit();
         
