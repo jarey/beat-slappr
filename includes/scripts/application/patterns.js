@@ -131,7 +131,7 @@ function Pattern() {
             response.data.system = systemPatternArr;
         }
 
-        if(response.success) {            util = new Kodiak.Util();
+        if(response.success) {
             if(response.data.user) {
                 userPatternArr = response.data.user;
                 userPatternDataset = new Kodiak.Data.Dataset();

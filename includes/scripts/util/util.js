@@ -3,7 +3,7 @@ function hasClass(ele,cls) {
 }
 
 function addClass(ele,cls, skip) {
-    if(skip || !this.hasClass(ele,cls)) {
+    if(skip || !hasClass(ele,cls)) {
         ele.className += " " + cls;
     }
 }

@@ -16,23 +16,20 @@
 */
 
 var sampler, p, spa, upa, u, lK,
-    Kodiak = {
-        Data: {},
-        Controls: {},
-        Components: {}
-    };
+    Kodiak = {};
 
-function constructor() {
+    Kodiak.Data = {};
+    Kodiak.Controls = {};
+    Kodiak.Components = {};
+
+function pageLoaded() {
     sampler = new Sampler();
 
     if(typeof(lK) == 'object') {
         sampler.setSystemKit(lK[0], lK[1]);
     }
     if(typeof(p) == 'object') {
-        sampler.setPattern(p);    window.onbeforeunload = function(){
-	    var message = 'Any unsaved changes will be lost!';
-        return message;
-    };
+        sampler.setPattern(p);
     }
 
     if(typeof(upa) == 'object') {
@@ -50,7 +47,12 @@ function constructor() {
 
 
 if(window.addEventListener) {
-    window.addEventListener('load', constructor, false);
+    window.addEventListener('load', pageLoaded, false);
 }else {
-    window.attachEvent('onload', constructor);
+    window.attachEvent('onload', pageLoaded);
 }
+
+window.onbeforeunload = function(){
+    var message = 'Any unsaved changes will be lost!';
+    return message;
+};

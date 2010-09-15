@@ -61,6 +61,7 @@ echo "Packing JavaScript..."
 catStr=""
 scriptDir="build/includes/scripts"
 
+#MERGE SCRIPTS TO ONE FILE
 while read line
 do   
     if [ ! -z $line ]
@@ -70,9 +71,23 @@ do
 done <$scriptDir/js.list
 
 cat $catStr > build/script.js 
-rm -dr build/includes/scripts/*
+
+#REMOVE THE CONTENTS OF THE SCRIPTDIR DIRECTORY
+rm -dr $scriptDir/*
+
+#REPLACE GLOBALS
+while read line
+do   
+    if [ ! -z $line ]
+    then
+        sed -i -r 's/'$line'/g' build/script.js
+    fi
+done <tools/globals.list
+
+#MOVE SCRIPT.JS TO THE PROPER FOLDER
 mv build/script.js $scriptDir/script.js
 
+#OBFUSCATE SCRIPT
 java -jar tools/yuicompressor-2.4.2.jar --line-break 8000 -v -o $scriptDir/script.js $scriptDir/script.js
 
 
