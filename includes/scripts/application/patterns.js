@@ -1,13 +1,20 @@
-function Pattern(p, spa, upa) {
+function Pattern() {
 
     /*
 
-    p is defined in the homepage upon pageload if a 'p' attribute was passed on the url.
-    This means the link was of a shared pattern.
+    Public Properties:
+    
+    patternModal
+    savePatternModal
+    sharePatternModal
+    downloadPatternModal
 
-    spa is defined in the homepage upon pageload.  It is short for systemPatternArr.
+    Public Methods:
 
-    upa is defined in the homepage upon pageload.  It is short for userPatternArr.
+    setPattern()
+    setUserPatternArr()
+    setSystemPatternArr()
+    setUserPatternDirtyFlag()
 
     */
 
@@ -30,7 +37,7 @@ function Pattern(p, spa, upa) {
     /***GET/SET PATTERN FUNCTIONS***/
     /*******************************/
 
-    function setPattern(val, type) {
+    function setPattern(val, type, priorityTask, sequenceArr, volumeWidgetArr, stepsWidget, tempoWidget) {
         if(typeof(val) == "number" && type) {
             if(type == "user") {
                 val = userPatternDataset.getRow(val);
@@ -42,11 +49,14 @@ function Pattern(p, spa, upa) {
         if(typeof(val) == "object") {
             priorityTask.run(
                 function() {
-                    var ch;
+                    var ch, 
+                        util;
+
+                    util = new Kodiak.Util();
                     if(typeof(val) == 'string') {
-                        sequenceArr = decodeJSON(val);
+                        util.clone(decodeJSON(val), sequenceArr);
                     }else if(typeof(val) == 'object') {
-                        sequenceArr = val;
+                        util.clone(val, sequenceArr);
                     }
                     
                     for(ch in sequenceArr.chVol) {
@@ -57,7 +67,7 @@ function Pattern(p, spa, upa) {
 
                     stepsWidget.setValue(parseInt(sequenceArr.steps, 10));
                     tempoWidget.setValue(parseInt(sequenceArr.tempo, 10));
-                    kit.setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id, 10));
+                    sampler.setSystemKit(sequenceArr.kit.name, parseInt(sequenceArr.kit.id, 10));
                     
                     if(sequenceArr.name) {
                         currentPattern.innerHTML = sequenceArr.name;
@@ -73,10 +83,16 @@ function Pattern(p, spa, upa) {
     }
     this.setUserPatternArr = setUserPatternArr;
     
+    function setSystemPatternArr(val) {
+        systemPatternArr = val;
+    }
+    this.setSystemPatternArr = setSystemPatternArr;
+
     function setUserPatternDirtyFlag(val) {
         userPatternDataIsDirty = val;
     }
     this.setUserPatternDirtyFlag = setUserPatternDirtyFlag;
+
 
     /****************************/
     /***PATTERN MODAL HANDLING***/
@@ -115,7 +131,7 @@ function Pattern(p, spa, upa) {
             response.data.system = systemPatternArr;
         }
 
-        if(response.success) {
+        if(response.success) {            util = new Kodiak.Util();
             if(response.data.user) {
                 userPatternArr = response.data.user;
                 userPatternDataset = new Kodiak.Data.Dataset();
@@ -143,7 +159,7 @@ function Pattern(p, spa, upa) {
                             sortable: true,
                             width: 120,
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"user\");'>" + data.val.name + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"user\");'>" + data.val.name + "</div>";
                             }
                         },
                         Kit: {
@@ -151,7 +167,7 @@ function Pattern(p, spa, upa) {
                             sortable: true,
                             width: 110,
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"user\");'>" + data.val.kit.name + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"user\");'>" + data.val.kit.name + "</div>";
                             }
                         },
                         Tempo: {
@@ -160,7 +176,7 @@ function Pattern(p, spa, upa) {
                             width: 60,
                             align: 'right',
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"user\");'>" + data.val.tempo + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"user\");'>" + data.val.tempo + "</div>";
                             }
                         }
                     }
@@ -192,7 +208,7 @@ function Pattern(p, spa, upa) {
                             sortable: true,
                             width: 120,
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"system\");'>" + data.val.name + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"system\");'>" + data.val.name + "</div>";
                             }
                         },
                         Kit: {
@@ -200,7 +216,7 @@ function Pattern(p, spa, upa) {
                             sortable: true,
                             width: 120,
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"system\");'>" + data.val.kit.name + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"system\");'>" + data.val.kit.name + "</div>";
                             }
                         },
                         Tempo: {
@@ -209,7 +225,7 @@ function Pattern(p, spa, upa) {
                             width: 60,
                             align: 'right',
                             renderFn: function(data) {
-                                return "<div onclick='pattern.setPattern(" + data.index + ", \"system\");'>" + data.val.tempo + "</div>";
+                                return "<div onclick='sampler.setPattern(" + data.index + ", \"system\");'>" + data.val.tempo + "</div>";
                             }
                         }
                     }
@@ -334,7 +350,7 @@ function Pattern(p, spa, upa) {
 
         divPatternMesg = $('divPatternMesg');
 
-        if(account.sessionExists()) {
+        if(sampler.sessionExists()) {
             divMyPatternWrapper.style.display = "block";
             divGuestPatternWrapper.style.display = "none";
             cmdRenamePattern = $('cmdRenamePattern');
@@ -385,7 +401,7 @@ function Pattern(p, spa, upa) {
             pattern;
 
         if(response.success) {
-            savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='pattern.savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
             divSavePatternMesg = $('divSavePatternMesg');
             util = new Kodiak.Util();
             if(response.action == "added") {
@@ -462,7 +478,7 @@ function Pattern(p, spa, upa) {
         divSavePatternMesg.innerHTML = "";
         divSavePatternMesg.style.display = "none";
 
-        if(account.sessionExists()) {
+        if(sampler.sessionExists()) {
             divGuestPatternSaveWrapper.style.display = "none";
             divUserPatternSaveWrapper.style.display = "block";
             
@@ -491,7 +507,7 @@ function Pattern(p, spa, upa) {
     function sharePatternHandler(obj) {
         var response = decodeJSON(obj.response);
         if(response.success) {
-            sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='pattern.sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
             divSharePatternMesg = $('divSharePatternMesg');
         }else {
             cmdSharepattern.style.display = "inline";
@@ -568,7 +584,7 @@ function Pattern(p, spa, upa) {
         txtShareWithEmail = $('txtShareWithEmail');
         txtShareWithEmail.value = '';
 
-        if(account.sessionExists()) {
+        if(sampler.sessionExists()) {
             divGuestUser.style.display = "none";
             txtUserEmail = "";
             txtShareWithEmail.focus();
@@ -663,19 +679,6 @@ function Pattern(p, spa, upa) {
         scope.savePatternModal = savePatternModal;
         scope.sharePatternModal = sharePatternModal;
         scope.downloadPatternModal = downloadPatternModal;
-
-
-        if(typeof(upa) == 'object') {
-            userPatternArr = upa;
-        }
-
-        if(typeof(spa) == 'object') {
-            systemPatternArr = spa;
-        }
-
-        if(typeof(p) == 'object') {
-            setPattern(p);
-        }
     }
 
     patternInit(this);

@@ -1,7 +1,10 @@
-function Kit(lK) {
+function Kit() {
     /*
-        lK is defined in the homepage dynamically.  It stands for loadKit.
-        This defines the initial kit to load on page load.
+        Public Properties:
+        
+        Public Methods:
+        
+        setSystemKit();
     */
 
     var kitModal,
@@ -19,7 +22,7 @@ function Kit(lK) {
         return false;
     }
 
-    function setSystemKitHandler(obj, kitName, kitId) {
+    function setSystemKitHandler(obj, kitName, kitId, audioFormat, instrumentChannels, instrumentNameArr, channelArr) {
         if(obj.success) {
             var response = decodeJSON(obj.response),
                 record,
@@ -27,14 +30,13 @@ function Kit(lK) {
                 n;
 
             $("currentKit").innerHTML = kitName;
-            sequenceArr.kit = {id: kitId, name: kitName};
 
             if(audioFormat == 'ogg') {
                 mime = 'ogg';
             }else if(audioFormat == 'mp3') {
                 mime = 'mpeg';
             }
-            
+
             for(n=0; n<instrumentChannels; n++) {
                 instrumentNameArr[n].innerHTML = "";
                 channelArr[n].setSrc("");
@@ -54,13 +56,13 @@ function Kit(lK) {
         }
     }
 
-    function setSystemKit(kitName, kitId) {
+    function setSystemKit(kitName, kitId, audioFormat, instrumentChannels, instrumentNameArr, channelArr) {
         kitModal.setContent("<div style='width: 16px; height: 16px; margin: 10px auto;'><img src='includes/images/ajax-loader.gif' /></div>");
         var ajax = new Kodiak.Data.Ajax(),
             cacheIndex = _isCached(kitId);
 
         if(cacheIndex) {
-            setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId);
+            setSystemKitHandler(kitCache[cacheIndex].val, kitName, kitId, audioFormat, instrumentChannels, instrumentNameArr, channelArr);
             return;
         }
 
@@ -68,12 +70,13 @@ function Kit(lK) {
             url:    'api/kit.php',
             method: 'post',
             parameters: {cmd: 'getKitChannels', id: kitId, format: audioFormat},
-            handler: function(obj) {setSystemKitHandler(obj, kitName, kitId);}
+            handler: function(obj) {setSystemKitHandler(obj, kitName, kitId, audioFormat, instrumentChannels, instrumentNameArr, channelArr);}
         });
     }
     this.setSystemKit = setSystemKit;
-    /***INIT***/
 
+
+    /***INIT***/
 
     function kitInit() {
         kitModal = new Kodiak.Controls.Modal({
@@ -86,10 +89,6 @@ function Kit(lK) {
                 this.setContent($('txtKitWindow').value);
             }
         });
-
-        if(typeof(lK) == 'object') {
-            setSystemKit(lK[0], lK[1]);
-        }
     }
 
     kitInit();

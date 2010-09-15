@@ -1,6 +1,16 @@
-function Account(u) {
+function Account() {
     /*
         u is defined in the homepage upon pageload if an active session exists.
+
+        Public Properties:
+        
+        loginModal
+        signupModal
+        
+        Public Methods:
+        
+        logout();
+        sessionExists();
     */
 
     var loginModal, signupModal,
@@ -84,10 +94,10 @@ function Account(u) {
             loginModal.hide();
             currentUser = response.user;
 
-            pattern.setUserPatternArr(response.pattern.data.user);
+            sampler.setUserPatternArr(response.pattern.data.user);
 
             divGuestAccount.style.display = "none";
-            divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='account.logout();'>Logout</label>";
+            divUserAccount.innerHTML = currentUser + " | <label class='lblLink' onclick='sampler.logout();'>Logout</label>";
             divUserAccount.style.display = "block";
         }else {
             divLoginMesg.innerHTML = response.mesg;
@@ -221,8 +231,8 @@ function Account(u) {
             divGuestAccount.style.display = "block";
 
             //Initialize userPatternArr and mark as dirty
-            pattern.setUserPatternArr([]);
-            pattern.setUserPatternDirtyFlag(true);
+            sampler.setUserPatternArr([]);
+            sampler.setUserPatternDirtyFlag(true);
         }
     }
 
@@ -259,6 +269,11 @@ function Account(u) {
     }
     this.sessionExists = sessionExists;
 
+    function setCurrentUser(val) {
+        currentUser = val;
+    }
+    this.setCurrentUser = setCurrentUser;
+
     /***INIT***/
 
     function accountInit(scope) {
@@ -291,12 +306,6 @@ function Account(u) {
 
         scope.loginModal = loginModal;
         scope.signupModal = signupModal;
-
-        //Set the value of currentUser from variable u, which is generated in the homepage
-        //if an active session exists
-        if(typeof(u) == 'number') {
-            currentUser = u;
-        }
     }
 
     accountInit(this);
