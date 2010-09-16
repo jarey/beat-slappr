@@ -8,8 +8,8 @@
 
     $errorStr = "";
 
-    $data['title'] = "Beat Slappr - Reset Password";
-    $data['headerTitle'] = "Beat Slappr - Reset Password";
+    $data['title'] = APP_NAME . " - Reset Password";
+    $data['headerTitle'] = APP_NAME . " - Reset Password";
 
     if($_POST) {
         if($_POST['email'] && $_POST['t'] && $_POST['password'] && $_POST['confirmPassword']) {
@@ -35,7 +35,7 @@
             }else {
                 $updateAccountPassword = $user->updatePassword($email, $token, $password, true);
                 if($updateAccountPassword['success']) {
-                    $data['content'] = "Your password has been reset.";
+                    $data['content'] = "Your password has been reset.  Click <a href='" . APP_URL . "' >here</a> to log in.";
                     $template->render($data);
                     return;
                 }else {

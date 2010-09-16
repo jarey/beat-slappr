@@ -10,8 +10,8 @@
 
     $errorStr = "";
 
-    $data['title'] = "Beat Slappr - Activate Account";
-    $data['headerTitle'] = "Beat Slappr - Activate Account";
+    $data['title'] = APP_NAME . " - Activate Account";
+    $data['headerTitle'] = APP_NAME . " - Activate Account";
 
     if($_POST) {
         if($_POST['email'] && $_POST['t'] && $_POST['password'] && $_POST['confirmPassword']) {

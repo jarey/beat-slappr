@@ -402,8 +402,9 @@ function Pattern() {
             pattern;
 
         if(response.success) {
-            savePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.savePatternModal.hide();'>Close</label><div id='divSavePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            $("frmSavePattern").style.display = "none";
             divSavePatternMesg = $('divSavePatternMesg');
+            divSavePatternMesg.className = "success";
             util = new Kodiak.Util();
             if(response.action == "added") {
                 //if a new pattern was added, clone sequencearr, update the new array's name property to the name
@@ -508,8 +509,9 @@ function Pattern() {
     function sharePatternHandler(obj) {
         var response = decodeJSON(obj.response);
         if(response.success) {
-            sharePatternModal.setContent("<label class='lblLink' style='float: right;' onclick='sampler.sharePatternModal.hide();'>Close</label><div id='divSharePatternMesg' class='success' style='clear: right; padding-top: 20px;'></div>");
+            $('frmSharePattern').style.display = "none";
             divSharePatternMesg = $('divSharePatternMesg');
+            divSharePatternMesg.className = "success";
         }else {
             cmdSharepattern.style.display = "inline";
             imgSharePatternLoader.style.display = "none";
