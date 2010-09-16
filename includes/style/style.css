@@ -51,10 +51,7 @@ h3 {
 .lblModalButtons {
     float: right;
     padding-bottom: 5px;
-    font-weight: bold;    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-box-shadow: 4px 4px 4px black;
-    -webkit-box-shadow: 4px 4px 4px black;
+    font-weight: bold;
     color: #eee;
     cursor: pointer;
 }

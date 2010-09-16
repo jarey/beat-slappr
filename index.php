@@ -735,7 +735,7 @@
                     <input type="radio" name="format" value="ogg" /> ogg<br />
                     <input type="radio" name="format" value="mp3" /> mp3 (may not loop properly)<br /><br />
                     <input type="hidden" name="sequence" id="sequence" />
-                    <input type="submit" id="cmdDownloadPattern" value="download" /> <input type="button" id="cmdCancelDownload"  value="cancel" />
+                    <input type="submit" id="cmdDownloadPattern" value="download" /> <img id="imgDownloadLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelDownload"  value="cancel" />
                 </form>
             </div>
         </textarea>

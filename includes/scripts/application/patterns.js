@@ -611,13 +611,16 @@ function Pattern() {
     function downloadPattern() {
         var onbeforeunload = window.onbeforeunload;
 
+        $("cmdDownloadPattern").style.display = "none";
+        $("imgDownloadLoader").style.display = "inline";
+
         window.onbeforeunload = "";
 
         $("sequence").value = encodeJSON(sampler.getSequenceArr());
         
         $("frmDownloadPattern").submit();
         
-        setTimeout(function() {window.onbeforeunload = onbeforeunload;}, 1000);
+        setTimeout(function() {window.onbeforeunload = onbeforeunload; sampler.downloadPatternModal.hide();}, 1000);
     }
 
     function downloadPatternInit() {
