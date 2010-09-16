@@ -655,6 +655,8 @@ function Sampler() {
         scope.loginModal = account.loginModal;
         scope.signupModal = account.signupModal;
 
+        scope.kitModal = kit.kitModal;
+
         scope.patternModal = pattern.patternModal;
         scope.savePatternModal = pattern.savePatternModal;
         scope.sharePatternModal = pattern.sharePatternModal;

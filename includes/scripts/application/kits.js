@@ -78,7 +78,7 @@ function Kit() {
 
     /***INIT***/
 
-    function kitInit() {
+    function kitInit(scope) {
         kitModal = new Kodiak.Controls.Modal({
             applyTo:      'aKitModal',
             componentId:  'kitModal',
@@ -89,7 +89,9 @@ function Kit() {
                 this.setContent($('txtKitWindow').value);
             }
         });
+
+        scope.kitModal = kitModal;
     }
 
-    kitInit();
+    kitInit(this);
 }

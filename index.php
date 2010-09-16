@@ -659,99 +659,117 @@
             </div>
         </div>
         <textarea id="txtKitWindow" style="display: none;">
-            <?php
-                echo "<div id='divKitWrapper' class='modalWrapper'>";
-                    foreach($kitArr as $key => $val) {
-                        echo "<div class='modalWrapperRow' onclick='sampler.setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
-                    }
-                echo "</div>";
-            ?>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Kits</label><label class='lblModalButtons' title='close' onclick='sampler.kitModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <?php
+                    echo "<div id='divKitWrapper' class='modalWrapper'>";
+                        foreach($kitArr as $key => $val) {
+                            echo "<div class='modalWrapperRow' onclick='sampler.setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
+                        }
+                    echo "</div>";
+                ?>
+            </div>
         </textarea>
         <textarea id="txtPatternWindow" style="display: none;">
             <div id="divPatternMesg" class='error' style='display: none;'></div>
-            <div class='patternHeader'>My Patterns</div>
-            <div id="divGuestPatternWrapper" class="guestWrapper">
-                Log in now to create and edit your own patterns.<br /><br />
-                <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label>
-            </div>
-            <div id='divMyPatternWrapper' style='display: none;'>
-                <div id='divWithSelectedPatterns'>
-                    Select: <label id='lblSelectAll' class='lblLink' style='font-weight: normal;'>all</label>, <label id='lblSelectNone' class='lblLink' style='font-weight: normal;'>none</label>&nbsp;&nbsp;|&nbsp;&nbsp;
-                    With Selected: 
-                    <input type="button" id="cmdRenamePattern" value="rename" class="withSelectedBtn" /> 
-                    <input type="button" id="cmdDeletePattern" value="delete" class="withSelectedBtn" />
+            <div class='patternModalHeader'><label class='lblModalTitle'>Patterns</label><label class='lblModalButtons' title='close' onclick='sampler.patternModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div class='patternHeader'>My Patterns</div>
+                <div id="divGuestPatternWrapper" class="guestWrapper">
+                    Log in now to create and edit your own patterns.<br /><br />
+                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label>
                 </div>
-                <div id='divUserPatterns' class='patternTable userPatternTable'></div>
+                <div id='divMyPatternWrapper' style='display: none;'>
+                    <div id='divWithSelectedPatterns'>
+                        Select: <label id='lblSelectAll' class='lblLink' style='font-weight: normal;'>all</label>, <label id='lblSelectNone' class='lblLink' style='font-weight: normal;'>none</label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        With Selected: 
+                        <input type="button" id="cmdRenamePattern" value="rename" class="withSelectedBtn" /> 
+                        <input type="button" id="cmdDeletePattern" value="delete" class="withSelectedBtn" />
+                    </div>
+                    <div id='divUserPatterns' class='patternTable userPatternTable'></div>
+                </div>
+                <div class='patternHeader'>Preset Patterns</div>
+                <div id='divPresetPatterns' class='patternTable presetPatternTable' style='margin-bottom: 0;'></div>
             </div>
-            <div class='patternHeader'>Preset Patterns</div>
-            <div id='divPresetPatterns' class='patternTable presetPatternTable' style='margin-bottom: 0;'></div>
         </textarea>
         <textarea id="txtSavePatternWindow" style="display: none;">
-            <h3>Save Pattern</h3><br /><br />
-            <div id="divSavePatternMesg" class='error'></div>
-            <div id="divGuestPatternSaveWrapper" class="guestWrapper">
-                Log in now to save your pattern.<br /><br />
-                <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label>
-            </div>
-            <div id="divUserPatternSaveWrapper">
-                <form action="" onsubmit="return false;" id="frmSavePattern">
-                    <label class="labelText">Name:</label>
-                    <input type="text" id="txtSavePattern" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdSavePattern" value="save" /> <img id="imgSavePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelSave"  value="cancel" />
-                </form>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Save Pattern</label><label class='lblModalButtons' title='close' onclick='sampler.savePatternModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div id="divSavePatternMesg" class='error'></div>
+                <div id="divGuestPatternSaveWrapper" class="guestWrapper">
+                    Log in now to save your pattern.<br /><br />
+                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label>
+                </div>
+                <div id="divUserPatternSaveWrapper">
+                    <form action="" onsubmit="return false;" id="frmSavePattern">
+                        <label class="labelText">Name:</label>
+                        <input type="text" id="txtSavePattern" class="modalText" /><br /><br />
+                        <input type="submit" id="cmdSavePattern" value="save" /> <img id="imgSavePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelSave"  value="cancel" />
+                    </form>
+                </div>
             </div>
         </textarea>
         <textarea id="txtSharePatternWindow" style="display: none;">
-            <h3>Share Pattern</h3><br /><br />
-            <div id="divSharePatternMesg" class='error'></div>
-            <form action="" onsubmit="return false;" id="frmSharePattern">
-                <div id="divGuestUser" style="display: <?php echo ($_SESSION['user_id']) ? "none" : "block"; ?>;">
-                    <label class="labelText">Your email:</label><br />
-                    <input type="text" class="modalText" id="txtUserEmail" /><br /><br />
-                </div>
-                <label class="labelText">Share with: <span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
-                <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
-                <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelShare"  value="cancel" />
-            </form>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Share Pattern</label><label class='lblModalButtons' title='close' onclick='sampler.sharePatternModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div id="divSharePatternMesg" class='error'></div>
+                <form action="" onsubmit="return false;" id="frmSharePattern">
+                    <div id="divGuestUser" style="display: <?php echo ($_SESSION['user_id']) ? "none" : "block"; ?>;">
+                        <label class="labelText">Your email:</label><br />
+                        <input type="text" class="modalText" id="txtUserEmail" /><br /><br />
+                    </div><label class='lblLink' style='float: right;' 
+                    <label class="labelText">Share with:<br /><span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
+                    <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
+                    <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelShare"  value="cancel" />
+                </form>
+            </div>
         </textarea>
         <textarea id="txtDownloadPatternWindow" style="display: none;">
-            <h3>Download Loop</h3><br /><br />
-            <form action="download.php" method="post" onsubmit="return false;" name="frmDownloadPattern" id="frmDownloadPattern">
-                <label class="labelText">Steps:</label><br />
-                <input type="text" name="stepStart" maxlength="2" style="width: 30px;" value="1" /> - <input type="text" name="stepEnd" id="txtStepEnd" maxlength="2" style="width: 30px;" /><br /><br />
-                <label class="labelText">Format:</label><br />
-                <input type="radio" name="format" checked="checked" value="wav" /> wav<br />
-                <input type="radio" name="format" value="ogg" /> ogg<br />
-                <input type="radio" name="format" value="mp3" /> mp3 (may not loop properly)<br /><br />
-                <input type="hidden" name="sequence" id="sequence" />
-                <input type="submit" id="cmdDownloadPattern" value="download" /> <input type="button" id="cmdCancelDownload"  value="cancel" />
-            </form>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Download Loop</label><label class='lblModalButtons' title='close' onclick='sampler.downloadPatternModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <form action="download.php" method="post" onsubmit="return false;" name="frmDownloadPattern" id="frmDownloadPattern">
+                    <label class="labelText">Steps:</label><br />
+                    <input type="text" name="stepStart" maxlength="2" style="width: 30px;" value="1" /> - <input type="text" name="stepEnd" id="txtStepEnd" maxlength="2" style="width: 30px;" /><br /><br />
+                    <label class="labelText">Format:</label><br />
+                    <input type="radio" name="format" checked="checked" value="wav" /> wav<br />
+                    <input type="radio" name="format" value="ogg" /> ogg<br />
+                    <input type="radio" name="format" value="mp3" /> mp3 (may not loop properly)<br /><br />
+                    <input type="hidden" name="sequence" id="sequence" />
+                    <input type="submit" id="cmdDownloadPattern" value="download" /> <input type="button" id="cmdCancelDownload"  value="cancel" />
+                </form>
+            </div>
         </textarea>
         <textarea id="txtLoginWindow" style="display: none;">
-            <h3>Login</h3><br /><br />
-            <div id="divLoginMesg" class='error'></div>
-            <form action="" onsubmit="return false;" id="frmLogin">
-                <label class='labelText'>email:</label><br /><input type="text" id="txtLoginEmail" class="modalText" /><br />
-                <label class='labelText'>password:</label><br /><input type="password" id="txtLoginPassword" class="modalText" /><br /><br />
-                <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.signupModal.show();">sign up</label><br /><br />
-            </form>
-            <label id="lblForgotPassword" class="lblLink">forgot password</label>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Login</label><label class='lblModalButtons' title='close' onclick='sampler.loginModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div id="divLoginMesg" class='error'></div>
+                <form action="" onsubmit="return false;" id="frmLogin">
+                    <label class='labelText'>email:</label><br /><input type="text" id="txtLoginEmail" class="modalText" /><br />
+                    <label class='labelText'>password:</label><br /><input type="password" id="txtLoginPassword" class="modalText" /><br /><br />
+                    <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.signupModal.show();">sign up</label><br /><br />
+                </form>
+                <label id="lblForgotPassword" class="lblLink">forgot password</label>
+            </div>
         </textarea>
         <textarea id="txtForgotPasswordWindow" style="display: none;">
-            <h3>Forgot Password</h3><br /><br />
-            <div id="divResetMesg" class='error'></div>
-            <form action="" onsubmit="return false;" id="frmResetPassword">
-                <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" class="modalText" /><br /><br />
-                <input type="submit" id="cmdResetPassword" value="reset password" /> <img id="imgResetLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
-            </form>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Forgot Password</label><label class='lblModalButtons' title='close' onclick='sampler.loginModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div id="divResetMesg" class='error'></div>
+                <form action="" onsubmit="return false;" id="frmResetPassword">
+                    <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" class="modalText" /><br /><br />
+                    <input type="submit" id="cmdResetPassword" value="reset password" /> <img id="imgResetLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
+                </form>
+            </div>
         </textarea>
         <textarea id="txtSignupWindow" style="display: none;">
-            <h3>Sign Up</h3><br /><br />
-            <div id="divSignupMesg" class='error'></div>
-            <form action="" onsubmit="return false;" id="frmSignup">
-                <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" class="modalText" /><br /><br />
-                <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.loginModal.show();">login</label>
-            </form>
+            <div class='patternModalHeader'><label class='lblModalTitle'>Sign Up</label><label class='lblModalButtons' title='close' onclick='sampler.signupModal.hide();'>X</label></div>
+            <div class='patternModalWrapper'>
+                <div id="divSignupMesg" class='error'></div>
+                <form action="" onsubmit="return false;" id="frmSignup">
+                    <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" class="modalText" /><br /><br />
+                    <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.loginModal.show();">login</label>
+                </form>
+            </div>
         </textarea>
     </body>
 </html> 
