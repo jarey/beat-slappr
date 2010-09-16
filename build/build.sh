@@ -143,6 +143,8 @@ do
     curDate=`date +%Y_%m_%d_%H_%M_%S`
     tar czf ../packages/build__$curDate.__$gitHash.__$build.tar.gz * $htaccess --exclude "config"
 
+    echo "Built package build__$curDate.__$gitHash.__$build.tar.gz"
+
     rm config.php
     if [ -f .htaccess ]
     then

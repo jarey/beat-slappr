@@ -398,6 +398,7 @@ function Pattern() {
         var response = decodeJSON(obj.response),
             util,
             newSequence,
+            sequenceArr = sampler.getSequenceArr(),
             pattern;
 
         if(response.success) {
@@ -456,7 +457,7 @@ function Pattern() {
         cmdSavePattern.style.display = "none";
         imgSavePatternLoader.style.display = "inline";
 
-        sequenceStr = encodeJSON(sequenceArr);
+        sequenceStr = encodeJSON(sampler.getSequenceArr());
 
         patternAjax.request({
             url:    'api/pattern.php',
@@ -552,7 +553,7 @@ function Pattern() {
         }else {
             user = "[user]";
         }
-        sequenceStr = encodeJSON(sequenceArr);
+        sequenceStr = encodeJSON(sampler.getSequenceArr());
         
         cmdSharePattern.style.display = "none";
         imgSharePatternLoader.style.display = "inline";
