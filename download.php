@@ -1,8 +1,6 @@
 <?php
     if($_REQUEST) {
         if($_REQUEST['sequence'] && $_REQUEST['format'] && ($_REQUEST['format'] == "wav" || $_REQUEST['format'] == "mp3" || $_REQUEST['format'] == "ogg")) {
-            require_once("config.php");
-            require_once("api/classes/kit.inc.php");
 
             $outFormat = $_REQUEST['format'];
             $fileDir = "download/";
@@ -14,25 +12,15 @@
                 $outFile = $fileDir . $outFileName . ".$outFormat";
             }
 
-            $mimeType = "audio/$outFormat";
+            $fileDir .= "kits/";
 
-            $kit = new Kit();
+            $mimeType = "audio/$outFormat";
 
             $sequenceArr = json_decode($_REQUEST['sequence']);
             $outName = $sequenceArr->name;
             
             $downloadFileName = "$outName.$outFormat";
-                        
-            $soundArr = array();
-            $kitChannels = $kit->getKitChannels($sequenceArr->kit->id, 'ogg');
-            foreach($sequenceArr->pattern as $key => $val) {
-                foreach($val as $iKey => $iVal) {
-                    $soundArr[$iVal] = "";
-                }
-            }
-            foreach($soundArr as $key => $val) {
-                $soundArr[$key] = getSoundFile($key, $fileDir, $kitChannels[$key]['src']);
-            }
+
         }else {
             return false;
         }
@@ -53,12 +41,11 @@
         $patternTimeLength = round(($patternStepEnd * $stepTimeInterval), 3);
         
         $execStr = "sox -m ";
-        $execStr .= getStepSounds($sequenceArr, $fileDir, $soundArr, 0);
 
-        for($n = 1; $n < $patternStepEnd; $n++) {
-
+        $kitId = $sequenceArr->kit->id;
+        for($n = 0; $n < $patternStepEnd; $n++) {
             foreach($sequenceArr->pattern[$n] as $key => $val) {
-                $execStr .= ' "|sox -v ' . ($sequenceArr->chVol->$val / 1000) . ' ' . $fileDir . $soundArr[$val] . ' -p pad ' . round(($stepTimeInterval * $n), 3) . ' 1"';
+                $execStr .= ' "|sox -v ' . ($sequenceArr->chVol->$val / 1000) . ' ' . $fileDir . $kitId . '/' . $val . '.ogg -p pad ' . round(($stepTimeInterval * $n), 3) . ' 1"';
             }
         }
 
@@ -87,34 +74,6 @@
         readfile($outFile);
 
         unlink($outFile);
-        foreach($soundArr as $key => $value) {
-            unlink($fileDir . $soundArr[$key]);
-        }
-    }
 
-    /***UTILITY FUNCTIONS***/
-
-    function getStepSounds($sequence, $dir, $soundArr, $step) {
-        $str = "";
-        foreach($sequence->pattern[$step] as $key => $val) {
-            $str .= '-v ' . ($sequence->chVol->$val / 1000) . ' ' . $dir . $soundArr[$val] . ' ';
-        }
-        $str = trim($str);
-        if($str) {
-            return $str;
-        }else {
-            return false;
-        }
-    }
-    
-    function getSoundFile($channel, $dir, $b64) {
-        $fileStr = base64_decode($b64);
-        $fileName = md5(microtime(true) . '-' . rand(1,1024) . '-' . $channel) . '.ogg';
-
-        $fp = fopen($dir . $fileName, 'wb');
-        fwrite($fp, $fileStr);
-        fclose($fp);
-
-        return $fileName;
     }
 ?>

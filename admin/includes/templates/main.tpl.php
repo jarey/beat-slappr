@@ -5,11 +5,11 @@
         function __construct() {
             $this->menuArr = array(
                 "divSystemKits" => array(
-                    "name"  => "System Kits",
+                    "name"  => "Kits",
                     "href"  => APP_URL . "admin/kits"
                 ),
                 "divSystemPatterns" => array(
-                    "name"  => "System Patterns",
+                    "name"  => "Patterns",
                     "href"  => APP_URL . "admin/patterns"
                 ),
                 "divBase64Encoder" => array(

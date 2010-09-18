@@ -8,8 +8,26 @@
     $template = new MainTemplate();
 
     if($_POST) {
-        $newKitName = $_POST['newKitName'];
-        $kitAPI->newKit($newKitName);
+        $action = $_POST['action'];
+        if($action == 'newKit') {
+            $newKitName = $_POST['newKitName'];
+            $kitAPI->newKit($newKitName);
+        }else if($action == 'syncKits') {
+            $downloadDir = "../../download/kits/";
+            $kitArr = $kitAPI->getKits();
+            foreach($kitArr as $key => $val) {
+                $kitId = $val['id'];
+                $kitChannels = $kitAPI->getKitChannels($kitId, 'ogg');
+                mkdir($downloadDir . $kitId);
+                foreach($kitChannels as $key => $val) {
+                    $fileName = $downloadDir . $kitId . '/' . $val['channel'] . '.ogg';
+                    $fp = fopen($fileName, 'wb');
+                    fwrite($fp, base64_decode($val['src']));
+                    fclose($fp);
+                    //$channels = exec("soxi -c " . $fileName);
+                }
+            }
+        }
     }
 
     if($_GET) {
@@ -43,15 +61,25 @@
             }
         </script>
         <div class='contentBlock'>
-            <div class='contentBlockHeader'>System Kits</div>
+            <div class='contentBlockHeader'>Kits</div>
             <div class='contentBlockBody'>$tableStr</div>
         </div>
         <div class='contentBlock'>
-            <div class='contentBlockHeader'>Create System Kit</div>
+            <div class='contentBlockHeader'>Create Kit</div>
             <div class='contentBlockBody'>
                 <form method='post' action=''>
+                    <input type='hidden' name='action' value='newKit' />
                     <input type='text' name='newKitName' />
                     <input type='submit' value='Create' />
+                </form>
+            </div>
+        </div>
+        <div class='contentBlock'>
+            <div class='contentBlockHeader'>Synchronize Kits</div>
+            <div class='contentBlockBody'>
+                <form method='post' action=''>
+                    <input type='hidden' name='action' value='syncKits' />
+                    <input type='submit' value='Sync Now' />
                 </form>
             </div>
         </div>
