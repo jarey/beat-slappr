@@ -40,16 +40,45 @@
         }
         $patternTimeLength = round(($patternStepEnd * $stepTimeInterval), 3);
         
-        $execStr = "sox -m ";
+        $execStr = "sox -M ";
+        $ch = 1;
+        $delayArr = array();
+        $remixArrL = array();
+        $remixArrR = array();
 
         $kitId = $sequenceArr->kit->id;
+        $kitChannelCount = exec("soxi -c " . $fileDir . $kitId . '/0.ogg');
+
         for($n = 0; $n < $patternStepEnd; $n++) {
             foreach($sequenceArr->pattern[$n] as $key => $val) {
-                $execStr .= ' "|sox -v ' . ($sequenceArr->chVol->$val / 1000) . ' ' . $fileDir . $kitId . '/' . $val . '.ogg -p pad ' . round(($stepTimeInterval * $n), 3) . ' 1"';
+                $execStr .= ' -v ' . ($sequenceArr->chVol->$val / 100) . ' ' . $fileDir . $kitId . '/' . $val . '.ogg';
+
+                $delay = round(($stepTimeInterval * $n), 3);
+                for($m=1; $m<=$kitChannelCount; $m++) {
+                    array_push($delayArr, $delay);
+                }
+
+                array_push($remixArrL, $ch);
+                $ch++;
+                if($kitChannelCount == 2) {
+                    array_push($remixArrR, $ch);
+                    $ch++;
+                }
             }
         }
 
-        system($execStr . ' ' . $outFile . ' gain -n trim 0 ' . $patternTimeLength);
+        $execStr .= ' ' . $outFile;
+        $execStr .= ' pad 0 ' . $patternTimeLength;
+        $execStr .= ' delay ' . implode(" ", $delayArr);
+        $execStr .= ' remix ' . implode(",", $remixArrL);
+
+        if($kitChannelCount == 2) {
+            $execStr .= ' ' . implode(",", $remixArrR);
+        }
+
+        $execStr .= ' trim 0 ' . $patternTimeLength . ' gain -n';
+
+        system($execStr);
 
         if($outFormat == "mp3") {
             $mimeType = "audio/mpeg";
@@ -74,6 +103,5 @@
         readfile($outFile);
 
         unlink($outFile);
-
     }
 ?>
