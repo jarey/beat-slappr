@@ -1,7 +1,7 @@
 body {
     font-family: arial;
     color: #111;
-    background-color: #f9f9f9;
+    background-color: #bbb;
     margin: 10px;
 }
 
@@ -63,9 +63,9 @@ h3 {
 #divWrapper {
     margin: 0 auto;
     padding: 5px;
-    width: 962px;
+    width: 728px;
     /*background: url(../images/texture.gif);*/
-    background-color: #bbb;
+    background-color: #ddd;
     overflow: hidden;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -76,7 +76,7 @@ h3 {
 #divSequencerRow {
     overflow: hidden;
     margin-top: 5px;
-    padding: 5px;
+    padding: 5px 5px 3px 5px;
     border: #838181 1px solid;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -263,13 +263,14 @@ h3 {
 #divSequencerRightCol {
     float: left;
     overflow: hidden;
-    width: 810px;
+    width: 576px;
 }
 
 #divSequencerPositionWrapper {
     overflow: hidden;
     background-color: #999;
     border-bottom: #838181 1px solid;
+    margin-bottom: 2px;
     -moz-border-radius-topright: 3px;
     -webkit-border-top-right-radius: 3px;
 }
@@ -286,9 +287,9 @@ h3 {
 
 .clsStep {
     float: left;
-    width: 40px;
-    height: 26px;
-    margin: 3px 5px;
+    width: 32px;
+    height: 32px;
+    margin: 0 2px;
     background-color: #333;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -314,7 +315,7 @@ h3 {
 
 .sequencerPositionLED {
     float: left;
-    width: 40px;
+    width: 26px;
     margin: 5px 5px;
     height: 8px;
     background: url(../images/sequence-lights.png) no-repeat center -8px;
