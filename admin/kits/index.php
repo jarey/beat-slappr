@@ -1,8 +1,14 @@
 <?php 
+    session_start();
+
     require_once "../../config.php";
 
     require_once APP_PATH . "admin/includes/templates/main.tpl.php";
     require_once APP_PATH . "/api/classes/kit.inc.php";
+
+    if(!isset($_SESSION['user_id']) || $_SESSION['email'] != SYSTEM_ADMIN_EMAIL) {
+        header('Location: ../login.php');
+    }
 
     $kitAPI = new Kit();
     $template = new MainTemplate();
