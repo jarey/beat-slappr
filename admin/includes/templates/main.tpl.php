@@ -15,6 +15,10 @@
                 "divBase64Encoder" => array(
                     "name"  => "Base64 Encoder",
                     "href"  => APP_URL . "admin/base64"
+                ),
+                "divLogout" => array(
+                    "name"  => "Logout",
+                    "href"  => APP_URL . "admin/login.php?c=logout"
                 )
             );
         }
@@ -24,6 +28,7 @@
             <!DOCTYPE HTML>
             <html>
                 <head>
+                    <meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
                     <title>" . $data['title'] . "</title>
                     <link rel='stylesheet' href='" . APP_URL . "admin/includes/style/style.css' type='text/css' media='screen' />
                 </head>
