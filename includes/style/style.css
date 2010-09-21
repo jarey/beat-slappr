@@ -1,8 +1,13 @@
+html {
+    height: 100%;
+}
+
 body {
     font-family: arial;
     color: #111;
     background-color: #bbb;
-    margin: 10px;
+    margin: 0;
+    height: 100%;
 }
 
 h3 {
@@ -60,8 +65,17 @@ h3 {
     color: #fff;
 }
 
+#divLeftCol {
+    position: fixed;
+    background-color: #fff;
+    width: 250px;
+    height: 100%;
+    float: left;
+}
+
 #divWrapper {
-    margin: 0 auto;
+    float: left;
+    margin: 20px 0 10px 270px;
     padding: 5px;
     width: 728px;
     /*background: url(../images/texture.gif);*/

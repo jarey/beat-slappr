@@ -86,6 +86,9 @@
         </script>
     </head>
     <body>
+        <div id="divLeftCol">
+            <div style='margin-top: 20px; color: #e92a31; width: 250px; text-align: center;'>PATTERN<span style="color: #6e6d72;">SKETCH</span></div>
+        </div>
         <div id="divWrapper">
             <div id="divKitPatternRow">
                 <div class="dataHeader">
