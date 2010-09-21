@@ -17,6 +17,9 @@
     if(isset($_REQUEST['password'])) {
         $password = $_REQUEST['password'];
     }
+    if(isset($_REQUEST['sequence'])) {
+        $sequence = $_REQUEST['sequence'];
+    }
 
     if(!$cmd) {
         echo "No command specified.";
@@ -39,8 +42,12 @@
             echo json_encode($logout);
         break;
         case "create":
-            if($email) {
+            if($email && $sequence) {
                 $create = $user->create($email);
+                if($create['success']) {
+                    $sequenceArr = json_decode($sequence);
+                    $pattern->save($sequenceArr->name, $sequence, $create['uid']);
+                }
                 echo json_encode($create);
             }else {
                 echo "Missing Required Parameters";

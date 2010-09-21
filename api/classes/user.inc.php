@@ -45,6 +45,7 @@
                 //Add user to the db
                 $token = $this->createToken($email);
                 mysql_query("INSERT INTO `users` (`email`, `active`, `token`) VALUES('$email', 0, '$token')");
+                $insertId = mysql_insert_id();
 
                 if(mysql_affected_rows() > 0) {
                     //Send the user a welcome email 
@@ -54,14 +55,24 @@
                 }
 
                 //Delete created accounts which haven't been activated and are older than 30 days.
-                mysql_query("DELETE FROM `users` WHERE `active`=0 AND date_created < DATE_SUB(curdate(), INTERVAL 30 DAY)");
+                $result = mysql_query("SELECT `id` FROM `users` WHERE `active`=0 AND date_created < DATE_SUB(curdate(), INTERVAL 30 DAY)");
+                $rowCount = mysql_num_rows($result);
+                for($n=0; $n<$rowCount; $n++) {
+        		    $row = mysql_fetch_assoc($result);
+        			$this->delete($row['id']);
+        		}                
 
-                return array("success" => true, "mesg" => "An email has been sent to '$email'.  Please click the link in the email to activate your account.");
+                return array("success" => true, "uid" => $insertId, "mesg" => "An email has been sent to '$email'.  Please click the link in the email to activate your account.");
             }else {
                 return array("success" => false, "mesg" => "User already exists.");
             }
         }
         
+        function delete($id) {
+            mysql_query("DELETE FROM `users` WHERE `id`=" . $id);
+            mysql_query("DELETE FROM `patterns` WHERE `user_id`=" . $id);
+        }
+
         function resetPassword($email) {
             if($this->accountExists($email)) {
                 $token = $this->createToken($email);
@@ -130,6 +141,18 @@
         private function createToken($email) {
             return md5(microtime(true) . rand() . $email);        
         }
+
+        private function getAllRows($result) {
+            $rowCount = mysql_num_rows($result);
+    		$resultArr = array();
+
+            for($n=0; $n<$rowCount; $n++) {
+    		    $row = mysql_fetch_assoc($result);
+    			$resultArr[$n] = $row;
+    		}
+    		return $resultArr;
+        }
+
 
         /***PRIVATE METHODS FOR SENDING MAIL***/
 

@@ -192,7 +192,11 @@ function Account() {
         accountAjax.request({
             url:    'api/user.php',
             method: 'post',
-            parameters: {cmd: 'create', email: txtSignupEmail.value},
+            parameters: {
+                cmd:         'create',
+                email:       txtSignupEmail.value,
+                sequence:    encodeJSON(sampler.getSequenceArr())
+            },
             handler: signupHandler
         });
     }

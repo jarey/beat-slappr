@@ -9,9 +9,14 @@
             }
         }
         
-        public function save($name, $pattern) {
-            if($_SESSION['user_id']) {        
-                $id = $_SESSION['user_id'];
+        public function save($name, $pattern, $init=false) {
+            if($_SESSION['user_id'] || $init) {
+                if($init) {
+                    $id = $init;
+                }else {
+                    $id = $_SESSION['user_id'];
+                }
+
                 $name = addslashes($name);
                 if(!$this->_patternExists($name, $id)) {
                     if(mysql_query("INSERT INTO `patterns` (`user_id`, `name`, `pattern`) VALUES($id, '$name', '$pattern')")) {

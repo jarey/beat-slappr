@@ -698,7 +698,8 @@
                 <div id="divSavePatternMesg" class='error'></div>
                 <div id="divGuestPatternSaveWrapper" class="guestWrapper">
                     Log in now to save your pattern.<br /><br />
-                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label>
+                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label><br /><br /><br />
+                    <span style='color: #ff0000;'>Don't worry-</span> <span style='font-weight: normal;'>If you haven't created an account yet, whatever you're working on right now will be automatically saved in your account when you sign up.</span>
                 </div>
                 <div id="divUserPatternSaveWrapper">
                     <form action="" onsubmit="return false;" id="frmSavePattern">
