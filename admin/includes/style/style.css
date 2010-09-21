@@ -1,7 +1,9 @@
 body {
     font-family: arial;
-    color: #2a2a2a;
-    background-color: #fafafa;
+    color: #333;
+    background-color: #bbb;
+    width: 960px;
+    margin: 10px auto;
 }
 
 a {
@@ -51,8 +53,8 @@ tr {
 
 #divHeader {
     overflow: hidden;
-    background-color:#E1DF16;
-    margin-top: 20px;
+    color: #ddd;
+    background-color:#333;
     padding: 5px;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
@@ -101,12 +103,12 @@ tr {
 
 .activeMenu {
     cursor: normal;
-    background-color: #2a2a2a;
-    color: #fafafa;
+    background-color: #ddd;
+    color: #333;
 }
 
 #divContent {
-    background-color: #e3e3e3;
+    background-color: #ddd;
     padding: 10px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
@@ -152,4 +154,11 @@ table textarea {
     margin: 0;
     height: 100%;
     width: 200px;
+}
+
+#divHomeWrapper {
+    width: 200px;
+    margin: 50px auto;
+    text-align: center;
+    font-weight: bold;
 }

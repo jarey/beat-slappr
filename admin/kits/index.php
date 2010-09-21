@@ -60,8 +60,8 @@
     }
     $tableStr .= "</table>";
 
-    $data['title'] = "Beat Slappr Admin - System Kits";
-    $data['headerTitle'] = "Beat Slappr - Admin";
+    $data['title'] = APP_NAME . " Admin";
+    $data['headerTitle'] = APP_NAME . " - Admin";
     $data['menu'] = "divSystemKits";
     $data['content'] = "
         <script type='text/javascript'>

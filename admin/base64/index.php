@@ -24,8 +24,8 @@
     }
     /***********************MAIN*********************/
     $template = new MainTemplate();
-    $data['title'] = "Beat Slappr Admin - Base64 Encoder";
-    $data['headerTitle'] = "Beat Slappr - Admin";
+    $data['title'] = APP_NAME . " Admin";
+    $data['headerTitle'] = APP_NAME . " - Admin";
     $data['menu'] = "divBase64Encoder";
     $data['content'] = "
         <div style='width: 300px; margin: 20px auto 0 auto; text-align: center;'>

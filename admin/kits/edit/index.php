@@ -7,8 +7,27 @@
     $template = new MainTemplate();
     $kitAPI = new Kit();
 
-    $data['title'] = "Beat Slappr Admin - Edit System Kit";
-    $data['headerTitle'] = "Beat Slappr - Admin";
+    $keyMapArr = array(
+        0 => "Q",
+        1 => "W",
+        2 => "E",
+        3 => "R",
+        4 => "T",
+        5 => "U",
+        6 => "I",
+        7 => "O",
+        8 => "A",
+        9 => "S",
+        10 => "D",
+        11 => "F",
+        12 => "G",
+        13 => "J",
+        14 => "K",
+        15 => "L"
+    );
+
+    $data['title'] = APP_NAME . " Admin";
+    $data['headerTitle'] = APP_NAME . " - Admin";
     $data['menu'] = "divSystemKits";
 
     if($_POST) {
@@ -43,7 +62,7 @@
                                         }else {
                                             $default = "";
                                         }
-                                        $tableStr .= "<option value='$m' $default>$m</option>";
+                                        $tableStr .= "<option value='$m' $default>$m - " . $keyMapArr[$m] . "</option>";
                                     }
                                 $tableStr .= "
                                 </select>

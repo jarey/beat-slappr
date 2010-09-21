@@ -4,8 +4,8 @@
 
     $template = new MainTemplate();
 
-    $data['title'] = "Beat Slappr Admin - System Patterns";
-    $data['headerTitle'] = "Beat Slappr - Admin";
+    $data['title'] = APP_NAME . " Admin";
+    $data['headerTitle'] = APP_NAME . " - Admin";
     $data['menu'] = "divSystemPatterns";
     $data['content'] = "Under Construction";
 
