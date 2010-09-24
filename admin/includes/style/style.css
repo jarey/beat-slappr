@@ -39,6 +39,9 @@ tr {
     border-bottom: #aaa 1px solid;
 }
 
+td {
+    vertical-align: top;
+}
 
 .clsTableText {
     font-size: 14px;
