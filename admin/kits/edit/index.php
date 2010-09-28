@@ -53,9 +53,11 @@
                 <div class='contentBlock' style='width: 400px;'>
                     <table>
                         <tr>
-                            <th style='width: 80px;'>Channel</th>
+                            <th>Channel</th>
                             <th>Name</th>
-                            <th>Sound</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>";
                         for($n=0; $n<MAX_CHANNELS; $n++) {
                             $tableStr .= "
@@ -80,9 +82,18 @@
                                     <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
                                     <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
                                 </td>
-                                <td>
-                                    <input type='button' value='>' onclick='playAudio(" . $n . ", this);' id='cmdPlay" . $n . "' />
+                                <td>";
+                                    if($kitChArr[$n]['ogg'] || $kitChArr[$n]['mp3']) {
+                                        $soundExists = "";
+                                    }else {
+                                        $soundExists = " disabled='true'";
+                                    }
+                                    $tableStr .= "
+                                    <input type='button'" . $soundExists . " value='>' onclick='playAudio(" . $n . ", this);' title='Play' id='cmdPlay" . $n . "' />
                                     <audio id='aud" . $n . "' onended='audioEnded(" . $n . ");'></audio>
+                                </td>
+                                <td>
+                                    <input type='button'" . $soundExists . " value='X' onclick='clearAudio(" . $n . ", this);' title='Delete' id='cmdClear" . $n . "' />
                                 </td>
                             </tr>";
                         }
@@ -113,9 +124,23 @@
                             return false;                        
                         }
 
-                        scope.disabled = true;
-                        audioEl.src = 'data:audio/' + mime + ';base64,' + srcEl.innerHTML;
-                        audioEl.play();
+                        if(srcEl.innerHTML) {
+                            scope.disabled = true;
+                            audioEl.src = 'data:audio/' + mime + ';base64,' + srcEl.innerHTML;
+                            audioEl.load();
+                            audioEl.play();
+                        }
+                    }
+
+                    function clearAudio(index, scope) {
+                        var clearCh = confirm('Are you sure you want to clear this channel?');
+                        if(clearCh) {
+                            _$('channelOgg' + index).innerHTML = '';
+                            _$('channelMp3' + index).innerHTML = '';
+                            _$('aud' + index).src = '';
+                            _$('cmdPlay' + index).disabled = true;
+                            scope.disabled = true;
+                        }
                     }
 
                     function audioEnded(index) {
