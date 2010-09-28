@@ -78,7 +78,15 @@
                                     <input type='text' name='channelName[]' value='" . $kitChArr[$n]['name'] . "' />
                                 </td>
                                 <td>
-                                    <iframe id='upload_target" . $n . "' src='" . APP_URL . "admin/includes/scripts/sound-upload.php?c=" . $n . "'></iframe>
+                                    <iframe name='uploadTarget" . $n . "' src='#'></iframe>
+                                    <div class='uploadFormWrapper'>
+                                        <form method='post' id='frmUpload" . $n . "' enctype='multipart/form-data' target='uploadTarget" . $n . "'>
+                                            <input type='file' class='file' name='uploadedFile' id='uploadedFile" . $n . "' onchange='doUpload(" . $n . ", this);' title='Upload' />
+                                            <input type='button' id='cmdUpload" . $n . "' value='Upload' />
+                                            <img src='../../../includes/images/ajax-loader.gif' style='display: none;' id='imgLoader" . $n . "' />
+                                        </form>
+                                    </div>
+
                                     <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
                                     <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
                                 </td>
@@ -108,6 +116,15 @@
                         return document.getElementById(el);
                     }
 
+                    function doUpload(index, scope) {
+                        var frmUpload = _$('frmUpload'  + index);
+                        scope.style.display='none';
+                        _$('cmdUpload' + index).style.display='none';
+                        _$('imgLoader' + index).style.display='block';
+                        frmUpload.action = '../../../admin/includes/scripts/sound-upload.php?c=' + index;
+                        frmUpload.submit();
+                    }
+
                     function playAudio(index, scope) {
                         var audioEl = _$('aud' + index),
                             srcEl,
@@ -121,7 +138,7 @@
                             mime = 'mpeg';
                         }else {
                             alert('Your browser can\'t play audio in any of the required formats.');
-                            return false;                        
+                            return false;
                         }
 
                         if(srcEl.innerHTML) {
