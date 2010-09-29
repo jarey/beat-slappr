@@ -68,6 +68,33 @@
             return $this->getAllRows($result);
         }
         
+        public function getKitName($id) {
+            if($result = mysql_query("SELECT name FROM sound_kits WHERE id=$id")) {
+                $row = mysql_fetch_assoc($result);
+                return $row['name'];
+            }else {
+                return false;
+            }
+            
+        }
+
+        public function updateKitName($id, $name) {
+            if(!$name) {
+                return array("success" => false, "mesg" => "Invalid kit name.");
+            }
+            $result = mysql_query("SELECT id FROM sound_kits WHERE name='$name'");
+            $rowCount = mysql_num_rows($result);
+            if($rowCount < 1) {
+                if(mysql_query("UPDATE sound_kits SET name='$name' WHERE id=$id")) {
+                    return array("success" => true, "mesg" => "Kit name updated.");
+                }else {
+                    return array("success" => false, "mesg" => "There was an error updating the kit name.");
+                }
+            }else {
+                return array("success" => false, "mesg" => "Kit already exists.");
+            }
+        }
+
         private function getAllRows($result) {
             $rowCount = mysql_num_rows($result);
     		$resultArr = array();

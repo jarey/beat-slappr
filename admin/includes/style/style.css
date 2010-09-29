@@ -33,6 +33,7 @@ table {
 }
 
 th {
+    font-size: 14px;
     text-align: left;
 }
 
@@ -46,6 +47,11 @@ td {
 
 .clsTableText {
     font-size: 14px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .success {
