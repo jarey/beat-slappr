@@ -10,14 +10,23 @@
         }
 
         public function newKit($name) {
-            if(mysql_query("INSERT INTO sound_kits (name, user_id) VALUES('$name', " . $this->getAdminId() . ")")) {
-                $id = mysql_insert_id();
-                for($n=0; $n<MAX_CHANNELS; $n++) {
-                    mysql_query("INSERT INTO sound_kit_channels (id, channel) VALUES($id, $n)");
+            if(!$name) {
+                return array("success" => false, "mesg" => "Invalid kit name.");
+            }
+            $result = mysql_query("SELECT id FROM sound_kits WHERE name='$name'");
+            $rowCount = mysql_num_rows($result);
+            if($rowCount < 1) {
+                if(mysql_query("INSERT INTO sound_kits (name, user_id) VALUES('$name', " . $this->getAdminId() . ")")) {
+                    $id = mysql_insert_id();
+                    for($n=0; $n<MAX_CHANNELS; $n++) {
+                        mysql_query("INSERT INTO sound_kit_channels (id, channel) VALUES($id, $n)");
+                    }
+                    return array("success" => true, "mesg" => "Kit successfully created.");
+                }else {
+                    return array("success" => false, "mesg" => "There was an error creating the kit.");
                 }
-                return true;
             }else {
-                return false;
+                return array("success" => false, "mesg" => "Kit already exists.");
             }
         }
 

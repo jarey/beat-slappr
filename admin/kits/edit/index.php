@@ -48,72 +48,91 @@
         $kitChArr = $kitAPI->getKitChannels($id);
         if($kitChArr) {
             $tableStr = "
-            <form method='post' action=''>
-                <input type='hidden' name='id' value='$id' />
-                <div class='contentBlock' style='width: 400px;'>
-                    <table>
+            <div id='kitBlock' class='contentBlock' style='width: 400px;'>
+                <table>
+                    <tr>
+                        <th>Channel</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>";
+                    for($n=0; $n<MAX_CHANNELS; $n++) {
+                        $tableStr .= "
                         <tr>
-                            <th>Channel</th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>";
-                        for($n=0; $n<MAX_CHANNELS; $n++) {
-                            $tableStr .= "
-                            <tr>
-                                <td>
-                                    <select name='channelId[]' value='" . $n . "'>";
-                                        for($m=0; $m<MAX_CHANNELS; $m++) {
-                                            if($n == $m) {
-                                                $default = "selected='selected'";
-                                            }else {
-                                                $default = "";
-                                            }
-                                            $tableStr .= "<option value='$m' $default>$m - " . $keyMapArr[$m] . "</option>";
+                            <td>
+                                <select name='channelId[$n]' value='" . $n . "'>";
+                                    for($m=0; $m<MAX_CHANNELS; $m++) {
+                                        if($n == $m) {
+                                            $default = "selected='selected'";
+                                        }else {
+                                            $default = "";
                                         }
-                                    $tableStr .= "
-                                    </select>
-                                </td><td>
-                                    <input type='text' name='channelName[]' value='" . $kitChArr[$n]['name'] . "' />
-                                </td>
-                                <td>
-                                    <iframe name='uploadTarget" . $n . "' src='#'></iframe>
-                                    <div class='uploadFormWrapper'>
-                                        <form method='post' id='frmUpload" . $n . "' enctype='multipart/form-data' target='uploadTarget" . $n . "'>
-                                            <input type='file' class='file' name='uploadedFile' id='uploadedFile" . $n . "' onchange='doUpload(" . $n . ", this);' title='Upload' />
-                                            <input type='button' id='cmdUpload" . $n . "' value='Upload' />
-                                            <img src='../../../includes/images/ajax-loader.gif' style='display: none;' id='imgLoader" . $n . "' />
-                                        </form>
-                                    </div>
-
-                                    <textarea name='channelOgg[]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
-                                    <textarea name='channelMp3[]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
-                                </td>
-                                <td>";
-                                    if($kitChArr[$n]['ogg'] || $kitChArr[$n]['mp3']) {
-                                        $soundExists = "";
-                                    }else {
-                                        $soundExists = " disabled='true'";
+                                        $tableStr .= "<option value='$m' $default>$m - " . $keyMapArr[$m] . "</option>";
                                     }
-                                    $tableStr .= "
-                                    <input type='button'" . $soundExists . " value='>' onclick='playAudio(" . $n . ", this);' title='Play' id='cmdPlay" . $n . "' />
-                                    <audio id='aud" . $n . "' onended='audioEnded(" . $n . ");'></audio>
-                                </td>
-                                <td>
-                                    <input type='button'" . $soundExists . " value='X' onclick='clearAudio(" . $n . ", this);' title='Delete' id='cmdClear" . $n . "' />
-                                </td>
-                            </tr>";
-                        }
-                    $tableStr .= "
-                    </table><br />
-                    <input type='submit' value='Save Changes' />
-                </div>
-            </form>";
+                                $tableStr .= "
+                                </select>
+                            </td><td>
+                                <input type='text' id='channelName" . $n . "' name='channelName[$n]' value='" . $kitChArr[$n]['name'] . "' />
+                            </td>
+                            <td>
+                                <iframe name='uploadTarget" . $n . "' src='#'></iframe>
+                                <div class='uploadFormWrapper'>
+                                    <form method='post' id='frmUpload" . $n . "' enctype='multipart/form-data' target='uploadTarget" . $n . "'>
+                                        <input type='file' class='file' name='uploadedFile' id='uploadedFile" . $n . "' onchange='doUpload(" . $n . ", this);' title='Upload' />
+                                        <input type='button' id='cmdUpload" . $n . "' value='Upload' />
+                                        <img src='../../../includes/images/ajax-loader.gif' style='display: none;' id='imgLoader" . $n . "' />
+                                    </form>
+                                </div>
+
+                                <textarea name='channelOgg[$n]' id='channelOgg" . $n . "' style='display: none;'>" . $kitChArr[$n]['ogg']  . "</textarea>
+                                <textarea name='channelMp3[$n]' id='channelMp3" . $n . "' style='display: none;'>" . $kitChArr[$n]['mp3']  . "</textarea>
+                            </td>
+                            <td>";
+                                if($kitChArr[$n]['ogg'] || $kitChArr[$n]['mp3']) {
+                                    $soundExists = "";
+                                }else {
+                                    $soundExists = " disabled='true'";
+                                }
+                                $tableStr .= "
+                                <input type='button'" . $soundExists . " value='>' onclick='playAudio(" . $n . ", this);' title='Play' id='cmdPlay" . $n . "' />
+                                <audio id='aud" . $n . "' onended='audioEnded(" . $n . ");'></audio>
+                            </td>
+                            <td>
+                                <input type='button'" . $soundExists . " value='X' onclick='clearChannel(" . $n . ", this);' title='Delete' id='cmdClear" . $n . "' />
+                            </td>
+                        </tr>";
+                    }
+                $tableStr .= "
+                </table><br />
+                <form id='frmSaveKit' method='post' action=''>
+                    <input type='hidden' name='id' value='$id' />
+                    <div id='divSaveKitData' style='display: none;'></div>
+                    <input type='button' value='Save Changes' onclick='saveKit();' /> 
+                    <input type='button' value='Cancel' onclick='window.location = \"../\";' />
+                </form>
+            </div>";
             $data['content'] = "
                 <script type='text/javascript'>
                     function _$(el) {
                         return document.getElementById(el);
+                    }
+
+                    function saveKit() {
+                        var kitBlock = _$('kitBlock'),
+                            formElArr = kitBlock.getElementsByTagName('*'),
+                            formEl,
+                            n,
+                            divSaveKitData = _$('divSaveKitData');
+
+                        kitBlock.style.display = 'none';
+                        for(n=(formElArr.length-1); n>=0; n--) {
+                            formEl = formElArr[n];
+                            if(formEl.hasAttribute('name')) {
+                                divSaveKitData.appendChild(formEl);
+                            }
+                        }
+                        _$('frmSaveKit').submit();
                     }
 
                     function doUpload(index, scope) {
@@ -149,9 +168,10 @@
                         }
                     }
 
-                    function clearAudio(index, scope) {
+                    function clearChannel(index, scope) {
                         var clearCh = confirm('Are you sure you want to clear this channel?');
                         if(clearCh) {
+                            _$('channelName' + index).value = '';
                             _$('channelOgg' + index).innerHTML = '';
                             _$('channelMp3' + index).innerHTML = '';
                             _$('aud' + index).src = '';
@@ -165,7 +185,9 @@
                         btn.disabled = false;
                     }
                 </script>" .
-                $tableStr;
+                "<a href='../'>&laquo; back to kits</a>" . 
+                $tableStr . 
+                "<a href='../'>&laquo; back to kits</a>";
         }else {
             $data['content'] = "<span class='error'>Invalid System Kit</span>";        
         }

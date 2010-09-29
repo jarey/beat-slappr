@@ -8,7 +8,7 @@
         $uploadedExtension = substr($file['name'], -3);
         $channel = $_GET['c'];
 
-        if(!$uploadedFileSize || !$channel) {
+        if(!$uploadedFileSize || ($channel < 0 || $channel >= MAX_CHANNELS)) {
             echo "
             <script type='text/javascript'>
                 alert('There was an error uploading the sound.');

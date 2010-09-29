@@ -17,7 +17,8 @@
         $action = $_POST['action'];
         if($action == 'newKit') {
             $newKitName = $_POST['newKitName'];
-            $kitAPI->newKit($newKitName);
+            $newKitStatus = $kitAPI->newKit($newKitName);
+            $newKitSuccess = $newKitStatus['success'] ? 'success' : 'error';
         }else if($action == 'syncKits') {
             $downloadDir = "../../download/kits/";
             $kitArr = $kitAPI->getKits();
@@ -79,18 +80,19 @@
             }
         </script>
         <div class='contentBlock'>
-            <div class='contentBlockHeader'>Kits</div>
-            <div class='contentBlockBody'>$tableStr</div>
-        </div>
-        <div class='contentBlock'>
             <div class='contentBlockHeader'>Create Kit</div>
             <div class='contentBlockBody'>
+                <span class='$newKitSuccess'>" . $newKitStatus['mesg'] . "</span>
                 <form method='post' action=''>
                     <input type='hidden' name='action' value='newKit' />
                     <input type='text' name='newKitName' />
                     <input type='submit' value='Create' />
                 </form>
             </div>
+        </div>
+        <div class='contentBlock'>
+            <div class='contentBlockHeader'>Kits</div>
+            <div class='contentBlockBody'>$tableStr</div>
         </div>
         <div class='contentBlock'>
             <div class='contentBlockHeader'>Synchronize Kits</div>
