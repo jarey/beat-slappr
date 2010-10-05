@@ -87,7 +87,44 @@
     </head>
     <body>
         <div id="divLeftCol">
-            <div style='margin-top: 20px; color: #e92a31; width: 250px; text-align: center;'>PATTERN<span style="color: #6e6d72;">SKETCH</span></div>
+            <div id="divStatusWrapper">
+                <div id="divLoginWrapper">
+                    <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
+                        <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
+                    </div>
+                    <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
+                    <?php if ($_SESSION['user_id']) { ?>
+                        <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
+                    <?php } ?>
+                    </div>
+                </div>
+                <label id='lblAboutUs' class='lblLink'>About Us</label>
+            </div>
+            <img id='imgLogo' src='includes/images/ps-logo.jpg' alt='PatternSketch' /><br />
+            <table>
+                <tr>
+                    <td><img src='includes/images/create_icon.jpg' alt='create' /></td>
+                    <td>
+                        <h4>CREATE</h4>
+                        Sketch ideas using the sounds from the Roland TR-909, TR-808, or one of the custom sound kits to create audio patterns up to 64 steps.
+                    </td>
+                </tr>
+                <tr>
+                    <td class='panelSpacing'><img src='includes/images/share_icon.jpg' alt='create' /></td>
+                    <td class='panelSpacing'>
+                        <h4>SHARE</h4>
+                        Save your creations and collaborate with your friends on new patterns.
+                    </td>
+                </tr>
+                <tr>
+                    <td class='panelSpacing'><img src='includes/images/download_icon.jpg' alt='create' /></td>
+                    <td class='panelSpacing'>
+                        <h4>DOWNLOAD</h4>
+                        Download your pattern loop as a WAV or OGG file and continue working on your ideas in a more robust audio suite like Reason, Ableton Live, Logic, or whatever you use.
+                    </td>
+                </tr>
+            </table>
+            <img src='includes/images/html5_icon.jpg' alt='create' />
         </div>
         <div id="divWrapper">
             <div id="divKitPatternRow">
@@ -107,16 +144,6 @@
                             <span class='comboRight'></span>
                         </a>
                         &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
-                    </div>
-                    <div id="divLoginWrapper" style="float: right;">
-                        <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
-                            <label id='lblLogin' class='lblLink'>login</label> | <label id='lblSignUp' class='lblLink'>sign up</label>
-                        </div>
-                        <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
-                        <?php if ($_SESSION['user_id']) { ?>
-                            <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
-                        <?php } ?>
-                        </div>
                     </div>
                 </div>
             </div>
