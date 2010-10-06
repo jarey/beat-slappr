@@ -30,7 +30,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <title><?php echo APP_NAME; ?></title>
+        <title><?php echo APP_NAME; ?> - HTML5/JavaScript Drum Machine and Sequencer</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
         <?php
             if(DEV) {
@@ -101,591 +101,594 @@
                 <label id='lblAboutUs' class='lblLink'>About Us</label>
             </div>
             <img id='imgLogo' src='includes/images/ps-logo.jpg' alt='PatternSketch' /><br />
-            <table>
-                <tr>
-                    <td><img src='includes/images/create_icon.jpg' alt='create' /></td>
-                    <td>
-                        <h4>CREATE</h4>
-                        Sketch ideas using the sounds from the Roland TR-909, TR-808, or one of the custom sound kits to create audio patterns up to 64 steps.
-                    </td>
-                </tr>
-                <tr>
-                    <td class='panelSpacing'><img src='includes/images/share_icon.jpg' alt='create' /></td>
-                    <td class='panelSpacing'>
-                        <h4>SHARE</h4>
-                        Save your creations and collaborate with your friends on new patterns.
-                    </td>
-                </tr>
-                <tr>
-                    <td class='panelSpacing'><img src='includes/images/download_icon.jpg' alt='create' /></td>
-                    <td class='panelSpacing'>
-                        <h4>DOWNLOAD</h4>
-                        Download your pattern loop as a WAV or OGG file and continue working on your ideas in a more robust audio suite like Reason, Ableton Live, Logic, or whatever you use.
-                    </td>
-                </tr>
-            </table>
+
+	        <div id="features">
+		        <dl id="create">
+			        <dd><h2>Create</h2></dd>
+			        <dd><p>Sketch patterns using sounds from one of the available audio kits.</p></dd>
+		        </dl>
+		        <dl id="share">
+			        <dd><h2>Share</h2></dd>
+			        <dd><p>Save your creations online, and share with your friends to collaborate on new musical ideas.</p></dd>
+		        </dl>
+		        <dl id="download">
+			        <dd><h2>Download</h2></dd>
+			        <dd><p>Download your pattern loop as a WAV, OGG, or MP3 file and continue working on your ideas offline.</p></dd>
+		        </dl>
+	        </div>
+
             <img src='includes/images/html5_icon.jpg' alt='create' />
         </div>
-        <div id="divWrapper">
-            <div id="divKitPatternRow">
-                <div class="dataHeader">
-                    <div style="float: left; line-height: 24px;">
-                        <label class='labelText'>Kit</label>
-                        <a id='aKitModal' class='comboWrapper'>
-                            <span class='comboLeft'></span>
-                            <span id='currentKit' class='comboCenter'></span>
-                            <span class='comboRight'></span>
-                        </a>
-                        <div style='float: left; height: 1px; width: 15px;'></div>
-                        <label class='labelText'>Pattern</label> 
-                        <a id='aPatternModal' class='comboWrapper'>
-                            <span class='comboLeft'></span>
-                            <span id='currentPattern' class='comboCenter'></span>
-                            <span class='comboRight'></span>
-                        </a>
-                        &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
+        <div id="divRightCol">
+            <div id="divWrapper">
+                <div id="divKitPatternRow">
+                    <div class="dataHeader">
+                        <div style="float: left; line-height: 24px;">
+                            <label class='labelText'>Kit</label>
+                            <a id='aKitModal' class='comboWrapper'>
+                                <span class='comboLeft'></span>
+                                <span id='currentKit' class='comboCenter'></span>
+                                <span class='comboRight'></span>
+                            </a>
+                            <div style='float: left; height: 1px; width: 15px;'></div>
+                            <label class='labelText'>Pattern</label> 
+                            <a id='aPatternModal' class='comboWrapper'>
+                                <span class='comboLeft'></span>
+                                <span id='currentPattern' class='comboCenter'></span>
+                                <span class='comboRight'></span>
+                            </a>
+                            &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="divShuttleRow">
+                    <div id="divViewBarOutterWrapper">
+                        Edit Bar
+                        <div id="divViewBarInnerWrapper"> 
+                            <div class="viewBar">1</div>
+                            <div class="viewBar">2</div>
+                            <div class="viewBar">3</div>
+                            <div class="viewBar">4</div>
+                        </div>
+                    </div>
+                    <div id="shuttleWidgetWrapper">
+                        <div class="widgetWrapper">
+                            Steps
+                            <div id="divSteps"></div>
+                        </div>
+                        <div class="widgetWrapper">
+                            Tempo
+                            <div id="divTempo"></div>
+                        </div>
+                        <div class="widgetWrapper">
+                            Master Vol
+                            <div id="divVolume"></div>
+                        </div>
+                    </div>                
+                    <div id="divShuttleButtonWrapper">
+                        <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
+                        <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
+                        <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
+                        <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
+                    </div>
+                </div>
+                <div id="divSequencerRow">
+                    <div id="divSequencerLeftCol">
+                        <div id="divInstrumentSpacer"></div>
+                        <div id="divInstrument">
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">Q</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol:</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">W</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">E</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">R</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">T</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">U</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">I</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">O</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">A</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">S</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">D</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">F</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">G</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">J</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">K</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                            <div style="border-bottom: 0;">
+                                <div class="instrumentName"></div>
+                                <div class="instrumentBtnWrapper">
+                                    <div class="drumPad">L</div>
+                                    <div class="channelContentWrapper">
+                                        <div class="channelMute" title="Mute">M</div>
+                                        <div class="channelSolo" title="Solo">S</div>
+                                    </div>
+                                    <div class="volumeLabel">Vol</div>
+                                    <div class="divVolumeWidget"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divSequencerRightCol">
+                        <div id="divSequencerPositionWrapper">
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                            <div class="sequencerPositionLED"></div>
+                        </div>
+                        <div id="divStepWrapper">
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                            <div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep clsStepOne"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                                <div class="clsStep"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="divShuttleRow">
-                <div id="divViewBarOutterWrapper">
-                    Edit Bar
-                    <div id="divViewBarInnerWrapper"> 
-                        <div class="viewBar">1</div>
-                        <div class="viewBar">2</div>
-                        <div class="viewBar">3</div>
-                        <div class="viewBar">4</div>
-                    </div>
-                </div>
-                <div id="shuttleWidgetWrapper">
-                    <div class="widgetWrapper">
-                        Steps
-                        <div id="divSteps"></div>
-                    </div>
-                    <div class="widgetWrapper">
-                        Tempo
-                        <div id="divTempo"></div>
-                    </div>
-                    <div class="widgetWrapper">
-                        Master Vol
-                        <div id="divVolume"></div>
-                    </div>
-                </div>                
-                <div id="divShuttleButtonWrapper">
-                    <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
-                    <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
-                    <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
-                    <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
-                </div>
-            </div>
-            <div id="divSequencerRow">
-                <div id="divSequencerLeftCol">
-                    <div id="divInstrumentSpacer"></div>
-                    <div id="divInstrument">
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">Q</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol:</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">W</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">E</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">R</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">T</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">U</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">I</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">O</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">A</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">S</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">D</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">F</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">G</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">J</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">K</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                        <div style="border-bottom: 0;">
-                            <div class="instrumentName"></div>
-                            <div class="instrumentBtnWrapper">
-                                <div class="drumPad">L</div>
-                                <div class="channelContentWrapper">
-                                    <div class="channelMute" title="Mute">M</div>
-                                    <div class="channelSolo" title="Solo">S</div>
-                                </div>
-                                <div class="volumeLabel">Vol</div>
-                                <div class="divVolumeWidget"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="divSequencerRightCol">
-                    <div id="divSequencerPositionWrapper">
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                        <div class="sequencerPositionLED"></div>
-                    </div>
-                    <div id="divStepWrapper">
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                        <div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep clsStepOne"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                            <div class="clsStep"></div>
-                        </div>
-                    </div>
-                </div>
+            <div id="divAboutWrapper">
+	            <h2>Patternsketch</h2>
+	            <p>Patternsketch is an HTML5 and Javascript audio sequencer and drum machine. With it, you can create audio patterns, play them back, adjust playback tempo, volume, and change the audio kit. You can also save, export, and collaborate with your friends.</p>
+
+	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML (no flash).</p>
+	            <p>The goal of this project was to create a tool that musicians and casual music fans could use to create music patterns and collaborate on rhythmic ideas with friends. We recognize the performance is currently unacceptable for serious use, but look forward to updates in browser technology to make tools like this a viable option for music lovers.</p>
+	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="#">see our posts on how we made it</a>.</p>
             </div>
         </div>
         <textarea id="txtKitWindow" style="display: none;">

@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Molengo';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Molengo'), url(../fonts/molengo.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Cantarell';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Cantarell'), url(../fonts/cantarell.ttf) format('truetype');
+}
+
 html {
     height: 100%;
 }
@@ -70,9 +84,10 @@ h3 {
     position: fixed;
     color: #333;
     background-color: #fff;
-    padding: 5px 5px 0 5px;
-    width: 240px;
+    padding: 20px 20px 0 20px;
+    width: 210px;
     height: 100%;
+    text-align: center;
 }
 
 #divStatusWrapper {
@@ -93,12 +108,37 @@ h3 {
     float: right;
 }
 
-#divLeftCol table {
+#features {
+    font-family: 'Molengo', arial, serif; 
     margin-bottom: 5px;
+    line-height: 14px;
     font-size: 12px;
+    text-align: left;
 }
 
-#divLeftCol h4 {
+#features p {
+    margin: 0;
+}
+
+#create, #share, #download {
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+#create {
+    background: url(../images/ps-icons.jpg) no-repeat 0 0px;
+}
+
+#share {
+    background: url(../images/ps-icons.jpg) no-repeat 0 -280px;
+}
+
+#download {
+    background: url(../images/ps-icons.jpg) no-repeat 0 -140px;
+}
+
+#divLeftCol h2 {
+    font-family: 'Cantarell', arial, serif; 
     color: #e82930;
     font-size: 16px;
     font-weight: normal;
@@ -106,14 +146,19 @@ h3 {
 }
 
 .panelSpacing {
-    padding-top: 6px;
+    padding-top: 10px;
+}
+
+#divRightCol {
+    float: left;
+    margin: 10px 0 10px 260px;
+    width: 738px;
+    overflow: hidden;
+    padding: 10px;
 }
 
 #divWrapper {
-    float: left;
-    margin: 20px 0 10px 270px;
     padding: 5px;
-    width: 728px;
     background-color: #ddd;
     overflow: hidden;
     -moz-border-radius: 5px;
@@ -681,4 +726,8 @@ h3 {
 
 .selectedTableRow {
     background-color: #D3DBFE;
+}
+
+#divAboutWrapper {
+    font-family: 'Molengo', arial, serif;
 }
