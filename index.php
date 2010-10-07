@@ -89,7 +89,7 @@
     <body>
         <div id="divStatusBar">
             <div id="divStatusWrapper">
-                <div><label id='lblAboutUs' class='lblLink'>About Us</label>&nbsp;|&nbsp;</div>
+                <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About Us</label></a>&nbsp;|&nbsp;</div>
                 <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
                     <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
                 </div>
@@ -140,7 +140,9 @@
                             </a>
                         </div>
                         <div class="right" style='float: right;'>
-                            <label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
+                            <div id="divDownloadPattern" class="samplerButton downloadIcon" title="Download Pattern"></div>
+                            <div id="divSharePattern" class="samplerButton shareIcon" title="Share Pattern"></div>
+                            <div id="divSavePattern" class="samplerButton saveIcon" title="Save Pattern"></div>
                         </div>
                     </div>
                 </div>
@@ -686,6 +688,7 @@
                 </div>
             </div>
             <div id="divAboutWrapper">
+                <a name="about"></a><br />
 	            <h2>Patternsketch</h2>
 	            <p>Patternsketch is an HTML5 and Javascript audio sequencer and drum machine. With it, you can create audio patterns, play them back, adjust playback tempo, volume, and change the audio kit. You can also save, export, and collaborate with your friends.</p>
 

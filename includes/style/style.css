@@ -57,6 +57,12 @@ h3 {
     cursor: pointer;
 }
 
+.lblLink a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+}
+
 .lblLink:hover {
     text-decoration: underline;
 }
@@ -448,6 +454,28 @@ h3 {
 
 .dataHeader .right {
     float: right;
+}
+
+.samplerButton {
+    float: right;
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.downloadIcon {
+    background: #222 url(../images/button-icons.png) no-repeat center -48px;
+}
+
+.shareIcon {
+    background: #222 url(../images/button-icons.png) no-repeat center 0;
+}
+
+.saveIcon {
+    background: #222 url(../images/button-icons.png) no-repeat center -24px;
 }
 
 .saveBtn {

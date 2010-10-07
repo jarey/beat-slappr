@@ -652,7 +652,7 @@ function Pattern() {
         });
 
         savePatternModal = new Kodiak.Controls.Modal({
-            applyTo:     'lblSavePattern',
+            applyTo:     'divSavePattern',
             componentId: 'savePatternModal',
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
@@ -663,7 +663,7 @@ function Pattern() {
         });
 
         sharePatternModal = new Kodiak.Controls.Modal({
-            applyTo:     'lblSharePattern',
+            applyTo:     'divSharePattern',
             componentId: 'sharePatternModal',
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
@@ -674,7 +674,7 @@ function Pattern() {
         });
 
         downloadPatternModal = new Kodiak.Controls.Modal({
-            applyTo:     'lblDownloadPattern',
+            applyTo:     'divDownloadPattern',
             componentId: 'downloadPatternModal',
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
