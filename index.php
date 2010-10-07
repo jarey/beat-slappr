@@ -84,22 +84,23 @@
                 })();
             <?php } ?>
         </script>
+        <link href="includes/images/ps-logo.ico" rel="shortcut icon" />
     </head>
     <body>
-        <div id="divLeftCol">
+        <div id="divStatusBar">
             <div id="divStatusWrapper">
-                <div id="divLoginWrapper">
-                    <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
-                        <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
-                    </div>
-                    <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
-                    <?php if ($_SESSION['user_id']) { ?>
-                        <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
-                    <?php } ?>
-                    </div>
+                <div><label id='lblAboutUs' class='lblLink'>About Us</label>&nbsp;|&nbsp;</div>
+                <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
+                    <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
                 </div>
-                <label id='lblAboutUs' class='lblLink'>About Us</label>
+                <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
+                <?php if ($_SESSION['user_id']) { ?>
+                    <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
+                <?php } ?>
+                </div>
             </div>
+        </div>
+        <div id="divLeftCol">
             <img id='imgLogo' src='includes/images/ps-logo.jpg' alt='PatternSketch' /><br />
 
 	        <div id="features">
@@ -123,7 +124,7 @@
             <div id="divWrapper">
                 <div id="divKitPatternRow">
                     <div class="dataHeader">
-                        <div style="float: left; line-height: 24px;">
+                        <div class="left">
                             <label class='labelText'>Kit</label>
                             <a id='aKitModal' class='comboWrapper'>
                                 <span class='comboLeft'></span>
@@ -137,7 +138,9 @@
                                 <span id='currentPattern' class='comboCenter'></span>
                                 <span class='comboRight'></span>
                             </a>
-                            &nbsp;&nbsp;<label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
+                        </div>
+                        <div class="right" style='float: right;'>
+                            <label id='lblSavePattern' class='lblLink'>save</label>&nbsp;&nbsp;<label id='lblSharePattern' class='lblLink'>share</label>&nbsp;&nbsp;<label id='lblDownloadPattern' class='lblLink'>download</label>
                         </div>
                     </div>
                 </div>

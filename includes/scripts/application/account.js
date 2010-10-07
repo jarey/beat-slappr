@@ -288,7 +288,9 @@ function Account() {
             applyTo:     'lblLogin',
             componentId: 'loginModal',
             modalClass:  'modalWindow accountModal',
+            orientation:  'right',
             onBeforeShow:   function() {
+                window.scroll(0,0);
                 this.setContent($('txtLoginWindow').value);
             },
             onShowComplete: loginInit
@@ -298,7 +300,9 @@ function Account() {
             applyTo:     'lblSignUp',
             componentId: 'signupModal',
             modalClass:  'modalWindow accountModal',
+            orientation:  'right',
             onBeforeShow:   function() {
+                window.scroll(0,0);
                 this.setContent($('txtSignupWindow').value);
             },
             onShowComplete: signUpInit

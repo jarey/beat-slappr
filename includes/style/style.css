@@ -79,33 +79,41 @@ h3 {
     color: #fff;
 }
 
+#divStatusBar {
+    position: fixed;
+    background-color: #333;
+    width: 100%;
+    height: 40px;
+    border-bottom: #ccc 1px solid;
+    z-index: 2;
+}
+
+#divStatusBar label {
+    color: inherit;
+}
+
 #divLeftCol {
     float: left;
     position: fixed;
     color: #333;
     background-color: #fff;
-    padding: 20px 20px 0 20px;
+    padding: 40px 20px 0 20px;
     width: 210px;
     height: 100%;
     text-align: center;
 }
 
 #divStatusWrapper {
-    overflow: hidden;
-    color: #e82930;
-    font-size: 10px;
-}
-
-#divLeftCol label {
-    color: inherit;
-}
-
-#divLoginWrapper {
-    float: left;
-}
-
-#lblAboutUs {
     float: right;
+    overflow: hidden;
+    margin: 23px 8px 0 0;
+    color: #e82930;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+#divStatusWrapper div {
+    float: left;
 }
 
 #features {
@@ -151,7 +159,7 @@ h3 {
 
 #divRightCol {
     float: left;
-    margin: 10px 0 10px 260px;
+    margin: 50px 0 10px 260px;
     width: 738px;
     overflow: hidden;
     padding: 10px;
@@ -318,7 +326,7 @@ h3 {
     font-weight: bold;
     line-height: 21px;
     border: 0;
-    color: #ff0000;
+    color: #cc0000;
     background-color: #000;
     text-align: right;
     -moz-border-radius: 3px;
@@ -330,7 +338,7 @@ h3 {
     font-weight: bold;
     line-height: 17px;
     border: 0;
-    color: #ff0000;
+    color: #cc0000;
     background-color: #000;
     text-align: right;
     -moz-border-radius: 3px;
@@ -395,7 +403,7 @@ h3 {
 }
 
 .clsStepOn {
-    background-color: #ff0000;
+    background-color: #00a0a0;
 }
 
 .clsStepDisabled {
@@ -433,6 +441,15 @@ h3 {
     width: 100px;
 }
 
+.dataHeader .left {
+    float: left;
+    line-height: 24px;
+}
+
+.dataHeader .right {
+    float: right;
+}
+
 .saveBtn {
     font-size: 10px;
     width: 40px;
@@ -451,7 +468,7 @@ h3 {
 
 .digitalDisplay {
     border:1px solid #888;
-    color:#ff0000;
+    color:#cc0000;
     background-color:#000;
     width:30px;
     height:16px;
@@ -571,6 +588,7 @@ h3 {
     -webkit-border-radius: 5px;
     -moz-box-shadow: 4px 4px 4px black;
     -webkit-box-shadow: 4px 4px 4px black;
+    z-index: 1000;
 }
 
 .modalText {
@@ -730,4 +748,13 @@ h3 {
 
 #divAboutWrapper {
     font-family: 'Molengo', arial, serif;
+}
+
+#divAboutWrapper a {
+    color: #E82930;
+    text-decoration: none;
+}
+
+#divAboutWrapper a:hover {
+    text-decoration: underline;
 }

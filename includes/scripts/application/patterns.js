@@ -655,6 +655,7 @@ function Pattern() {
             applyTo:     'lblSavePattern',
             componentId: 'savePatternModal',
             modalClass:  'modalWindow accountModal',
+            orientation: 'right',
             onBeforeShow: function() {
                 this.setContent($('txtSavePatternWindow').value);
             },
@@ -665,6 +666,7 @@ function Pattern() {
             applyTo:     'lblSharePattern',
             componentId: 'sharePatternModal',
             modalClass:  'modalWindow accountModal',
+            orientation: 'right',
             onBeforeShow:   function() {
                 this.setContent($('txtSharePatternWindow').value);
             },
@@ -675,6 +677,7 @@ function Pattern() {
             applyTo:     'lblDownloadPattern',
             componentId: 'downloadPatternModal',
             modalClass:  'modalWindow accountModal',
+            orientation: 'right',
             onBeforeShow:   function() {
                 this.setContent($('txtDownloadPatternWindow').value);
             },

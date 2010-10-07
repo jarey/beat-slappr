@@ -83,7 +83,6 @@ function Kit() {
             applyTo:      'aKitModal',
             componentId:  'kitModal',
             modalClass:   'modalWindow kitModal',
-            orientation:  'right',
             closeOnBlur:  true,
             onBeforeShow: function() {
                 this.setContent($('txtKitWindow').value);
