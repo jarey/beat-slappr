@@ -88,6 +88,7 @@
     </head>
     <body>
         <div id="divStatusBar">
+            <div id="divStatusMesg">Patternsketch is experimental. Works best in Firefox & Google Chrome</div>
             <div id="divStatusWrapper">
                 <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
                 <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
@@ -174,7 +175,6 @@
                         <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
                         <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
                         <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
-                        <div id="divLoopPosition" class="digitalDisplay shuttle"></div>
                     </div>
                 </div>
                 <div id="divSequencerRow">
@@ -189,7 +189,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol:</div>
+                                    <div class="volumeLabel">Vol</div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>

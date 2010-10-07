@@ -4,7 +4,7 @@ function Sampler() {
         VARIABLE DECLARATION
     **************************************************************************************************************************/
 
-    var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divLoopPosition, divVolume,
+    var divPlayPause, divJumpToStart, divClearPattern, divTempo, divSteps, divVolume,
 
         channelArr = [],
         instrumentNameArr = [],
@@ -75,31 +75,15 @@ function Sampler() {
         return Math.ceil(lastStep / measureLength);
     }
 
-    function updateShuttlePosition() {
-        var measure = Math.ceil(currentStep / measureLength),
-            beat = (Math.ceil(currentStep / beatLength)) - ((measure-1) * beatsPerMeasure),
-            step = currentStep - ((measure-1) * measureLength) - ((beat-1) * beatLength);
-
-        divLoopPosition.innerHTML = measure + "." + beat + "." + step;
-    }
-
     function runSequencer() {
-        //sequencerTimer = setTimeout(runSequencer, sequencerTimeoutLength);
         priorityTask.add(runSequencer, sequencerTimeoutLength);
 
         var stepArr = sequenceArr.pattern[currentStep-1],
             n,
             lastStepMeasure,
             currentStepMeasure;
-
-        //Play sounds for current step
-        for(n=0; n<stepArr.length; n++) {
-            channelArr[stepArr[n]].play();
-        }
         
         //Update GUI
-
-        updateShuttlePosition();
 
         lastStepMeasure = _getLastStepMeasure();
         currentStepMeasure = Math.ceil(currentStep / measureLength);
@@ -117,6 +101,11 @@ function Sampler() {
             currentStep = 1;
         }
         
+        //Play sounds for current step
+        for(n=0; n<stepArr.length; n++) {
+            channelArr[stepArr[n]].play();
+        }
+
         priorityTask.fire();
     }
 
@@ -342,7 +331,6 @@ function Sampler() {
         currentMeasure = 0;
 
         setCurrentMeasure(1);
-        updateShuttlePosition();
 
         var currentStepIndex = _getCurrentStepIndex();
         removeClass(sequencerPositionLEDArr[currentStepIndex], 'clsStepCurrent');
@@ -535,7 +523,6 @@ function Sampler() {
         divTempo = $("divTempo");
         divSteps = $("divSteps");
         divVolume = $("divVolume");
-        divLoopPosition = $("divLoopPosition");
         
         var divStepWrapper,
             n,

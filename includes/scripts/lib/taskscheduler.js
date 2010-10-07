@@ -5,8 +5,8 @@ Kodiak.Data.PriorityTask = function() {
 Kodiak.Data.PriorityTask.prototype = {
     timeout:   0,
     blocked:   false,
-    blockTime: 60,
-    loopTime:  10,
+    blockTime: 40,
+    loopTime:   0,
     _timeout:   0,
     _isCleared: true,
     _fn:        function() {},
@@ -41,6 +41,7 @@ Kodiak.Data.PriorityTask.prototype = {
     },
     
     _async: function() {
+        /*
         var sTime = new Date().getTime(),
             eTime = sTime,
             delay = this.executionTime - sTime;
@@ -51,6 +52,7 @@ Kodiak.Data.PriorityTask.prototype = {
                 return false;
             }
         }
+        */
         this._fn();
         this.blocked = false;
     },

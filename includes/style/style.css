@@ -97,6 +97,15 @@ h3 {
     color: inherit;
 }
 
+#divStatusMesg {
+    position: absolute;
+    left: 270px;
+    top:13px;
+    text-shadow: 1px 1px 0px #444;
+    font-size:12px;
+    color:#ffff99;
+}
+
 #divLeftCol {
     float: left;
     position: fixed;
@@ -417,7 +426,7 @@ h3 {
 }
 
 .clsStepCurrent {
-    background: url(../images/sequence-lights.png) no-repeat center 0 !important;
+    background-position: center 0 !important;
 }
 
 .sequencerPositionLED {
@@ -555,17 +564,6 @@ h3 {
     color: #aaa;
     background-color: #1f1f1f;
     cursor: default;
-}
-
-.shuttle {
-    float:right;
-    font-size:20px;
-    height:30px;
-    line-height:30px;
-    margin-right:5px;
-    padding-right:2px;
-    text-align:right;
-    width:65px;
 }
 
 #divShuttleButtonWrapper {
