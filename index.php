@@ -89,7 +89,7 @@
     <body>
         <div id="divStatusBar">
             <div id="divStatusWrapper">
-                <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About Us</label></a>&nbsp;|&nbsp;</div>
+                <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
                 <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
                     <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
                 </div>
