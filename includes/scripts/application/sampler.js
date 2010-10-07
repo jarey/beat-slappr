@@ -398,6 +398,7 @@ function Sampler() {
             }else if(keyHashType == "number") {
                 playInstrument(keyHashVal);
             }
+            return false;
         }
     }
 
