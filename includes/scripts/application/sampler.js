@@ -113,14 +113,14 @@ function Sampler() {
         if(state == 'playing') {
             addClass(divPlayPause, 'btnPause');
             removeClass(divPlayPause, 'btnPlay');
-            divPlayPause.title = "Pause";
+            divPlayPause.title = "Pause    [space]";
             clearInterval(sequencerTimer);
             runSequencer();
             //sequencerTimer = setInterval(runSequencer, sequencerTimeoutLength);
         }else if(state == 'paused') {
             addClass(divPlayPause, 'btnPlay');
             removeClass(divPlayPause, 'btnPause');
-            divPlayPause.title = "Play";
+            divPlayPause.title = "Play    [space]";
             priorityTask.clear();
             //clearInterval(sequencerTimer);
         }
@@ -131,8 +131,11 @@ function Sampler() {
         togglePlayer(playerState);
     }
 
-    //The following causes the spacebar to run togglePlay();
+    //The following causes the spacebar to run togglePlay()
     keyHash[32] = function() {togglePlay();};
+
+    //The following causes the left arrow key to initialize the loop position
+    keyHash[37] = function() {initLoopPosition();};
 
     function toggleInstrument(instrument, step) {
         if(step < totalSteps) {

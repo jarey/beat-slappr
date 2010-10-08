@@ -173,8 +173,8 @@
                     </div>                
                     <div id="divShuttleButtonWrapper">
                         <div id="divClearPattern" class="shuttleButton btnClearPattern" title="Clear Pattern"></div>
-                        <div id="divPlayPause" class="shuttleButton btnPlay" title="Play"></div>
-                        <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning"></div>
+                        <div id="divPlayPause" class="shuttleButton btnPlay" title="Play    [space]"></div>
+                        <div id="divJumpToStart" class="shuttleButton btnStart" title="Jump to Beginning    [left arrow]"></div>
                     </div>
                 </div>
                 <div id="divSequencerRow">
@@ -689,7 +689,7 @@
             </div>
             <div id="divAboutWrapper">
                 <a name="about"></a><br />
-	            <h2>Patternsketch</h2>
+	            <h1>Patternsketch</h1>
 	            <p>Patternsketch is an HTML5 and Javascript audio sequencer and drum machine. With it, you can create audio patterns, play them back, adjust playback tempo, volume, and change the audio kit. You can also save, export, and collaborate with your friends.</p>
 
 	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML (no flash).</p>
