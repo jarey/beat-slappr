@@ -35,7 +35,6 @@ function Sampler() {
 
         beatLength     =  4,
         measureLength  = 16,
-        beatsPerMeasure = (measureLength / beatLength),
 
         lastStep = totalSteps,
         priorityTask,
