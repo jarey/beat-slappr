@@ -2,7 +2,7 @@
 # Authorization #
 #################
 
-AuthUserFile /var/www/patternsketch.com/.htpasswd
-AuthType Basic
-AuthName "PatternSketch"
-Require valid-user
+#AuthUserFile /var/www/patternsketch.com/.htpasswd
+#AuthType Basic
+#AuthName "PatternSketch"
+#Require valid-user
