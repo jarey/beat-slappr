@@ -131,6 +131,8 @@ do
     echo ""
     echo "Creating $build package..."
 
+    #COPY BUILD-SPECIFIC FILES OVER
+
     mv config/config.$build.php config.php
     if [ -f config/htaccess.$build ]
     then
@@ -139,17 +141,38 @@ do
     else
         htaccess=''
     fi
+    if [ -f config/robots.$build.txt ]
+    then
+        mv config/robots.$build.txt robots.txt
+    fi
+    if [ -f config/sitemap.$build.xml ]
+    then
+        mv config/sitemap.$build.xml sitemap.xml
+    fi
+
+    #END COPY BUILD-SPECIFIC FILES
 
     curDate=`date +%Y_%m_%d_%H_%M_%S`
     tar czf "../packages/build__"$curDate"__"$gitHash"__"$build".tar.gz" * $htaccess --exclude "config"
-
     echo "Built package build__"$curDate"__"$gitHash"__"$build".tar.gz"
+
+    #REMOVE BUILD-SPECIFIC FILES
 
     rm config.php
     if [ -f .htaccess ]
     then
         rm .htaccess
     fi
+    if [ -f robots.txt ]
+    then
+        rm robots.txt
+    fi
+    if [ -f sitemap.xml ]
+    then
+        rm sitemap.xml
+    fi
+
+    #END REMOVE BUILD-SPECIFIC FILES
 done
 
 cd ..
