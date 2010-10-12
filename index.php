@@ -89,7 +89,15 @@
     </head>
     <body>
         <div id="divStatusBar">
-            <div id="divStatusMesg">Patternsketch is experimental. Works best in Firefox & Google Chrome</div>
+            <div id="divStatusMesg">Patternsketch is experimental. Works best in Firefox.</div>
+            <div id="divSocialLinks">
+                <table>
+                    <tr>
+                        <td><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></td>
+                        <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer http://bit.ly/c7SJ27 #html5" data-count="none" data-via="HTMigueL" data-related="Ghostly">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>
+                    </tr>
+                </table>
+            </div>
             <div id="divStatusWrapper">
                 <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
                 <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
