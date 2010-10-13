@@ -89,24 +89,26 @@
     </head>
     <body>
         <div id="divStatusBar">
-            <div id="divStatusMesg">Patternsketch is experimental. Works best in Firefox.</div>
-            <div id="divSocialLinks">
-                <table>
-                    <tr>
-                        <td><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></td>
-                        <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer http://bit.ly/c7SJ27 #html5" data-count="none" data-via="HTMigueL" data-related="Ghostly">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>
-                    </tr>
-                </table>
-            </div>
-            <div id="divStatusWrapper">
-                <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
-                <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
-                    <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
-                </div>
-                <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
-                <?php if ($_SESSION['user_id']) { ?>
-                    <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
-                <?php } ?>
+            <div id="divStatusBarWrapper">
+                <div id="divStatusBarLeft">Patternsketch is experimental. Works best in Firefox.</div>
+                <div id="divStatusBarRight">
+                    <div id="divSocialLinks">
+                        <table>
+                            <tr>
+                                <td><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></td>
+                                <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer #html5" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>
+                            </tr>
+                        </table>
+                    </div><br />
+                    <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
+                        <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
+                    </div>
+                    <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
+                    <?php if ($_SESSION['user_id']) { ?>
+                        <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
+                    <?php } ?>
+                    </div>
+                    <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
                 </div>
             </div>
         </div>
@@ -703,7 +705,7 @@
 
 	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML (no flash).</p>
 	            <p>The goal of this project was to create a tool that musicians and casual music fans could use to create music patterns and collaborate on rhythmic ideas with friends. We recognize the performance is currently unacceptable for serious use, but look forward to updates in browser technology to make tools like this a viable option for music lovers.</p>
-	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="http://projectil.es/5/patternsketch-html5-and-javascript-audio-sequencer/">see our posts on how we made it</a>.</p>
+	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="http://www.webappmatic.com/5/patternsketch-html5-and-javascript-audio-sequencer/">see our posts on how we made it</a>.</p>
 	            <p>Questions?  Comments?  Email us:  patternsketch [at] gmail [dot] com</p>
             </div>
         </div>
