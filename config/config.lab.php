@@ -61,6 +61,13 @@
     define("MAX_CHANNELS", 16);
 
 
+    /****************************/
+    /***DEFAULT PRESET PATTERN***/
+    /****************************/
+
+    define("DEFAULT_PRESET", "Electro 1");
+
+
     /***********************/
     /***DATABASE SETTINGS***/
     /***********************/

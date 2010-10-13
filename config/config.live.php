@@ -61,6 +61,13 @@
     define("MAX_CHANNELS", 16);
 
 
+    /****************************/
+    /***DEFAULT PRESET PATTERN***/
+    /****************************/
+
+    define("DEFAULT_PRESET", "Vintage");
+
+
     /***********************/
     /***DATABASE SETTINGS***/
     /***********************/

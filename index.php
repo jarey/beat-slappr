@@ -69,7 +69,16 @@
                 if($sharePattern) {
                     echo "p=$sharePattern;";
                 }else if($patternArr) {
-                    echo "p=" . json_encode($patternArr['data']['system'][0]) . ";";
+                    $defaultPatternIndex = 0;
+                    $defaultPatternArr = $patternArr['data']['system'];
+                    $defaultPatternCount = count($defaultPatternArr);
+                    for($n=0; $n<$defaultPatternCount; $n++) {
+                        if($defaultPatternArr[$n]->name == DEFAULT_PRESET) {
+                            $defaultPatternIndex = $n;
+                            break;
+                        }
+                    }
+                    echo "p=" . json_encode($patternArr['data']['system'][$defaultPatternIndex]) . ";";
                 }
             ?>
 
