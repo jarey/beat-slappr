@@ -714,7 +714,7 @@
 
 	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML (no flash).</p>
 	            <p>The goal of this project was to create a tool that musicians and casual music fans could use to create music patterns and collaborate on rhythmic ideas with friends. We recognize the performance is currently unacceptable for serious use, but look forward to updates in browser technology to make tools like this a viable option for music lovers.</p>
-	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="http://www.webappmatic.com/5/patternsketch-html5-and-javascript-audio-sequencer/">see our posts on how we made it</a>.</p>
+	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="http://webappmatic.com/5/patternsketch-html5-and-javascript-audio-sequencer/">see our posts on how we made it</a>.</p>
 	            <p>Questions?  Comments?  Email us:  patternsketch [at] gmail [dot] com</p>
             </div>
         </div>

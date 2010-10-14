@@ -14,7 +14,7 @@
         $format = $_REQUEST['format'];
     }
 
-    if(!$cmd) {
+    if(!isset($cmd)) {
         echo "No command specified.";
         return;
     }
@@ -25,7 +25,7 @@
             echo json_encode($kits);
         break;
         case "getKitChannels":
-            if($id && $format) {
+            if(isset($id) && isset($format)) {
                 $channels = $kit->getKitChannels($id, $format);
                 echo json_encode($channels);
             }else {

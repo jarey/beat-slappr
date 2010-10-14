@@ -21,14 +21,14 @@
         $sequence = $_REQUEST['sequence'];
     }
 
-    if(!$cmd) {
+    if(!isset($cmd)) {
         echo "No command specified.";
         return;
     }
 
     switch($cmd) {
         case "login":
-            if($email && $password) {
+            if(isset($email) && isset($password)) {
                 $login = $user->login($email, $password);
                 $login['pattern'] = $pattern->get("user");
                 echo json_encode($login);
@@ -42,7 +42,7 @@
             echo json_encode($logout);
         break;
         case "create":
-            if($email && $sequence) {
+            if(isset($email) && isset($sequence)) {
                 $create = $user->create($email);
                 if($create['success']) {
                     $sequenceArr = json_decode($sequence);
@@ -55,7 +55,7 @@
             }
         break;
         case "resetPassword":
-            if($email) {
+            if(isset($email)) {
                 $resetPwd = $user->resetPassword($email);
                 echo json_encode($resetPwd);
             }else {

@@ -37,14 +37,14 @@
         $name = $_REQUEST['name'];
     }
 
-    if(!$cmd) {
+    if(!isset($cmd)) {
         echo "No command specified.";
         return;
     }
 
     switch($cmd) {
         case "save":
-            if($name && $sequence) {
+            if(isset($name) && isset($sequence)) {
                 $save = $pattern->save($name, $sequence);
                 echo json_encode($save);
             }else {
@@ -53,7 +53,7 @@
             }        
         break;
         case "rename":
-            if($from && $to) {
+            if(isset($from) && isset($to)) {
                 $rename = $pattern->rename($from, $to);
                 echo json_encode($rename);
             }else {
@@ -62,7 +62,7 @@
             }
         break;
         case "delete":
-            if($items) {
+            if(isset($items)) {
                 $delete = $pattern->delete($items);
                 echo json_encode($delete);
             }else {
@@ -71,7 +71,7 @@
             }
         break;
         case "get":
-            if($type) {
+            if(isset($type)) {
                 $patterns = $pattern->get($type);
                 echo json_encode($patterns);
             }else {
@@ -80,7 +80,7 @@
             }
         break;
         case "share":
-            if($user && $sequence && $hash && $recipients) {
+            if(isset($user) && isset($sequence) && isset($hash) && isset($recipients)) {
                 $share = $pattern->share($user, $sequence, $hash, $recipients);
                 echo json_encode($share);
             }else {

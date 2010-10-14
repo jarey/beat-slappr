@@ -10,7 +10,7 @@
         }
         
         public function save($name, $pattern, $init=false) {
-            if($_SESSION['user_id'] || $init) {
+            if(isset($_SESSION['user_id']) || $init) {
                 if($init) {
                     $id = $init;
                 }else {
@@ -37,7 +37,7 @@
         }
 
         public function rename($from, $to) {
-            if($_SESSION['user_id']) {
+            if(isset($_SESSION['user_id'])) {
                 $id = $_SESSION['user_id'];
                 $from = addslashes($from);
                 $to = addslashes($to);
@@ -57,7 +57,7 @@
         }
 
         public function delete($items) {
-            if($_SESSION['user_id']) {
+            if(isset($_SESSION['user_id'])) {
                 $id = $_SESSION['user_id'];
                 $items = addslashes($items);
                 $items = explode("|-|", $items);
@@ -77,7 +77,7 @@
                 $resultArr['system'] = $this->_getPatterns($this->getAdminId());
             }
             if($type == "user" || $type == "all") {
-                if($_SESSION['user_id']) {
+                if(isset($_SESSION['user_id'])) {
                     $resultArr['user'] = array();
                     $resultArr['user'] = $this->_getPatterns($_SESSION['user_id']);
                 }else {
@@ -93,7 +93,7 @@
 
         public function share($user, $sequence, $hash, $recipients) {
             if($user == "[user]") {
-                if($_SESSION['user_id']) {
+                if(isset($_SESSION['user_id'])) {
                     $user = $_SESSION['email'];
                 }else {
                     return array("success" => false, "mesg" => "Invalid account.");
