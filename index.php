@@ -9,7 +9,7 @@
     $kitArr = $kit->getKits();
     
     $pattern = new Pattern();
-    if ($_SESSION['user_id']) {
+    if (isset($_SESSION['user_id'])) {
         $patternArr = $pattern->get("all");
     }else {
         $patternArr = $pattern->get("system");
@@ -51,14 +51,14 @@
         ?>
         <script type="text/javascript">
             <?php
-                if($_SESSION['email']) {
+                if(isset($_SESSION['email'])) {
                     echo "u=1;";
                 }else {
                     echo "u='';";
                 }
 
                 if($patternArr) {
-                    if ($_SESSION['user_id']) {
+                    if (isset($_SESSION['user_id'])) {
                         echo "upa=" . json_encode($patternArr['data']['user']) . ";";
                     }else {
                         echo "upa='';";
@@ -109,11 +109,11 @@
                             </tr>
                         </table>
                     </div><br />
-                    <div id="divGuestAccount" <?php echo ($_SESSION['user_id']) ? "style='display: none;'" : ""; ?>>
+                    <div id="divGuestAccount" <?php echo (isset($_SESSION['user_id'])) ? "style='display: none;'" : ""; ?>>
                         <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
                     </div>
-                    <div id="divUserAccount" <?php echo ($_SESSION['user_id']) ? "" : "style='display: none;'"; ?>>
-                    <?php if ($_SESSION['user_id']) { ?>
+                    <div id="divUserAccount" <?php echo (isset($_SESSION['user_id'])) ? "" : "style='display: none;'"; ?>>
+                    <?php if (isset($_SESSION['user_id'])) { ?>
                         <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
                     <?php } ?>
                     </div>
@@ -775,7 +775,7 @@
             <div class='patternModalWrapper'>
                 <div id="divSharePatternMesg" class='error'></div>
                 <form action="" onsubmit="return false;" id="frmSharePattern">
-                    <div id="divGuestUser" style="display: <?php echo ($_SESSION['user_id']) ? "none" : "block"; ?>;">
+                    <div id="divGuestUser" style="display: <?php echo (isset($_SESSION['user_id'])) ? "none" : "block"; ?>;">
                         <label class="labelText">Your email:</label><br />
                         <input type="text" class="modalText" id="txtUserEmail" /><br /><br />
                     </div><label class='lblLink' style='float: right;' 
