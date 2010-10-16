@@ -153,6 +153,10 @@ do
     then
         mv config/config.hotlinks.$build.php hotlinks/config.php
     fi    
+    if [ -f config/htaccess.hotlinks.$build ]
+    then
+        mv config/htaccess.hotlinks.$build hotlinks/.htaccess
+    fi
 
     #END COPY BUILD-SPECIFIC FILES
 
@@ -178,6 +182,10 @@ do
     if [ -f hotlinks/config.php ]
     then
         rm hotlinks/config.php
+    fi
+    if [ -f hotlinks/.htaccess ]
+    then
+        rm hotlinks/.htaccess
     fi
 
     #END REMOVE BUILD-SPECIFIC FILES
