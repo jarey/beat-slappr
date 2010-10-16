@@ -47,6 +47,8 @@
                 }
             }else {
                 echo "<script src='includes/scripts/script.js'></script>";
+                require_once("hotlinks/config.php");
+                require_once("hotlinks/hotlinks.inc.php");
             }
         ?>
         <script type="text/javascript">

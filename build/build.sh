@@ -149,6 +149,10 @@ do
     then
         mv config/sitemap.$build.xml sitemap.xml
     fi
+    if [ -f config/config.hotlinks.$build.php ]
+    then
+        mv config/config.hotlinks.$build.php hotlinks/config.php
+    fi    
 
     #END COPY BUILD-SPECIFIC FILES
 
@@ -170,6 +174,10 @@ do
     if [ -f sitemap.xml ]
     then
         rm sitemap.xml
+    fi
+    if [ -f hotlinks/config.php ]
+    then
+        rm hotlinks/config.php
     fi
 
     #END REMOVE BUILD-SPECIFIC FILES
