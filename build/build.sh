@@ -38,7 +38,7 @@ mkdir build
 echo ""
 echo "Copying files..."
 
-rsync -a --exclude 'build' --exclude 'db' --exclude 'download/kits/*/' --exclude '.git' --exclude 'todo.txt' --exclude 'config.php' ../ build
+rsync -a --exclude 'build' --exclude 'db' --exclude 'download/kits/*/' --exclude '.git' --exclude 'notes.txt' --exclude 'config.php' ../ build
 
 
 ####################

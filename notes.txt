@@ -1,0 +1,20 @@
+PatternSketch Notes:
+
+TODO:
+----------------
+-Tighten up API.  Make sure all submitted values are legitimate for valid (email addresses, session, etc)
+    -Make sure pattern names are scrubbed for illegal characters.
+-If playing, load a selected pattern upon completion of the currently playing pattern.
+-Ability to learn controller key for instruments
+-Ability to set velocity of notes on the sequencer
+-Ability to add more than 16 channels
+-Ability to make custom kits
+
+
+APPLICATION DEPENDENCIES:
+-------------------------
+
+- php5-cli
+- sox
+- ffmpeg
+- lame
