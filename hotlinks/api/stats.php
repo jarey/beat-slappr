@@ -7,7 +7,7 @@
 
     if(isset($_REQUEST['statType'])) {
         $statType = $_REQUEST['statType'];
-        if($statType != "page_visited" && $statType != "referring_site") {
+        if($statType != "page_visited" && $statType != "referring_site" && $statType != "visitors") {
             return false;
         }
     }else {
@@ -32,6 +32,15 @@
         case "all":
             $where = "";
         break;
+        case "custom":
+            if(isset($_REQUEST['from']) && isset($_REQUEST['to'])) {
+                $from = explode('/', $_REQUEST['from']);
+                $to = explode('/', $_REQUEST['to']);
+                $where = " WHERE timestamp BETWEEN '" . $from[2] . "-" . $from[0] . "-" . $from[1] . " 00:00:00' AND '" . $to[2] . "-" . $to[0] . "-" . $to[1] . " 23:59:59'";
+            }else {
+                return false;
+            }
+        break;
         default:
             return false;
         break;
@@ -39,22 +48,30 @@
 
     $db = new SQLite3(HOTLINKS_DB_PATH . "hotlinks.db.sqlite");
 
-    $sql = "SELECT unique_visitors." . $statType . " AS page, unique_visits, total_visits
-            FROM (SELECT " . $statType . ", COUNT(client_ip) AS unique_visits FROM (SELECT " . $statType . ", client_ip FROM visits" . $where . " GROUP BY " . $statType . ", client_ip) GROUP BY " . $statType . ") AS unique_visitors,
-                 (SELECT " . $statType . ", COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY " . $statType . ") AS total_visitors
-            WHERE unique_visitors." . $statType . " = total_visitors." . $statType . "";
+    if($statType == "page_visited" || $statType == "referring_site") {
+        $sql = "SELECT unique_visitors." . $statType . " AS page, unique_visits, total_visits
+                FROM (SELECT " . $statType . ", COUNT(client_ip) AS unique_visits FROM (SELECT " . $statType . ", client_ip FROM visits" . $where . " GROUP BY " . $statType . ", client_ip) GROUP BY " . $statType . ") AS unique_visitors,
+                     (SELECT " . $statType . ", COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY " . $statType . ") AS total_visitors
+                WHERE unique_visitors." . $statType . " = total_visitors." . $statType . "";
 
-    $result = $db->query($sql);
+        $result = $db->query($sql);
 
-    $resultArr = getAllRows($result);
-    $uniqueTotal = 0;
-    $visitTotal = 0;
-    foreach($resultArr as $key => $val) {
-        $uniqueTotal += $val['unique_visits'];
-        $visitTotal += $val['total_visits'];
+        $resultArr = getAllRows($result);
+        $uniqueTotal = 0;
+        $visitTotal = 0;
+        foreach($resultArr as $key => $val) {
+            $uniqueTotal += $val['unique_visits'];
+            $visitTotal += $val['total_visits'];
+        }
+
+        echo json_encode(array("unique_total" => $uniqueTotal, "visit_total" => $visitTotal, "data" => $resultArr));
+    }else if($statType == "visitors") {
+        $sql = "SELECT client_ip, page_visited, referring_site, timestamp FROM visits" . $where;
+        $result = $db->query($sql);
+        $resultArr = getAllRows($result);
+
+        echo json_encode(array("unique_total" => "", "visit_total" => count($resultArr), "data" => $resultArr));
     }
-
-    echo json_encode(array("unique_total" => $uniqueTotal, "visit_total" => $visitTotal, "data" => $resultArr));
     
     function getAllRows($result) {
         $resultArr = array();
