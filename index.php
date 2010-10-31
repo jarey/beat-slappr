@@ -802,37 +802,5 @@
                 </form>
             </div>
         </textarea>
-        <textarea id="txtLoginWindow" style="display: none;">
-            <div class='patternModalHeader'><label class='lblModalTitle'>Login</label><label class='lblModalButtons' title='close' onclick='sampler.loginModal.hide();'>X</label></div>
-            <div class='patternModalWrapper'>
-                <div id="divLoginMesg" class='error'></div>
-                <form action="" onsubmit="return false;" id="frmLogin">
-                    <label class='labelText'>email:</label><br /><input type="text" id="txtLoginEmail" class="modalText" /><br />
-                    <label class='labelText'>password:</label><br /><input type="password" id="txtLoginPassword" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdLogin" value="login" /> <img id="imgLoginLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.signupModal.show();">sign up</label><br /><br />
-                </form>
-                <label id="lblForgotPassword" class="lblLink">forgot password</label>
-            </div>
-        </textarea>
-        <textarea id="txtForgotPasswordWindow" style="display: none;">
-            <div class='patternModalHeader'><label class='lblModalTitle'>Forgot Password</label><label class='lblModalButtons' title='close' onclick='sampler.loginModal.hide();'>X</label></div>
-            <div class='patternModalWrapper'>
-                <div id="divResetMesg" class='error'></div>
-                <form action="" onsubmit="return false;" id="frmResetPassword">
-                    <label class='labelText'>email:</label> <input type="text" id="txtResetEmail" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdResetPassword" value="reset password" /> <img id="imgResetLoader" style="display: none;" src="includes/images/ajax-loader.gif" />
-                </form>
-            </div>
-        </textarea>
-        <textarea id="txtSignupWindow" style="display: none;">
-            <div class='patternModalHeader'><label class='lblModalTitle'>Sign Up</label><label class='lblModalButtons' title='close' onclick='sampler.signupModal.hide();'>X</label></div>
-            <div class='patternModalWrapper'>
-                <div id="divSignupMesg" class='error'></div>
-                <form action="" onsubmit="return false;" id="frmSignup">
-                    <label class="labelText">email:</label> <input type="text" id="txtSignupEmail" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdSignUp" value="sign up" /> <img id="imgSignupLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <label class="lblLink" onclick="sampler.loginModal.show();">login</label>
-                </form>
-            </div>
-        </textarea>
     </body>
 </html> 
