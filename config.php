@@ -65,7 +65,7 @@
     /***DEFAULT PRESET PATTERN***/
     /****************************/
 
-    define("DEFAULT_PRESET", "Electro 1");
+    define("DEFAULT_PRESET", "random");
 
 
     /***********************/

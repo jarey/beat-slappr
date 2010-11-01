@@ -65,7 +65,7 @@
     /***DEFAULT PRESET PATTERN***/
     /****************************/
 
-    define("DEFAULT_PRESET", "Vintage");
+    define("DEFAULT_PRESET", "random");
 
 
     /***********************/
