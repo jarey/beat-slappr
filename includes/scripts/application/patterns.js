@@ -30,7 +30,63 @@ function Pattern() {
         userPatternDataIsDirty = false,
         userPatternArr = [],
         systemPatternArr = [],
-        patternAjax;
+        patternAjax,
+
+        downloadPatternModalContent = " \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Download Loop</label><label class='lblModalButtons' title='close' onclick='sampler.downloadPatternModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
+                    <label class='labelText'>Steps:</label><br /> \
+                    <input type='text' name='stepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><br /><br /> \
+                    <label class='labelText'>Format:</label><br /> \
+                    <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
+                    <input type='radio' name='format' value='ogg' /> ogg<br /> \
+                    <input type='radio' name='format' value='mp3' /> mp3 (may not loop properly)<br /><br /> \
+                    <input type='hidden' name='sequence' id='sequence' /> \
+                    <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> <input type='button' id='cmdCancelDownload'  value='cancel' /> \
+                </form> \
+            </div>",
+
+        savePatternModalContent = " \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Save Pattern</label><label class='lblModalButtons' title='close' onclick='sampler.savePatternModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <div id='divSavePatternMesg' class='error'></div> \
+                <div id='divGuestPatternSaveWrapper' class='guestWrapper'> \
+                    Log in now to save your pattern.<br /><br /> \
+                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label><br /><br /><br /> \
+                    <span style='color: #ff0000;'>Don't worry-</span> <span style='font-weight: normal;'>If you haven't created an account yet, whatever you're working on right now will be automatically saved in your account when you sign up.</span> \
+                </div> \
+                <div id='divUserPatternSaveWrapper'> \
+                    <form action='' onsubmit='return false;' id='frmSavePattern'> \
+                        <label class='labelText'>Name:</label> \
+                        <input type='text' id='txtSavePattern' class='modalText' /><br /><br /> \
+                        <input type='submit' id='cmdSavePattern' value='save' /> <img id='imgSavePatternLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> <input type='button' id='cmdCancelSave'  value='cancel' /> \
+                    </form> \
+                </div> \
+            </div>",
+            
+        patternModalContent = " \
+            <div id='divPatternMesg' class='error' style='display: none;'></div> \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Patterns</label><label class='lblModalButtons' title='close' onclick='sampler.patternModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <div class='patternHeader'>My Patterns</div> \
+                <div id='divGuestPatternWrapper' class='guestWrapper'> \
+                    Log in now to create and edit your own patterns.<br /><br /> \
+                    <label class='lblLink' onclick='sampler.loginModal.show();'>login</label>&nbsp;&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.signupModal.show();'>sign up</label> \
+                </div> \
+                <div id='divMyPatternWrapper' style='display: none;'> \
+                    <div id='divWithSelectedPatterns'> \
+                        Select: <label id='lblSelectAll' class='lblLink' style='font-weight: normal;'>all</label>, <label id='lblSelectNone' class='lblLink' style='font-weight: normal;'>none</label>&nbsp;&nbsp;|&nbsp;&nbsp; \
+                        With Selected: \
+                        <input type='button' id='cmdRenamePattern' value='rename' class='withSelectedBtn' /> \
+                        <input type='button' id='cmdDeletePattern' value='delete' class='withSelectedBtn' /> \
+                    </div> \
+                    <div id='divUserPatterns' class='patternTable userPatternTable'></div> \
+                </div> \
+                <div class='patternHeader'>Preset Patterns</div> \
+                <div id='divPresetPatterns' class='patternTable presetPatternTable' style='margin-bottom: 0;'></div> \
+            </div>";
+
 
 
     /*******************************/
@@ -646,7 +702,7 @@ function Pattern() {
             componentId: 'patternModal',
             modalClass:  'modalWindow patternModal',
             onBeforeShow: function() {
-                this.setContent($('txtPatternWindow').value);
+                this.setContent(patternModalContent);
             },
             onShowComplete: userPatternInit
         });
@@ -657,7 +713,7 @@ function Pattern() {
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
             onBeforeShow: function() {
-                this.setContent($('txtSavePatternWindow').value);
+                this.setContent(savePatternModalContent);
             },
             onShowComplete: savePatternInit
         });
@@ -679,7 +735,7 @@ function Pattern() {
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
             onBeforeShow:   function() {
-                this.setContent($('txtDownloadPatternWindow').value);
+                this.setContent(downloadPatternModalContent);
             },
             onShowComplete: downloadPatternInit
         });
