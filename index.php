@@ -732,20 +732,5 @@
                 ?>
             </div>
         </textarea>
-        <textarea id="txtSharePatternWindow" style="display: none;">
-            <div class='patternModalHeader'><label class='lblModalTitle'>Share Pattern</label><label class='lblModalButtons' title='close' onclick='sampler.sharePatternModal.hide();'>X</label></div>
-            <div class='patternModalWrapper'>
-                <div id="divSharePatternMesg" class='error'></div>
-                <form action="" onsubmit="return false;" id="frmSharePattern">
-                    <div id="divGuestUser" style="display: <?php echo (isset($_SESSION['user_id'])) ? "none" : "block"; ?>;">
-                        <label class="labelText">Your email:</label><br />
-                        <input type="text" class="modalText" id="txtUserEmail" /><br /><br />
-                    </div><label class='lblLink' style='float: right;' 
-                    <label class="labelText">Share with:<br /><span style="font-weight: normal;">(separate multiple email addresses with commas)</span></label>
-                    <input type="text" id="txtShareWithEmail" class="modalText" /><br /><br />
-                    <input type="submit" id="cmdSharePattern" value="share" /> <img id="imgSharePatternLoader" style="display: none;" src="includes/images/ajax-loader.gif" /> <input type="button" id="cmdCancelShare"  value="cancel" />
-                </form>
-            </div>
-        </textarea>
     </body>
 </html> 

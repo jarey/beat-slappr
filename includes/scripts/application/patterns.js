@@ -32,6 +32,8 @@ function Pattern() {
         systemPatternArr = [],
         patternAjax,
 
+        emailErrorMesg = "The email address you provided was not valid.",
+
         downloadPatternModalContent = " \
             <div class='patternModalHeader'><label class='lblModalTitle'>Download Loop</label><label class='lblModalButtons' title='close' onclick='sampler.downloadPatternModal.hide();'>X</label></div> \
             <div class='patternModalWrapper'> \
@@ -64,7 +66,7 @@ function Pattern() {
                     </form> \
                 </div> \
             </div>",
-            
+
         patternModalContent = " \
             <div id='divPatternMesg' class='error' style='display: none;'></div> \
             <div class='patternModalHeader'><label class='lblModalTitle'>Patterns</label><label class='lblModalButtons' title='close' onclick='sampler.patternModal.hide();'>X</label></div> \
@@ -85,6 +87,21 @@ function Pattern() {
                 </div> \
                 <div class='patternHeader'>Preset Patterns</div> \
                 <div id='divPresetPatterns' class='patternTable presetPatternTable' style='margin-bottom: 0;'></div> \
+            </div>"
+
+        sharePatternModalContent = " \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Share Pattern</label><label class='lblModalButtons' title='close' onclick='sampler.sharePatternModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <div id='divSharePatternMesg' class='error'></div> \
+                <form action='' onsubmit='return false;' id='frmSharePattern'> \
+                    <div id='divGuestUser'> \
+                        <label class='labelText'>Your email:</label><br /> \
+                        <input type='text' class='modalText' id='txtUserEmail' /><br /><br /> \
+                    </div> \
+                    <label class='labelText'>Share with:<br /><span style='font-weight: normal;'>(separate multiple email addresses with commas)</span></label> \
+                    <input type='text' id='txtShareWithEmail' class='modalText' /><br /><br /> \
+                    <input type='submit' id='cmdSharePattern' value='share' /> <img id='imgSharePatternLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> <input type='button' id='cmdCancelShare'  value='cancel' /> \
+                </form> \
             </div>";
 
 
@@ -724,7 +741,7 @@ function Pattern() {
             modalClass:  'modalWindow accountModal',
             orientation: 'right',
             onBeforeShow:   function() {
-                this.setContent($('txtSharePatternWindow').value);
+                this.setContent(sharePatternModalContent);
             },
             onShowComplete: sharePatternInit
         });
