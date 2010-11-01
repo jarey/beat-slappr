@@ -5,12 +5,37 @@ function Kit() {
         Public Methods:
         
         setSystemKit();
+        setAvailableKits();
     */
 
     var kitModal,
-        kitCache = [];
+        kitCache = [],
+        
+        kitModalContent = " \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Kits</label><label class='lblModalButtons' title='close' onclick='sampler.kitModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <div id='divKitWrapper' class='modalWrapper'> \
+                    [kits] \
+                </div> \
+            </div>";
 
     /***KITS***/
+
+    function setAvailableKits(kitArr) {
+        if(typeof(kitArr) == 'object') {
+            var kitStr = "",
+                n;
+
+            for(n=0; n<kitArr.length; n++) {
+                kitStr += "<div class='modalWrapperRow' onclick='sampler.setSystemKit(\"" + kitArr[n]['name'] + "\"," + kitArr[n]['id'] + ");'>" + kitArr[n]['name'] + "</div>";
+            }
+
+            kitModalContent = kitModalContent.replace(/\[kits\]/, kitStr);
+        }else {
+            return false;
+        }
+    }
+    this.setAvailableKits = setAvailableKits;
 
     function _isCached(id) {
         var prop;
@@ -85,7 +110,7 @@ function Kit() {
             modalClass:   'modalWindow kitModal',
             closeOnBlur:  true,
             onBeforeShow: function() {
-                this.setContent($('txtKitWindow').value);
+                this.setContent(kitModalContent);
             }
         });
 

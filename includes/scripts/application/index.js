@@ -1,21 +1,21 @@
 /********************************/
 
 /*
-    lK is defined in the homepage dynamically.  It stands for loadKit.
-    This defines the initial kit to load on page load.
+
+    kA is defined in the homepage upon pageload.  It is short for kitArray.
 
     p is defined in the homepage upon pageload if a 'p' attribute was passed on the url.
     This means the link was of a shared pattern.
 
-    spa is defined in the homepage upon pageload.  It is short for systemPatternArr.
-
     upa is defined in the homepage upon pageload.  It is short for userPatternArr.
+
+    spa is defined in the homepage upon pageload.  It is short for systemPatternArr.
 
     u is defined in the homepage upon pageload.  It is short for currentUser.
 
 */
 
-var sampler, p, spa, upa, u, lK,
+var sampler, p, spa, upa, u, kA,
     Kodiak = {};
 
     Kodiak.Data = {};
@@ -25,9 +25,10 @@ var sampler, p, spa, upa, u, lK,
 function pageLoaded() {
     sampler = new Sampler();
 
-    if(typeof(lK) == 'object') {
-        sampler.setSystemKit(lK[0], lK[1]);
+    if(typeof(kA) == 'object') {
+        sampler.setAvailableKits(kA);
     }
+
     if(typeof(p) == 'object') {
         sampler.setPattern(p);
     }

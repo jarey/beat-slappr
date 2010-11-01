@@ -465,6 +465,11 @@ function Sampler() {
     }
     this.setSystemKit = setSystemKit;
 
+    function setAvailableKits(kitArr) {
+        kit.setAvailableKits(kitArr);
+    }
+    this.setAvailableKits = setAvailableKits;
+
     //ACCOUNT METHODS
     function logout() {
         account.logout();

@@ -59,6 +59,10 @@
                     echo "u='';";
                 }
 
+                if($kitArr) {
+                    echo "kA=" . json_encode($kitArr) . ";";
+                }
+
                 if($patternArr) {
                     if (isset($_SESSION['user_id'])) {
                         echo "upa=" . json_encode($patternArr['data']['user']) . ";";
@@ -720,17 +724,5 @@
 	            <p>Questions?  Comments?  Email us:  patternsketch [at] gmail [dot] com</p>
             </div>
         </div>
-        <textarea id="txtKitWindow" style="display: none;">
-            <div class='patternModalHeader'><label class='lblModalTitle'>Kits</label><label class='lblModalButtons' title='close' onclick='sampler.kitModal.hide();'>X</label></div>
-            <div class='patternModalWrapper'>
-                <?php
-                    echo "<div id='divKitWrapper' class='modalWrapper'>";
-                        foreach($kitArr as $key => $val) {
-                            echo "<div class='modalWrapperRow' onclick='sampler.setSystemKit(\"" . $val['name'] . "\"," . $val['id'] . ");'>" . $val['name'] . "</div>";
-                        }
-                    echo "</div>";
-                ?>
-            </div>
-        </textarea>
     </body>
 </html> 
