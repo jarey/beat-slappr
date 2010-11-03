@@ -4,7 +4,7 @@
     /***DEFINE WHETHER CODE IS IN A DEVELOPMENT ENVIRONMENT OR NOT***/
     /****************************************************************/
 
-    define("DEV", false);
+    define("HOTLINKS_DEV", false);
 
 
     /********************************************/

@@ -9,7 +9,7 @@ require_once "config.php";
 <title>Hotlinks - Realtime web statistics</title>
 <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
 <?php
-if(DEV) {
+if(HOTLINKS_DEV) {
 $dir = 'includes/scripts/';
 $jsFileArr = file($dir . 'js.list');
 $count = sizeof($jsFileArr);

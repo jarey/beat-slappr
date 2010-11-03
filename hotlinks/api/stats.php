@@ -14,20 +14,27 @@
         return false;
     }
 
+
+    if(isset($_REQUEST['timezone']) && is_numeric($_REQUEST['timezone'])) {
+        $timezoneOffset = $_REQUEST['timezone'];
+    }else {
+        return false;
+    }
+
     require_once("../config.php");
 
     switch($dateRange) {
         case "today":
-            $where = " WHERE strftime('%Y-%m-%d', timestamp) = strftime('%Y-%m-%d', current_timestamp)";
+            $where = " WHERE strftime('%Y-%m-%d', timestamp, '$timezoneOffset hours') = strftime('%Y-%m-%d', current_timestamp, '$timezoneOffset hours')";
         break;
         case "week":
-            $where = " WHERE strftime('%Y-%W', timestamp) = strftime('%Y-%W', current_timestamp)";
+            $where = " WHERE strftime('%Y-%W', timestamp, '$timezoneOffset hours') = strftime('%Y-%W', current_timestamp, '$timezoneOffset hours')";
         break;
         case "month":
-            $where = " WHERE strftime('%Y-%m', timestamp) = strftime('%Y-%m', current_timestamp)";
+            $where = " WHERE strftime('%Y-%m', timestamp, '$timezoneOffset hours') = strftime('%Y-%m', current_timestamp, '$timezoneOffset hours')";
         break;
         case "year":
-            $where = " WHERE strftime('%Y', timestamp) = strftime('%Y', current_timestamp)";
+            $where = " WHERE strftime('%Y', timestamp, '$timezoneOffset hours') = strftime('%Y', current_timestamp, '$timezoneOffset hours')";
         break;
         case "all":
             $where = "";
@@ -36,7 +43,7 @@
             if(isset($_REQUEST['from']) && isset($_REQUEST['to'])) {
                 $from = explode('/', $_REQUEST['from']);
                 $to = explode('/', $_REQUEST['to']);
-                $where = " WHERE timestamp BETWEEN '" . $from[2] . "-" . $from[0] . "-" . $from[1] . " 00:00:00' AND '" . $to[2] . "-" . $to[0] . "-" . $to[1] . " 23:59:59'";
+                $where = " WHERE datetime(timestamp) BETWEEN datetime('" . $from[2] . "-" . $from[0] . "-" . $from[1] . " 00:00:00', '" . -$timezoneOffset . " hours') AND datetime('" . $to[2] . "-" . $to[0] . "-" . $to[1] . " 23:59:59', '" . -$timezoneOffset . " hours')";
             }else {
                 return false;
             }
