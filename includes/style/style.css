@@ -191,6 +191,12 @@ h3 {
     padding-top: 10px;
 }
 
+.madeWith {
+    font-family: 'Molengo', arial, serif;
+    font-size: 28px;
+    margin-top: 10px;
+}
+
 #divRightCol {
     float: left;
     margin: 50px 0 10px 260px;

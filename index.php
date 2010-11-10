@@ -148,8 +148,7 @@
 			        <dd><p>Download your pattern loop as a WAV, OGG, or MP3 file and continue working on your ideas offline.</p></dd>
 		        </dl>
 	        </div>
-
-            <img src='includes/images/html5_icon.jpg' alt='create' />
+            <div class="madeWith"><label style="font-size: 12px; color: #E82930;">made with</label><br />html5 + javascript</div>
         </div>
         <div id="divRightCol">
             <div id="divWrapper">
@@ -219,7 +218,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -231,7 +230,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -243,7 +242,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -255,7 +254,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -267,7 +266,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -279,7 +278,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -291,7 +290,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -303,7 +302,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -315,7 +314,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -327,7 +326,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -339,7 +338,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -351,7 +350,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -363,7 +362,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -375,7 +374,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -387,7 +386,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -399,7 +398,7 @@
                                         <div class="channelMute" title="Mute">M</div>
                                         <div class="channelSolo" title="Solo">S</div>
                                     </div>
-                                    <div class="volumeLabel">Vol</div>
+                                    <div class="volumeLabel"><img src="includes/images/vol.png" /></div>
                                     <div class="divVolumeWidget"></div>
                                 </div>
                             </div>
@@ -722,7 +721,7 @@
 	            <h1>Patternsketch</h1>
 	            <p>Patternsketch is an HTML5 and Javascript audio sequencer and drum machine. With it, you can create audio patterns, play them back, adjust playback tempo, volume, and change the audio kit. You can also save, export, and collaborate with your friends.</p>
 
-	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML (no flash).</p>
+	            <p>Patternsketch is an excercise in imagining what browser based music tools could be, and an exploration in the possibilities of new web technologies. It was built with Javascript (no frameworks) and HTML5 (no flash).</p>
 	            <p>The goal of this project was to create a tool that musicians and casual music fans could use to create music patterns and collaborate on rhythmic ideas with friends. We recognize the performance is currently unacceptable for serious use, but look forward to updates in browser technology to make tools like this a viable option for music lovers.</p>
 	            <p>Patternsketch works best in Firefox and Chrome. For a technical look at the inner-workings, <a href="http://webappmatic.com/5/patternsketch-html5-and-javascript-audio-sequencer/">see our posts on how we made it</a>.</p>
 	            <p>Questions?  Comments?  Email us:  patternsketch [at] gmail [dot] com</p>
