@@ -148,7 +148,9 @@
 			        <dd><p>Download your pattern loop as a WAV, OGG, or MP3 file and continue working on your ideas offline.</p></dd>
 		        </dl>
 	        </div>
-            <div class="madeWith"><label style="font-size: 12px; color: #E82930;">made with</label><br />html5 + javascript</div>
+	        <br />
+            <label style="font-size: 12px; color: #E82930;">made with</label>
+            <div class="madeWith">html5 + javascript</div>
         </div>
         <div id="divRightCol">
             <div id="divWrapper">
