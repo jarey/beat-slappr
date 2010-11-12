@@ -2,6 +2,13 @@
 # Authorization #
 #################
 
+<Files index.php>
+    AuthUserFile /var/www/patternsketch.com/.htpasswd
+    AuthType Basic
+    AuthName "PatternSketch"
+    Require valid-user
+</Files>
+
 #AuthUserFile /var/www/patternsketch.com/.htpasswd
 #AuthType Basic
 #AuthName "PatternSketch"
