@@ -1,5 +1,15 @@
 <?php
 
+    require_once('config.php');
+
+    /******************/
+    /***RETURN IMAGE***/
+    /******************/
+
+    header('Content-type: image/gif');
+    echo base64_decode("R0lGODdhAQABAIABAAAAAP///ywAAAAAAQABAAACAkQBADs=");
+
+
     /**********************/
     /***GET VISITOR INFO***/
     /**********************/
@@ -10,16 +20,16 @@
         $clientIP = "";
     }
 
-    if(isset($_SERVER['REQUEST_URI'])) {
-        $pageVisited = preg_replace("/^" . HOTLINKS_APP_PATH . "/", "", $_SERVER['REQUEST_URI']);
-    }else {
-        $pageVisited = "";
-    }
-
-    if(isset($_SERVER['HTTP_REFERER'])) {
-        $referringSite = $_SERVER['HTTP_REFERER'];
+    if(isset($_GET['r'])) {
+        $referringSite = $_GET['r'];
     }else {
         $referringSite = "";
+    }
+
+    if(isset($_GET['u'])) {
+        $pageVisited = preg_replace("/^(.*)" . HOTLINKS_APP_PATH . "/", "", $_GET['u']);
+    }else {
+        $pageVisited = "";
     }
 
 

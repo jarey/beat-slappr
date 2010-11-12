@@ -47,8 +47,6 @@
                 }
             }else {
                 echo "<script src='includes/scripts/script.js'></script>";
-                require_once("hotlinks/config.php");
-                require_once("hotlinks/hotlinks.inc.php");
             }
         ?>
         <script type="text/javascript">
@@ -101,6 +99,16 @@
                     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
                     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+
+                var htA=htA||[],
+                    hURL=hURL||"//<?php echo $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]; ?>hotlinks/";
+                htA.push(['a','12345']);
+                (function(){
+                    var s,d;
+                    s=document.createElement('script');s.type='text/javascript';s.async=true;
+                    s.src=document.location.protocol+hURL+"tracker.js";
+                    d=document.getElementsByTagName('script')[0];d.parentNode.insertBefore(s, d);
                 })();
             <?php } ?>
         </script>

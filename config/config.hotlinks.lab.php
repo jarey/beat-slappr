@@ -14,10 +14,16 @@
     define("HOTLINKS_DB_PATH", "/var/www/patternsketch/");
 
 
-    /**********************************************************************************************************************/
-    /***DEFINE THE APP PATH FROM WEBSERVER ROOT.  BE SURE TO ESCAPE SLASHES! LEADING SLASH NECESSARY.  NO TRAILING SLASH***/
-    /**********************************************************************************************************************/
+    /***********************************************
+        DEFINE THE BASE URL OF THE WEBSITE TO TRACK.
+        IF ANY SLASHES ARE PRESENT, ESCAPE THEM.
+        NO TRAILING SLASH.
+        NO NEED TO PUT http://, https:// or www.  
+        EXAMPLES:
+        example.com
+        example.com\/basepath
+    ************************************************/
 
-    define("HOTLINKS_APP_PATH", "\/patternsketch");
+    define("HOTLINKS_APP_PATH", "haigo.dyndns.org\/patternsketch");
 
 ?>
