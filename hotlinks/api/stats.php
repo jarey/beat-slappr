@@ -53,7 +53,7 @@
         break;
     }
 
-    $db = new SQLite3(HOTLINKS_DB_PATH . "hotlinks.db.sqlite");
+    $db = new PDO('sqlite:' . HOTLINKS_DB_PATH .'hotlinks.db.sqlite');
 
     if($statType == "page_visited" || $statType == "referring_site") {
         $sql = "SELECT unique_visitors." . $statType . " AS page, unique_visits, total_visits
@@ -62,8 +62,8 @@
                 WHERE unique_visitors." . $statType . " = total_visitors." . $statType . "";
 
         $result = $db->query($sql);
+        $resultArr = $result->fetchAll(PDO::FETCH_ASSOC);
 
-        $resultArr = getAllRows($result);
         $uniqueTotal = 0;
         $visitTotal = 0;
         foreach($resultArr as $key => $val) {
@@ -75,16 +75,8 @@
     }else if($statType == "visitors") {
         $sql = "SELECT client_ip, page_visited, referring_site, timestamp FROM visits" . $where;
         $result = $db->query($sql);
-        $resultArr = getAllRows($result);
+        $resultArr = $result->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode(array("unique_total" => "", "visit_total" => count($resultArr), "data" => $resultArr));
-    }
-    
-    function getAllRows($result) {
-        $resultArr = array();
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            array_push($resultArr, $row);
-        }
-        return $resultArr;        
     }
 ?>

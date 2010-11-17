@@ -38,7 +38,7 @@
     /**********************************/
 
     if($clientIP && $pageVisited) {
-        $db = new SQLite3(HOTLINKS_DB_PATH . "hotlinks.db.sqlite");
+        $db = new PDO('sqlite:' . HOTLINKS_DB_PATH .'hotlinks.db.sqlite');
         $db->exec("INSERT INTO visits (client_ip, page_visited, referring_site, timestamp) VALUES('" . $clientIP . "', '" . $pageVisited . "', '" . $referringSite . "', current_timestamp)");
     }
 ?>
