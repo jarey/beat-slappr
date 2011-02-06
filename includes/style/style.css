@@ -19,7 +19,7 @@ html {
 body {
     font-family: arial;
     color: #111;
-    background-color: #ecebf0;
+    background-color: #f6f6f6;
     margin: 0;
     height: 100%;
 }
@@ -94,7 +94,7 @@ h3 {
     overflow: hidden;
     background: url("../images/statusbar-bg.jpg");
     width: 100%;
-    height: 40px;
+    height: 30px;
     z-index: 2;
 }
 
@@ -104,15 +104,16 @@ h3 {
 
 #divStatusBarWrapper {
     overflow: hidden;
-    width: 748px;
-    margin-left: 270px;
+    width: 768px;
+    margin-left: 250px;
 }
 
 #divStatusBarLeft {
     float: left;
+    overflow: hidden;
     text-shadow: 1px 1px 0px #444;
     font-size: 12px;
-    line-height: 40px;
+    line-height: 30px;
     color: #ffff99;
 }
 
@@ -120,9 +121,9 @@ h3 {
     float: right;
     overflow: hidden;
     margin-right: 8px;
-    color: #e82930;
+    color: #fff;
     font-size: 12px;
-    line-height: 16px;
+    line-height: 30px;
 }
 
 #divStatusBarRight div {
@@ -130,13 +131,18 @@ h3 {
 }
 
 #divSocialLinks {
+    float: right;
     overflow: hidden;
+    margin: 2px 0 0 5px;
 }
 
 #divSocialLinks table {
-    float: right;
     border-collapse: collapse;
     line-height: 12px;
+}
+
+#divSocialLinks iframe {
+    margin-top: 2px;
 }
 
 #divLeftCol {
@@ -199,7 +205,7 @@ h3 {
 
 #divRightCol {
     float: left;
-    margin: 50px 0 10px 260px;
+    margin: 40px 0 10px 260px;
     width: 738px;
     overflow: hidden;
     padding: 10px;

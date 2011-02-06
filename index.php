@@ -117,8 +117,10 @@
     <body>
         <div id="divStatusBar">
             <div id="divStatusBarWrapper">
-                <div id="divStatusBarLeft">Patternsketch is experimental. Works best in Firefox.</div>
-                <div id="divStatusBarRight">
+                <div id="divStatusBarLeft">
+                    <div style="float: left;">
+                        Patternsketch is experimental. Works best in Firefox.
+                    </div>
                     <div id="divSocialLinks">
                         <table>
                             <tr>
@@ -126,16 +128,18 @@
                                 <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer #html5" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>
                             </tr>
                         </table>
-                    </div><br />
+                    </div>    
+                </div>
+                <div id="divStatusBarRight">
                     <div id="divGuestAccount" <?php echo (isset($_SESSION['user_id'])) ? "style='display: none;'" : ""; ?>>
-                        <label id='lblLogin' class='lblLink'>Login</label> | <label id='lblSignUp' class='lblLink'>Sign Up</label>
+                        <label id='lblLogin' class='lblLink'>Login</label>&nbsp;&nbsp;&nbsp;<label id='lblSignUp' class='lblLink'>Sign Up</label>
                     </div>
                     <div id="divUserAccount" <?php echo (isset($_SESSION['user_id'])) ? "" : "style='display: none;'"; ?>>
                     <?php if (isset($_SESSION['user_id'])) { ?>
-                        <?php echo $_SESSION['email']; ?> | <label class='lblLink' onclick='sampler.logout();'>Logout</label>
+                        <?php echo $_SESSION['email']; ?>&nbsp;&nbsp;&nbsp;<label class='lblLink' onclick='sampler.logout();'>Logout</label>
                     <?php } ?>
                     </div>
-                    <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;|&nbsp;</div>
+                    <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;&nbsp;&nbsp;</div>
                 </div>
             </div>
         </div>
