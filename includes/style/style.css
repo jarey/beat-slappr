@@ -635,7 +635,7 @@ h3 {
 
 .modalWindow {
     overflow: auto;
-    border: #666 5px solid;
+    border: #333 5px solid;
     width: 120px;
     color: #333;
     background-color: #f9f9f9;
@@ -662,7 +662,7 @@ h3 {
 }
 
 .kitModal {
-    width: 90px;
+    width: 100px;
 }
 
 .accountModal {
@@ -670,11 +670,11 @@ h3 {
 }
 
 .patternModal {
-    width: 510px;
+    width: 525px;
 }
 
 .patternModalHeader {
-    background-color: #666;
+    background-color: #333;
     overflow: hidden;
 }
 
@@ -746,17 +746,17 @@ h3 {
 .patternTable {
     overflow: auto;
     border: #aaa 1px solid;
-    width: 498px;
+    width: 513px;
     height: 100px;
     margin-bottom: 5px;
 }
 
 .userPatternTable {
-    height: 250px;
+    height: 150px;
 }
 
 .presetPatternTable {
-    height: 75px;
+    height: 150px;
 }
 
 .guestWrapper {
