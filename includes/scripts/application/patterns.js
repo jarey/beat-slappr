@@ -39,15 +39,22 @@ function Pattern() {
             <div class='patternModalWrapper'> \
                 <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
                     <label class='labelText'>Steps:</label><br /> \
-                    <input type='text' name='stepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><br /><br /> \
+                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><br /><br /> \
                     <label class='labelText'>Format:</label><br /> \
                     <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
                     <input type='radio' name='format' value='ogg' /> ogg<br /> \
-                    <input type='radio' name='format' value='mp3' /> mp3 (may not loop properly)<br /> \
-                    <input type='radio' name='format' value='soundcloud' /> export to soundcloud<br /><br /> \
+                    <input type='radio' name='format' value='mp3' /> mp3 (may not loop properly)<br /><br /> \
                     <input type='hidden' name='sequence' id='sequence' /> \
-                    <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> <input type='button' id='cmdCancelDownload'  value='cancel' /> \
+                    <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> \
                 </form> \
+                <br /><br /> \
+                <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' /> \
+            </div>",
+
+        soundcloudUploadModalContent = " \
+            <div class='patternModalHeader'><label class='lblModalTitle'>Download Loop</label><label class='lblModalButtons' title='close' onclick='sampler.downloadPatternModal.hide();'>X</label></div> \
+            <div class='patternModalWrapper'> \
+                <iframe id='soundcloudIframe' style='width: 100%; height: 400px; border: none;'></iframe> \
             </div>",
 
         savePatternModalContent = " \
@@ -700,11 +707,36 @@ function Pattern() {
     }
 
     function downloadPatternInit() {
+        downloadPatternModal.updateModalClass("modalWindow downloadModal");
+
         $("cmdDownloadPattern").onclick = downloadPattern;
+        $("imgSoundcloudUpload").onclick = soundcloudUploadInit;
         $("txtStepEnd").value = sampler.getTotalSteps();
-        $('cmdCancelDownload').onclick = function() {downloadPatternModal.hide();};
     }
 
+
+    /**************************************/
+    /***SOUNDCLOUD UPLOAD MODAL HANDLING***/
+    /**************************************/
+
+    function soundcloudUploadInit() {
+        var stepStart = $('txtStepStart').value,
+            stepEnd = $('txtStepEnd').value;
+
+        downloadPatternModal.updateModalClass("modalWindow soundcloudModal");
+        downloadPatternModal.setContent(soundcloudUploadModalContent);
+        patternAjax.request({
+            url:    'download.php',
+            method: 'post',
+            parameters: {
+                stepStart: stepStart,
+                stepEnd: stepEnd,
+                format: 'soundcloud',
+                sequence: encodeJSON(sampler.getSequenceArr())
+            },
+            handler: function(obj) {$('soundcloudIframe').src = obj.response;}
+        });
+    }
 
     /******************/
     /***PATTERN INIT***/
@@ -750,7 +782,7 @@ function Pattern() {
         downloadPatternModal = new Kodiak.Controls.Modal({
             applyTo:     'divDownloadPattern',
             componentId: 'downloadPatternModal',
-            modalClass:  'modalWindow accountModal',
+            modalClass:  'modalWindow downloadModal',
             orientation: 'right',
             onBeforeShow:   function() {
                 this.setContent(downloadPatternModalContent);

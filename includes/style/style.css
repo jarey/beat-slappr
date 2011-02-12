@@ -669,6 +669,14 @@ h3 {
     width: 180px;
 }
 
+.downloadModal {
+    width: 200px;
+}
+
+.soundcloudModal {
+    width: 450px;
+}
+
 .patternModal {
     width: 525px;
 }

@@ -703,6 +703,12 @@ Kodiak.Controls.Modal.prototype = {
         this._modalEl.innerHTML = content;
     },
 
+    updateModalClass: function(classStr) {
+        this._modalEl.className = classStr;
+        this._modalDimensions = {width: this._modalEl.offsetWidth, height: this._modalEl.offsetHeight};
+        this._setModalPosition(this);
+    },
+
     _initModal: function() {
 
         var el = document.createElement('div');

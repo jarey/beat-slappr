@@ -118,9 +118,7 @@
             $_SESSION['soundcloud_tmp_file'] = $outFile;
 
             $soundcloud = new Soundcloud('p9Gc43VitK23sjVtWIv1Q', '4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI', 'http://localhost/patternsketch/soundcloud_upload.php');
-            $authorizeUrl = $soundcloud->getAuthorizeUrl();
-
-            header("Location: $authorizeUrl");
+            echo $soundcloud->getAuthorizeUrl() . "&display=popup";
         }
     }
 ?>
