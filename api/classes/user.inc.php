@@ -32,6 +32,13 @@
 
         function logout() {
             if($this->sessionExists()) {
+
+                //If a soundcloud temporary file exists, delete it.
+                if(isset($_SESSION['soundcloud_tmp_file']) && is_file("../" . $_SESSION['soundcloud_tmp_file'])) {
+                    unlink("../" . $_SESSION['soundcloud_tmp_file']);
+                }
+                $_SESSION['soundcloud_tmp_file'] = $outFile;
+
                 $_SESSION = array();
                 session_destroy();
                 return array("success" => true, "mesg" => "Successfully logged out");
