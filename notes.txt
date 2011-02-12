@@ -1,3 +1,15 @@
+SOUNDCLOUD:
+
+login: patternsketch@gmail.com
+pass: patternsketch
+
+client id: p9Gc43VitK23sjVtWIv1Q
+client secret: 4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI
+end user authorization: http://soundcloud.com/connect
+token: https://api.soundcloud.com/oauth2/token
+
+
+
 PatternSketch Notes:
 
 TODO:
