@@ -43,7 +43,8 @@ function Pattern() {
                     <label class='labelText'>Format:</label><br /> \
                     <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
                     <input type='radio' name='format' value='ogg' /> ogg<br /> \
-                    <input type='radio' name='format' value='mp3' /> mp3 (may not loop properly)<br /><br /> \
+                    <input type='radio' name='format' value='mp3' /> mp3 (may not loop properly)<br /> \
+                    <input type='radio' name='format' value='soundcloud' /> export to soundcloud<br /><br /> \
                     <input type='hidden' name='sequence' id='sequence' /> \
                     <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> <input type='button' id='cmdCancelDownload'  value='cancel' /> \
                 </form> \
