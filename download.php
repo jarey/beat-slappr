@@ -1,6 +1,7 @@
 <?php
+    session_start();
     if($_REQUEST) {
-        if($_REQUEST['sequence'] && $_REQUEST['format'] && ($_REQUEST['format'] == "wav" || $_REQUEST['format'] == "mp3" || $_REQUEST['format'] == "ogg")) {
+        if($_REQUEST['sequence'] && $_REQUEST['format'] && ($_REQUEST['format'] == "wav" || $_REQUEST['format'] == "mp3" || $_REQUEST['format'] == "ogg" || $_REQUEST['format'] == 'soundcloud')) {
 
             $outFormat = $_REQUEST['format'];
             $fileDir = "download/";
@@ -8,6 +9,12 @@
 
             if($outFormat == "mp3") {
                 $outFile = $fileDir . $outFileName . ".wav";
+            }else if($outFormat == "soundcloud") {
+                $outFile = $fileDir . $outFileName . ".ogg";
+                $outFormat = "ogg";
+
+                $soundcloud = true;
+                require_once('api/soundcloud.php');
             }else {
                 $outFile = $fileDir . $outFileName . ".$outFormat";
             }
@@ -90,18 +97,26 @@
             $outFile = $mp3File;
         }
 
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $mimeType);
-        header('Content-Disposition: download; filename="' . $downloadFileName . '"');
-        header('Content-Transfer-Encoding: binary');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($outFile));
-        ob_clean();
-        flush();
-        readfile($outFile);
+        if(!$soundcloud) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: ' . $mimeType);
+            header('Content-Disposition: download; filename="' . $downloadFileName . '"');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($outFile));
+            ob_clean();
+            flush();
+            readfile($outFile);
+            unlink($outFile);
+        }else {
+            $_SESSION['soundcloud_tmp_file'] = $outFile;
 
-        unlink($outFile);
+            $soundcloud = new Soundcloud('p9Gc43VitK23sjVtWIv1Q', '4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI', 'http://localhost/patternsketch/soundcloud_upload.php');
+            $authorizeUrl = $soundcloud->getAuthorizeUrl();
+
+            header("Location: $authorizeUrl");
+        }
     }
 ?>
