@@ -72,7 +72,7 @@
     }
 
     #title {
-        background: url(/includes/images/ps-logo-trans.png) no-repeat 0 0px;
+        background: url(includes/images/ps-logo-trans.png) no-repeat 0 0px;
         font-size: 60px;
         margin-bottom: 80px;
         padding-left: 130px;
