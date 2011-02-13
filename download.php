@@ -15,6 +15,7 @@
 
                 $soundcloud = true;
                 require_once('api/soundcloud.php');
+                require_once('config.php');
             }else {
                 $outFile = $fileDir . $outFileName . ".$outFormat";
             }
@@ -117,7 +118,7 @@
             }
             $_SESSION['soundcloud_tmp_file'] = $outFile;
 
-            $soundcloud = new Soundcloud('p9Gc43VitK23sjVtWIv1Q', '4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI', 'http://localhost/patternsketch/soundcloud_upload.php');
+            $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
             echo $soundcloud->getAuthorizeUrl() . "&display=popup";
         }
     }

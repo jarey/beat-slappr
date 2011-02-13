@@ -68,6 +68,14 @@
     define("DEFAULT_PRESET", "random");
 
 
+    /********************************/
+    /***SOUNDCLOUD API CREDENTIALS***/
+    /********************************/
+
+    define("SOUNDCLOUD_API_CLIENT_ID", "p9Gc43VitK23sjVtWIv1Q");
+    define("SOUNDCLOUD_API_CLIENT_SECRET", "4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI");
+    define("SOUNDCLOUD_API_REDIRECT_URL", APP_URL . "soundcloud_upload.php");
+
     /***********************/
     /***DATABASE SETTINGS***/
     /***********************/
