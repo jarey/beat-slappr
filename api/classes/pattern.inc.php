@@ -91,7 +91,7 @@
             }
         }
 
-        public function share($user, $sequence, $hash, $recipients=array()) {
+        public function share($user, $sequence, $hash, $recipients="") {
             if($user == "[user]") {
                 if(isset($_SESSION['user_id'])) {
                     $user = $_SESSION['email'];
