@@ -40,7 +40,7 @@ function Pattern() {
                 <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
                     <label class='labelText'>Steps:</label><br /> \
                     <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /> <b>X</b>\
-                    <select> \
+                    <select name='loopCount' id='loopCount'> \
                         <option value='1'>1</option> \
                         <option value='2'>2</option> \
                         <option value='4' selected='selected'>4</option> \
@@ -728,7 +728,8 @@ function Pattern() {
 
     function soundcloudUploadInit() {
         var stepStart = $('txtStepStart').value,
-            stepEnd = $('txtStepEnd').value;
+            stepEnd = $('txtStepEnd').value,
+            loopCount = $('loopCount').value
 
         downloadPatternModal.updateModalClass("modalWindow soundcloudModal");
         downloadPatternModal.setContent(soundcloudUploadModalContent);
@@ -738,6 +739,7 @@ function Pattern() {
             parameters: {
                 stepStart: stepStart,
                 stepEnd: stepEnd,
+                loopCount: loopCount,
                 format: 'soundcloud',
                 sequence: encodeJSON(sampler.getSequenceArr())
             },
