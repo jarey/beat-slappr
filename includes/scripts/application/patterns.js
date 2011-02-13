@@ -39,7 +39,7 @@ function Pattern() {
             <div class='patternModalWrapper'> \
                 <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
                     <label class='labelText'>Steps:</label><br /> \
-                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><br /><br /> \
+                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><hr /> \
                     <label class='labelText'>Format:</label><br /> \
                     <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
                     <input type='radio' name='format' value='ogg' /> ogg<br /> \
@@ -47,7 +47,7 @@ function Pattern() {
                     <input type='hidden' name='sequence' id='sequence' /> \
                     <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> \
                 </form> \
-                <br /><br /> \
+                <br /><b>- OR -</b><br /><br /> \
                 <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' /> \
             </div>",
 
