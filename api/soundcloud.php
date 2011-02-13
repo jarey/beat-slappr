@@ -19,12 +19,12 @@
         }
         
         public function accessToken($code) {
-            $str = "curl 'https://api.soundcloud.com/oauth2/token' \
-                -d 'client_id=" . $this->clientId . "' \
-                -d 'client_secret=" . $this->clientSecret . "' \
-                -d 'grant_type=authorization_code' \
-                -d 'redirect_uri=" . $this->redirectUrl . "' \
-                -d 'code=" . $code . "'";
+            $str = "curl 'https://api.soundcloud.com/oauth2/token'";
+            $str .= " -d 'client_id=" . $this->clientId . "'";
+            $str .= " -d 'client_secret=" . $this->clientSecret . "'";
+            $str .= " -d 'grant_type=authorization_code'";
+            $str .= " -d 'redirect_uri=" . $this->redirectUrl . "'";
+            $str .= " -d 'code=" . $code . "'";
 
             $token = json_decode(`$str`);
             $this->accessToken = $token->access_token;
