@@ -48,7 +48,7 @@ function Pattern() {
                     <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> \
                 </form> \
                 <br /><b>- OR -</b><br /><br /> \
-                <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' /> \
+                <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' style='cursor: pointer;' /> \
             </div>",
 
         soundcloudUploadModalContent = " \
