@@ -69,16 +69,17 @@
             $title = (isset($_POST['title'])) ? $_POST['title'] : "";
             $description = (isset($_POST['description'])) ? $_POST['description'] : "";
             $downloadable = (isset($_POST['downloadable'])) ? "true" : "false";
-
+            
             if($title) {
                 $user = 'soundcloud';
                 $sequence = $_SESSION['sequenceArr'];
                 $hash = md5($user . $sequence + rand());
+                $shareUrl = APP_URL . "?p=" . $hash;
 
                 $options = array(
                     "asset_data"   => "@" . APP_PATH . $_SESSION['soundcloud_tmp_file'],
                     "title"        => $title,
-                    "description"  => $description . "\n" . APP_URL . "?p=" . $hash,
+                    "description"  => $description . "\n<a href='$shareUrl'>$shareUrl</a>",
                     "sharing"      => "public",
                     "streamable"   => "true",
                     "downloadable" => $downloadable
