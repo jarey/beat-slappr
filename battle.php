@@ -35,7 +35,7 @@
                 <div id="title">PatternSketch Beat Battle</div>
                 <div id="track-1">
                     <object height="81" width="300"> 
-                    <span><a href="http://soundcloud.com/'.$result[0]['username'].'/'.$result[0]['permalink'].'">'.$result[0]['title'].'</a> by '.$result[0]['username'].'</span><br>
+                    <span><a href="http://soundcloud.com/'.$result[0]['username'].'/'.$result[0]['permalink'].'">'.$result[0]['title'].'</a> by '.$result[0]['username'].'</span><br />
                     
                         <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'.$result[0]['track_id'].'"></param> 
                         <param name="allowscriptaccess" value="always"></param> 
@@ -54,7 +54,7 @@
                 
             echo '
                 <div id="track-2">
-                    <span><a href="http://soundcloud.com/'.$result[1]['username'].'/'.$result[1]['permalink'].'">'.$result[1]['title'].'</a> by '.$result[1]['username'].'</span>                <br>
+                    <span><a href="http://soundcloud.com/'.$result[1]['username'].'/'.$result[1]['permalink'].'">'.$result[1]['title'].'</a> by '.$result[1]['username'].'</span><br />
                     <object height="81" width="300"> 
                         <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F'.$result[1]['track_id'].'"></param> 
                         <param name="allowscriptaccess" value="always"></param> 
@@ -72,18 +72,18 @@
 
 
         public function vote_on_track($post) {
-            $query = $this->db->query('INSERT INTO battle (winning_id,losing_id) values ('.$post['winning_track_id'].','.$post['losing_track_id'].')');
+            $query = $this->db->query('INSERT INTO `soundcloud_battle` (winning_id,losing_id) values ('.$post['winning_track_id'].','.$post['losing_track_id'].')');
         }
 
 
         public function show_leader_board() {
             // GRAB THE TOP 5 TRACKS WITH THE MOST VOTES AND DISPLAY ON THE PAGE
-            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM battle, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = battle.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
+            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
             $result = $this->db->getAll($query);
             echo "<div id='lower'>
             <p style='text-align:center;margin-top:20px;font-size:16px;'>Join the battle by <a href='/'>submitting your own beat</a>!</p>
             
-            <h1><br>Leaderboard</h1>";
+            <h1><br />Leaderboard</h1>";
             echo "<table>";
             echo "<tr><td style='width:50px'>score</td><td style='width:150px'>title</td><td style='width:150px'>user</td></tr>";
             

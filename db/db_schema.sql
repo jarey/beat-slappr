@@ -99,3 +99,17 @@ CREATE TABLE `soundcloud_tracks` (
   `username` varchar(255) DEFAULT NULL,
 PRIMARY KEY (`track_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+/*****************************************************
+    SOUNDCLOUD BATTLE TABLE
+    STORES INFO ABOUT SOUNDCLOUD BATTLE OUTCOME
+*****************************************************/
+
+DROP TABLE IF EXISTS `soundcloud_battle`;
+CREATE TABLE `soundcloud_battle` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `winning_id` int(11) DEFAULT NULL,
+  `losing_id` int(11) DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
