@@ -61,7 +61,8 @@ function Pattern() {
         soundcloudUploadModalContent = " \
             <div class='patternModalHeader'><label class='lblModalTitle'>Download Loop</label><label class='lblModalButtons' title='close' onclick='sampler.downloadPatternModal.hide();'>X</label></div> \
             <div class='patternModalWrapper'> \
-                <iframe id='soundcloudIframe' style='width: 100%; height: 400px; border: none;'></iframe> \
+                <div id='divIframeLoading' style='width: 100%; height: 400px; background:url(includes/images/ajax-loader-large.gif) no-repeat center center;'></div>\
+                <iframe id='soundcloudIframe' style='display: none; width: 100%; height: 400px; border: none;'></iframe> \
             </div>",
 
         savePatternModalContent = " \
@@ -743,7 +744,16 @@ function Pattern() {
                 format: 'soundcloud',
                 sequence: encodeJSON(sampler.getSequenceArr())
             },
-            handler: function(obj) {$('soundcloudIframe').src = obj.response;}
+            handler: function(obj) {
+                var soundcloudIframe = $('soundcloudIframe');
+
+                soundcloudIframe.onload = function() {
+                    $('divIframeLoading').style.display = "none";
+                    soundcloudIframe.style.display = "block";
+                };
+                soundcloudIframe.src = obj.response;
+
+            }
         });
     }
 

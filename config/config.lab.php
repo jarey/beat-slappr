@@ -72,8 +72,8 @@
     /***SOUNDCLOUD API CREDENTIALS***/
     /********************************/
 
-    define("SOUNDCLOUD_API_CLIENT_ID", "p9Gc43VitK23sjVtWIv1Q");
-    define("SOUNDCLOUD_API_CLIENT_SECRET", "4b67WnZRU9jgh3EuOG8predltaXPGyxtsQZMKvuUKI");
+    define("SOUNDCLOUD_API_CLIENT_ID", "QzJ7zQegDs7KFCOmhmY2g");
+    define("SOUNDCLOUD_API_CLIENT_SECRET", "Oq0CW4XTMreN2MVYRKFjI8cmiZjsSrNCysPhZTHGjg");
     define("SOUNDCLOUD_API_REDIRECT_URL", APP_URL . "soundcloud_upload.php");
 
     /***********************/
