@@ -1,15 +1,12 @@
  <?php
-    require_once('db.inc.php');
+    require_once('config.php');
+    require_once('api/classes/db.inc.php');
     
     class SoundcloudRating {
         private $db;
-        private $hostname = 'localhost';
-        private $database = 'patternsketch';
-        private $dbUser = 'root';
-        private $dbPass = 'root';
-        
+
         function __construct() {
-            $this->db = new DB($this->hostname, $this->database, $this->dbUser, $this->dbPass);
+            $this->db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
         }
 
         public function get_group_tracks() {
@@ -25,13 +22,13 @@
 
     		$xml = new SimpleXMLElement($result, LIBXML_NOCDATA);
     		foreach($xml as $x) {
-                $this->db->query("INSERT INTO tracks (track_id,permalink,title,username) values (".$x->id.",'".$x->permalink."','".$x->title."','".$x->user->username."')");
+                $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$x->id.",'".$x->permalink."','".$x->title."','".$x->user->username."')");
 		    }
     	}
 
         public function load_battle() {
             
-            $query = $this->db->query("SELECT * FROM tracks ORDER BY rand() LIMIT 2");
+            $query = $this->db->query("SELECT * FROM `soundcloud_tracks` ORDER BY rand() LIMIT 2");
             $result = $this->db->getAll($query);
             
             echo '<div id="body">
@@ -81,7 +78,7 @@
 
         public function show_leader_board() {
             // GRAB THE TOP 5 TRACKS WITH THE MOST VOTES AND DISPLAY ON THE PAGE
-            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM battle, tracks WHERE tracks.track_id = battle.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
+            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM battle, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = battle.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
             $result = $this->db->getAll($query);
             echo "<div id='lower'>
             <p style='text-align:center;margin-top:20px;font-size:16px;'>Join the battle by <a href='/'>submitting your own beat</a>!</p>
