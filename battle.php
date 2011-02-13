@@ -107,7 +107,6 @@
         $sc->vote_on_track($postArr);
     }
 
-    //$sc->get_group_tracks();
     $sc->load_battle();
     $sc->show_leader_board();
     
