@@ -183,7 +183,7 @@
                                 <span class='comboRight'></span>
                             </a>
                         </div>
-                        <div class="right" style='float: right;'>
+                        <div class="right" style='float: right; margin-right: 2px;'>
                             <div id="divDownloadPattern" class="samplerButton downloadIcon" title="Download Pattern">Export Audio</div>
                             <div id="divSharePattern" class="samplerButton shareIcon" title="Share Pattern">Share</div>
                             <div id="divSavePattern" class="samplerButton saveIcon" title="Save Pattern">Save</div>
