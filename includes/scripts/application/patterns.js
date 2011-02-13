@@ -39,7 +39,14 @@ function Pattern() {
             <div class='patternModalWrapper'> \
                 <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
                     <label class='labelText'>Steps:</label><br /> \
-                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><br /><br /> \
+                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /> <b>X</b>\
+                    <select name='loopCount' id='loopCount'> \
+                        <option value='1'>1</option> \
+                        <option value='2'>2</option> \
+                        <option value='4' selected='selected'>4</option> \
+                        <option value='8'>8</option> \
+                        <option value='16'>16</option> \
+                    </select> <b>loops</b><hr /> \
                     <label class='labelText'>Format:</label><br /> \
                     <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
                     <input type='radio' name='format' value='ogg' /> ogg<br /> \
@@ -47,8 +54,8 @@ function Pattern() {
                     <input type='hidden' name='sequence' id='sequence' /> \
                     <input type='submit' id='cmdDownloadPattern' value='download' /> <img id='imgDownloadLoader' style='display: none;' src='includes/images/ajax-loader.gif' /> \
                 </form> \
-                <br /><br /> \
-                <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' /> \
+                <br /><b>- OR -</b><br /><br /> \
+                <img src='includes/images/small-connect-with-sc.png' id='imgSoundcloudUpload' style='cursor: pointer;' /> \
             </div>",
 
         soundcloudUploadModalContent = " \
@@ -721,7 +728,8 @@ function Pattern() {
 
     function soundcloudUploadInit() {
         var stepStart = $('txtStepStart').value,
-            stepEnd = $('txtStepEnd').value;
+            stepEnd = $('txtStepEnd').value,
+            loopCount = $('loopCount').value
 
         downloadPatternModal.updateModalClass("modalWindow soundcloudModal");
         downloadPatternModal.setContent(soundcloudUploadModalContent);
@@ -731,6 +739,7 @@ function Pattern() {
             parameters: {
                 stepStart: stepStart,
                 stepEnd: stepEnd,
+                loopCount: loopCount,
                 format: 'soundcloud',
                 sequence: encodeJSON(sampler.getSequenceArr())
             },
