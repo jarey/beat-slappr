@@ -11,6 +11,16 @@
                 margin: 0;
             }
 
+            a {
+                color: #0858D3;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
             #divUploadWrapper {
                 font-size: 14px;
                 width: 420px;
@@ -70,6 +80,8 @@
                 );
 
                 $result = $soundcloud->execute('tracks.json', 'track', 'POST', $options, 'multipart/form-data');
+                $permalink = $result->permalink_url;
+
                 $result = $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
                 $success = true;
             }else {
@@ -102,6 +114,11 @@
                     </table>
                     <div id="divSubmitWrapper"><input type="image" src="includes/images/small-download-to-sc.png" alt="Submit button"></div>
                 </form>
+            <?php }else { ?>
+                <div style="width: 100%; text-align: center;">
+                    Your pattern has been uploaded to SoundCloud!<br />
+                    <a href="<?php echo $permalink; ?>" target="_blank">Go listen to it here</a>
+                </div>
             <?php } ?>
         </div>
     </body>
