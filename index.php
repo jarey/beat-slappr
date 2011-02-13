@@ -140,7 +140,7 @@
                     <?php } ?>
                     </div>
                     <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;&nbsp;&nbsp;</div>
-                    <div><label id='lblBattle' class='lblLink'><a href='/battle'>Battle!</label></a>&nbsp;&nbsp;&nbsp;</div>
+                    <div><label id='lblBattle' class='lblLink'><a href='<?php echo APP_URL; ?>battle'>Battle!</label></a>&nbsp;&nbsp;&nbsp;</div>
                 </div>
             </div>
         </div>
