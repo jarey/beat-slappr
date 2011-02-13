@@ -82,8 +82,8 @@
 
     define("DB_HOSTNAME", "localhost");
     define("DB_NAME", "patternsketch");
-    define("DB_USERNAME", "PatternSketch");
-    define("DB_PASSWORD", "RnXSjW7fVyfYEjy6");
+    define("DB_USERNAME", "root");
+    define("DB_PASSWORD", "root");
 
 
     /**************************/

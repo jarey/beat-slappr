@@ -124,7 +124,7 @@
                     <div id="divSocialLinks">
                         <table>
                             <tr>
-                                <td><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></td>
+                                <td><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FPatternsketch%2F147656558625964&amp;layout=button_count&amp;show_faces=false&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe></td>
                                 <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer #html5" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>
                             </tr>
                         </table>
@@ -156,8 +156,8 @@
 			        <dd><p>Save your creations online, and share with your friends to collaborate on new musical ideas.</p></dd>
 		        </dl>
 		        <dl id="download">
-			        <dd><h2>Download</h2></dd>
-			        <dd><p>Download your pattern loop as a WAV, OGG, or MP3 file and continue working on your ideas offline.</p></dd>
+			        <dd><h2>Export</h2></dd>
+			        <dd><p>Export your pattern loop as a WAV, OGG, MP3 file directly to your computer or send to <strong>SoundCloud</strong> and continue working on your ideas.</p></dd>
 		        </dl>
 	        </div>
 	        <br />
@@ -184,9 +184,9 @@
                             </a>
                         </div>
                         <div class="right" style='float: right;'>
-                            <div id="divDownloadPattern" class="samplerButton downloadIcon" title="Download Pattern"></div>
-                            <div id="divSharePattern" class="samplerButton shareIcon" title="Share Pattern"></div>
-                            <div id="divSavePattern" class="samplerButton saveIcon" title="Save Pattern"></div>
+                            <div id="divDownloadPattern" class="samplerButton downloadIcon" title="Download Pattern">Export Audio</div>
+                            <div id="divSharePattern" class="samplerButton shareIcon" title="Share Pattern">Share</div>
+                            <div id="divSavePattern" class="samplerButton saveIcon" title="Save Pattern">Save</div>
                         </div>
                     </div>
                 </div>

@@ -498,25 +498,39 @@ h3 {
 }
 
 .samplerButton {
-    float: right;
+    /*float: right;
     width: 24px;
     height: 24px;
     margin-left: 5px;
     cursor: pointer;
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;*/
+
+	cursor:pointer;
+	float:right;
+	font-weight:bold;
+	margin-left:15px;
+	margin-right:0px;
+	-moz-border-radius:3px 3px 3px 3px;
+	-webkit-border-radius:3px 3px 3px 3px;
+	color:#ffffff;
+	-moz-text-shadow: 2px 2px 2px #000;
+	
 }
 
 .downloadIcon {
-    background: #222 url(../images/button-icons.png) no-repeat center -48px;
+    /*background: #222 url(../images/button-icons.png) no-repeat center -48px;*/
 }
 
 .shareIcon {
-    background: #222 url(../images/button-icons.png) no-repeat center 0;
+    /*background: #222 url(../images/button-icons.png) no-repeat center 0;*/
 }
 
-.saveIcon {
-    background: #222 url(../images/button-icons.png) no-repeat center -24px;
+.saveIcon, .shareIcon, .downloadIcon {
+	background:none repeat scroll 0 0 #00A0A0;
+	margin-bottom:10px;
+	padding:5px 10px;
+    /*background: #222 url(../images/button-icons.png) no-repeat center -24px;*/
 }
 
 .saveBtn {
