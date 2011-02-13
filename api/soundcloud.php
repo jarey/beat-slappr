@@ -31,7 +31,7 @@
             return $token;
         }
         
-        public function execute($url, $resource, $method, $options, $encType="application/x-www-form-urlencoded") {
+        public function execute($url, $resource, $method, $options=array(), $encType="application/x-www-form-urlencoded") {
             //SET UP THE ENCODING FLAG
             if($encType == "application/x-www-form-urlencoded") {
                 $encFlag = "-d";
@@ -45,7 +45,7 @@
                 return false;
             }
 
-            $str = "curl -X POST 'https://api.soundcloud.com/$url' " . $encFlag . " 'oauth_token=" . $this->accessToken . "'";
+            $str = "curl -X $method 'https://api.soundcloud.com/$url' " . $encFlag . " 'oauth_token=" . $this->accessToken . "'";
                 
             foreach($options as $key => $val) {
                 $val = str_replace('"', '\"', $val);

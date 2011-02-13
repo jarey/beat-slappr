@@ -23,9 +23,7 @@
         );
 
         $result = $soundcloud->execute('tracks.json', 'track', 'POST', $options, 'multipart/form-data');
-        print_r($result);
-
-        //http://api.soundcloud.com/groups/123/contributions/44949549
+        $result = $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
     }else {
 ?>
 
