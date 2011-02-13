@@ -1,7 +1,7 @@
  <?php
  
-    require_once('config.php');
-    require_once('api/classes/db.inc.php');
+    require_once('../config.php');
+    require_once('../api/classes/db.inc.php');
     
     class SoundcloudRating {
         private $db;
@@ -72,7 +72,7 @@
     }
 
     #title {
-        background: url(includes/images/ps-logo-trans.png) no-repeat 0 0px;
+        background: url(../includes/images/ps-logo-trans.png) no-repeat 0 0px;
         font-size: 60px;
         margin-bottom: 80px;
         padding-left: 130px;
@@ -149,7 +149,7 @@
                 
                 <form method="post">
                     <input type="hidden" name="winning_track_id" value="<?php echo $battle[0]['track_id']; ?>" />
-                    <input type="hidden" name="losing_track_id" value="'<?php echo $battle[1]['track_id']; ?>" />
+                    <input type="hidden" name="losing_track_id" value="<?php echo $battle[1]['track_id']; ?>" />
                     <input type="submit" value="Vote for this pattern" />
                 </form>
             </div>
@@ -166,8 +166,8 @@
                 
             
                 <form method="post">
-                    <input type="hidden" name="winning_track_id" value="<?php echo $result[1]['track_id']; ?>" />
-                    <input type="hidden" name="losing_track_id" value="'<?php echo $result[0]['track_id']; ?>" />
+                    <input type="hidden" name="winning_track_id" value="<?php echo $battle[1]['track_id']; ?>" />
+                    <input type="hidden" name="losing_track_id" value="<?php echo $battle[0]['track_id']; ?>" />
                     <input type="submit" value="Vote for this pattern" />
                 </form>            
             </div>
