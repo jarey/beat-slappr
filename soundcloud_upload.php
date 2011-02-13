@@ -151,7 +151,7 @@
                             <td><input type="checkbox" name="downloadable" checked="checked" /></td>
                         </tr>
                     </table>
-                    <div id="divSubmitWrapper"><input type="image" src="includes/images/small-download-to-sc.png" alt="Submit button"></div>
+                    <div id="divSubmitWrapper"><input type="image" src="includes/images/small-download-to-sc.png" onclick="this.src='includes/images/ajax-loader.gif'; document.getElementById('divSubmitWrapper').style.width='16px';" alt="Submit button"></div>
                 </form>
             <?php }else { ?>
                 <div style="width: 100%; text-align: center;">
