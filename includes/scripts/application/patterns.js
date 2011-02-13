@@ -39,7 +39,14 @@ function Pattern() {
             <div class='patternModalWrapper'> \
                 <form action='download.php' method='post' onsubmit='return false;' name='frmDownloadPattern' id='frmDownloadPattern'> \
                     <label class='labelText'>Steps:</label><br /> \
-                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /><hr /> \
+                    <input type='text' name='stepStart' id='txtStepStart' maxlength='2' style='width: 30px;' value='1' /> - <input type='text' name='stepEnd' id='txtStepEnd' maxlength='2' style='width: 30px;' /> <b>X</b>\
+                    <select> \
+                        <option value='1'>1</option> \
+                        <option value='2'>2</option> \
+                        <option value='4' selected='selected'>4</option> \
+                        <option value='8'>8</option> \
+                        <option value='16'>16</option> \
+                    </select> <b>loops</b><hr /> \
                     <label class='labelText'>Format:</label><br /> \
                     <input type='radio' name='format' checked='checked' value='wav' /> wav<br /> \
                     <input type='radio' name='format' value='ogg' /> ogg<br /> \
