@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -56,8 +59,6 @@
     </head>
     <?php
         if($_POST && $_GET) {
-
-            session_start();
 
             require_once('config.php');
             require_once('api/soundcloud.php');
