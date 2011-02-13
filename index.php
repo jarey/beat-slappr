@@ -119,13 +119,13 @@
             <div id="divStatusBarWrapper">
                 <div id="divStatusBarLeft">
                     <div style="float: left;">
-                        Patternsketch is experimental. Works best in Firefox.
+                        Patternsketch is experimental. Works best in Firefox 4.
                     </div>
                     <div id="divSocialLinks">
                         <table>
                             <tr>
                                 <td><a href="http://twitter.com/share" class="twitter-share-button" data-text="Patternsketch - a browser based drum machine/sequencer #html5" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>&nbsp;</td>
-                                <td><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FPatternsketch%2F147656558625964&amp;layout=button_count&amp;show_faces=false&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe></td>
+                                <td style="padding-top:2px;"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FPatternsketch%2F147656558625964&amp;layout=button_count&amp;show_faces=false&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe></td>
                             </tr>
                         </table>
                     </div>    
@@ -140,6 +140,7 @@
                     <?php } ?>
                     </div>
                     <div><label id='lblAboutUs' class='lblLink'><a href='#about'>About</label></a>&nbsp;&nbsp;&nbsp;</div>
+                    <div><label id='lblBattle' class='lblLink'><a href='/battle'>Battle!</label></a>&nbsp;&nbsp;&nbsp;</div>
                 </div>
             </div>
         </div>
