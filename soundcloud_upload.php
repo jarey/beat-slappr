@@ -61,6 +61,7 @@
 
             require_once('config.php');
             require_once('api/soundcloud.php');
+            require_once('api/classes/db.inc.php');
             require_once('api/classes/pattern.inc.php');
 
             $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
@@ -69,16 +70,17 @@
             $title = (isset($_POST['title'])) ? $_POST['title'] : "";
             $description = (isset($_POST['description'])) ? $_POST['description'] : "";
             $downloadable = (isset($_POST['downloadable'])) ? "true" : "false";
-
+            
             if($title) {
                 $user = 'soundcloud';
                 $sequence = $_SESSION['sequenceArr'];
                 $hash = md5($user . $sequence + rand());
+                $shareUrl = APP_URL . "?p=" . $hash;
 
                 $options = array(
                     "asset_data"   => "@" . APP_PATH . $_SESSION['soundcloud_tmp_file'],
                     "title"        => $title,
-                    "description"  => $description . "\n" . APP_URL . "?p=" . $hash,
+                    "description"  => $description . "\n<a href='$shareUrl'>$shareUrl</a>",
                     "sharing"      => "public",
                     "streamable"   => "true",
                     "downloadable" => $downloadable
@@ -94,6 +96,26 @@
                 //SAVE PATTERN IN `shared_patterns` TABLE
                 $patternAPI = new Pattern();
                 $patternAPI->share($user, $sequence, $hash);
+
+                //IMPORT LATEST TRACKS
+                $db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
+        	    $data = '';
+        		$ch = curl_init();
+        	  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        	  	curl_setopt($ch, CURLOPT_POST, 1);
+        	  	curl_setopt($ch, CURLOPT_URL, 'http://api.soundcloud.com/groups/20839/tracks?consumer_key=jwtest');
+        	  	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        	  	$result = curl_exec($ch);
+        		curl_close($ch);	
+
+        		$xml = new SimpleXMLElement($result, LIBXML_NOCDATA);
+        		foreach($xml as $x) {
+                    $db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$x->id.",'".$x->permalink."','".$x->title."','".$x->user->username."')");
+	            }
+
+
+
+
 
                 //DELETE TRACK FROM DISK AND CLEAR SESSION VARIABLES
                 unlink($_SESSION['soundcloud_tmp_file']);

@@ -84,3 +84,32 @@ CREATE TABLE IF NOT EXISTS `patterns` (
   `pattern` text NOT NULL,
   UNIQUE KEY `user_id` (`user_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+/*****************************************************
+    SOUNDCLOUD TRACKS TABLE
+    STORES INFO ABOUT TRACKS UPLOADED TO SLOUNDCLOUD
+*****************************************************/
+
+DROP TABLE IF EXISTS `soundcloud_tracks`;
+CREATE TABLE `soundcloud_tracks` (
+  `track_id` int(11) NOT NULL DEFAULT '0',
+  `permalink` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+PRIMARY KEY (`track_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+/*****************************************************
+    SOUNDCLOUD BATTLE TABLE
+    STORES INFO ABOUT SOUNDCLOUD BATTLE OUTCOME
+*****************************************************/
+
+DROP TABLE IF EXISTS `soundcloud_battle`;
+CREATE TABLE `soundcloud_battle` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `winning_id` int(11) DEFAULT NULL,
+  `losing_id` int(11) DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
