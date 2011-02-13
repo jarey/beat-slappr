@@ -88,6 +88,58 @@
 
         system($execStr);
 
+
+        /***************************************************/
+        /***COPY GENERATED LOOP SPECIFIED NUMBER OF TIMES***/
+        /***************************************************/
+
+        if(isset($_REQUEST['loopCount']) && $_REQUEST['loopCount'] > 1) {
+            $loopCount = $_REQUEST['loopCount'];
+            $execStr = "sox -M ";
+            $ch = 1;
+            $delayArr = array();
+            $remixArrL = array();
+            $remixArrR = array();
+
+            $kitId = $sequenceArr->kit->id;
+            $kitChannelCount = exec("soxi -c " . $fileDir . $kitId . '/0.ogg');
+
+            for($n = 0; $n < $loopCount; $n++) {
+                $execStr .= ' ' . $outFile;
+
+                $delay = round(($patternTimeLength * $n), 3);
+                for($m=1; $m<=$kitChannelCount; $m++) {
+                    array_push($delayArr, $delay);
+                }
+
+                array_push($remixArrL, $ch);
+                $ch++;
+                if($kitChannelCount == 2) {
+                    array_push($remixArrR, $ch);
+                    $ch++;
+                }
+            }
+
+            //Generate a new file to output to.  Can't overwrite existing file
+            $outFile2 = $fileDir . md5(microtime(true) . rand(1, 1024)) . "." . $outFormat;
+            $execStr .= ' ' . $outFile2;
+            $execStr .= ' pad 0 ' . ($patternTimeLength * $loopCount);
+            $execStr .= ' delay ' . implode(" ", $delayArr);
+            $execStr .= ' remix ' . implode(",", $remixArrL);
+
+            if($kitChannelCount == 2) {
+                $execStr .= ' ' . implode(",", $remixArrR);
+            }
+
+            $execStr .= ' trim 0 ' . ($patternTimeLength * $loopCount) . ' gain -n';
+
+            system($execStr);
+
+            //Delete the original loop and update originalFile variable to point to new loop
+            unlink($outFile);
+            $outFile = $outFile2;
+        }
+
         if($outFormat == "mp3") {
             $mimeType = "audio/mpeg";
             $mp3File = $fileDir . $outFileName . ".mp3";
