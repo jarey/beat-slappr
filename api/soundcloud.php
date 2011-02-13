@@ -48,8 +48,10 @@
             $str = "curl -X POST 'https://api.soundcloud.com/$url' " . $encFlag . " 'oauth_token=" . $this->accessToken . "'";
                 
             foreach($options as $key => $val) {
-                $str .= " $encFlag $resource" . "[" . $key . "]" . "='$val'";
+                $val = str_replace('"', '\"', $val);
+                $str .= " $encFlag $resource" . "[" . $key . "]" . "=\"$val\"";
             }
+
             return json_decode(`$str`);
         }
    }
