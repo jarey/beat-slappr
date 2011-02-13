@@ -84,7 +84,9 @@
             $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM battle, tracks WHERE tracks.track_id = battle.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
             $result = $this->db->getAll($query);
             echo "<div id='lower'>
-            <h1>Leaderboard</h1>";
+            <p style='text-align:center;margin-top:20px;font-size:16px;'>Join the battle by <a href='/'>submitting your own beat</a>!</p>
+            
+            <h1><br>Leaderboard</h1>";
             echo "<table>";
             echo "<tr><td style='width:50px'>score</td><td style='width:150px'>title</td><td style='width:150px'>user</td></tr>";
             
@@ -94,6 +96,7 @@
             }
             echo "</table>
             </div>
+            <div id='credit'>Submitted by Haig Papaghanian and Miguel Senquiz for <a href='http://nyc.musichackday.org'>#musichackday 2011</a></div>            
             </div>
             ";
         }        
@@ -114,8 +117,7 @@
     
 ?>
 
-<style type="text/css">
-body {
+<style type="text/css">body {
 background: #efefef;
 }
 
@@ -125,9 +127,14 @@ margin: 100px auto;
 }
 
 #title {
+background: url(/includes/images/ps-logo-trans.png) no-repeat 0 0px;
 font-size: 60px;
 margin-bottom: 80px;
+padding-left: 130px;
+paddding-top: 50px !important;
+height: 120px;
 }
+
 input {
 border: none;
 background: #fff;
@@ -171,4 +178,14 @@ font-size: 20px;
 margin-left: 0px;
 }
 
+
+
+#credit {
+margin-top: 100px;
+border-top: 1px solid #ccc;
+padding-top:10px;
+color: #777;
+font-size: 12px;
+font-family: helvetica;
+}
 </style>
