@@ -61,6 +61,7 @@
 
             require_once('config.php');
             require_once('api/soundcloud.php');
+            require_once('api/classes/pattern.inc.php');
 
             $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
             $accessToken = $soundcloud->accessToken($_GET['code']);
@@ -70,19 +71,35 @@
             $downloadable = (isset($_POST['downloadable'])) ? "true" : "false";
 
             if($title) {
+                $user = 'soundcloud';
+                $sequence = $_SESSION['sequenceArr'];
+                $hash = md5($user . $sequence + rand());
+
                 $options = array(
                     "asset_data"   => "@" . APP_PATH . $_SESSION['soundcloud_tmp_file'],
                     "title"        => $title,
-                    "description"  => $description,
+                    "description"  => $description . "\n" . APP_URL . "?p=" . $hash,
                     "sharing"      => "public",
                     "streamable"   => "true",
                     "downloadable" => $downloadable
                 );
 
+                //UPLOAD TRACK TO SOUNDCLOUD
                 $result = $soundcloud->execute('tracks.json', 'track', 'POST', $options, 'multipart/form-data');
                 $permalink = $result->permalink_url;
 
+                //ASSOCIATE NEWLY UPLOADED TRACK WITH GROUP
                 $result = $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
+
+                //SAVE PATTERN IN `shared_patterns` TABLE
+                $patternAPI = new Pattern();
+                $patternAPI->share($user, $sequence, $hash);
+
+                //DELETE TRACK FROM DISK AND CLEAR SESSION VARIABLES
+                unlink($_SESSION['soundcloud_tmp_file']);
+                $_SESSION['soundcloud_tmp_file'] = "";
+                $_SESSION['sequenceArr'] = "";
+
                 $success = true;
             }else {
                 $error = true;

@@ -169,6 +169,7 @@
                 unlink($_SESSION['soundcloud_tmp_file']);
             }
             $_SESSION['soundcloud_tmp_file'] = $outFile;
+            $_SESSION['sequenceArr'] = $_REQUEST['sequence'];
 
             $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
             echo $soundcloud->getAuthorizeUrl() . "&display=popup";
