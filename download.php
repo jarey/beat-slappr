@@ -150,7 +150,7 @@
             $outFile = $mp3File;
         }
 
-        if(!$soundcloud) {
+        if(!isset($soundcloud)) {
             header('Content-Description: File Transfer');
             header('Content-Type: ' . $mimeType);
             header('Content-Disposition: download; filename="' . $downloadFileName . '"');
