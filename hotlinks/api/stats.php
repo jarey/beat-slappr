@@ -57,8 +57,8 @@
 
     if($statType == "page_visited" || $statType == "referring_site") {
         $sql = "SELECT unique_visitors." . $statType . " AS page, unique_visits, total_visits
-                FROM (SELECT " . $statType . ", COUNT(client_ip) AS unique_visits FROM (SELECT " . $statType . ", client_ip FROM visits" . $where . " GROUP BY " . $statType . ", client_ip) GROUP BY " . $statType . ") AS unique_visitors,
-                     (SELECT " . $statType . ", COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY " . $statType . ") AS total_visitors
+                FROM (SELECT " . $statType . ", COUNT(*) AS unique_visits FROM (SELECT " . $statType . " FROM visits" . $where . " GROUP BY " . $statType . ", client_ip) GROUP BY " . $statType . ") AS unique_visitors,
+                     (SELECT " . $statType . ", COUNT(*) AS total_visits FROM visits" . $where . " GROUP BY " . $statType . ") AS total_visitors
                 WHERE unique_visitors." . $statType . " = total_visitors." . $statType . "";
 
         $result = $db->query($sql);
@@ -66,7 +66,9 @@
 
         $uniqueTotal = 0;
         $visitTotal = 0;
-        foreach($resultArr as $key => $val) {
+        foreach($resultArr as $key => &$val) {
+            $val['unique_visits'] = intval($val['unique_visits']);
+            $val['total_visits'] = intval($val['total_visits']);
             $uniqueTotal += $val['unique_visits'];
             $visitTotal += $val['total_visits'];
         }

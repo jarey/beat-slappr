@@ -24,7 +24,13 @@ echo "<script src='includes/scripts/script.js'></script>";
 }
 ?>
 <script type="text/javascript">
-var appPath = '<?php echo HOTLINKS_APP_PATH; ?>';
+<?php
+if(preg_match('/^https?:\/\//', HOTLINKS_APP_PATH)) {
+echo "var appPath = '" . HOTLINKS_APP_PATH . "'";
+}else {
+echo "var appPath = 'http://" . HOTLINKS_APP_PATH . "'";
+}
+?>
 </script>
 </head>
 <body>
