@@ -1,56 +1,19 @@
  <?php
  
     require_once('../config.php');
+    require_once('../api/soundcloud.php');
     require_once('../api/classes/db.inc.php');
-    
-    class SoundcloudRating {
-        private $db;
+    require_once('../api/classes/battle.inc.php');
 
-        function __construct() {
-            $this->db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
-        }
-
-        public function get_group_tracks() {
-    		$ch = curl_init();
-    	  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    	  	curl_setopt($ch, CURLOPT_POST, 1);
-    	  	curl_setopt($ch, CURLOPT_URL, 'http://api.soundcloud.com/groups/20839/tracks?consumer_key=jwtest');
-    	  	curl_setopt($ch, CURLOPT_POSTFIELDS, '');
-    	  	$result = curl_exec($ch);
-    		curl_close($ch);	
-
-    		$xml = new SimpleXMLElement($result, LIBXML_NOCDATA);
-    		foreach($xml as $x) {
-                $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$x->id.",'".$x->permalink."','".$x->title."','".$x->user->username."')");
-		    }
-    	}
-
-        public function load_battle() {
-            $query = $this->db->query("SELECT * FROM `soundcloud_tracks` ORDER BY rand() LIMIT 2");
-            $result = $this->db->getAll($query);
-            return $result;
-        }
-
-        public function vote_on_track($post) {
-            $query = $this->db->query('INSERT INTO `soundcloud_battle` (winning_id,losing_id) values ('.$post['winning_track_id'].','.$post['losing_track_id'].')');
-        }
-
-        public function show_leader_board() {
-            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 5');
-            $result = $this->db->getAll($query);
-            return $result;
-        }        
-    }
-    
-    $sc = new SoundcloudRating();
+    $battleObj = new Battle();
 
     if($_POST) {
         $postArr = $_POST;
-        $sc->vote_on_track($postArr);
+        $battleObj->voteontrack($postArr);
     }
 
-    $battle = $sc->load_battle();
-    $leader = $sc->show_leader_board();
+    $battle = $battleObj->loadBattle();
+    $leader = $battleObj->getLeaderBoard();
     
     
 ?>
@@ -130,7 +93,6 @@
                 font-family: helvetica;
             }
         </style>
-
 
         <?php if(!DEV) { ?>
             <script type="text/javascript">
