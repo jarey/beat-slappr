@@ -5,11 +5,15 @@
     require_once('../api/classes/db.inc.php');
     require_once('../api/classes/battle.inc.php');
 
+    $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
     $battleObj = new Battle();
+
+    $tracks = $soundcloud->execute('groups/20839/tracks?consumer_key=' . SOUNDCLOUD_API_CLIENT_ID . '&format=json', '', 'GET');
+    $battleObj->syncTracks($tracks);
 
     if($_POST) {
         $postArr = $_POST;
-        $battleObj->voteontrack($postArr);
+        $battleObj->voteOnTrack($postArr);
     }
 
     $battle = $battleObj->loadBattle();

@@ -45,8 +45,11 @@
                 return false;
             }
 
-            $str = "curl -X $method 'https://api.soundcloud.com/$url' " . $encFlag . " 'oauth_token=" . $this->accessToken . "'";
-                
+            $str = "curl -X $method 'https://api.soundcloud.com/$url'";
+            if($this->accessToken) {
+                $str .= " " . $encFlag . " 'oauth_token=" . $this->accessToken . "'";
+            }
+
             foreach($options as $key => $val) {
                 $val = str_replace('"', '\"', $val);
                 $str .= " $encFlag $resource" . "[" . $key . "]" . "=\"$val\"";
