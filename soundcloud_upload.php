@@ -87,6 +87,7 @@
                     "downloadable" => $downloadable
                 );
 
+
                 //UPLOAD TRACK TO SOUNDCLOUD
                 $result = $soundcloud->execute('tracks.json', 'track', 'POST', $options, 'multipart/form-data');
                 $permalink = $result->permalink_url;
@@ -96,27 +97,19 @@
                 $result = $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
 
 
+                //IMPORT LATEST TRACKS
+                //THIS EVENTUALLY NEEDS TO BE MOVED OUT OF HERE!
+                $tracks = $soundcloud->execute('groups/20839/tracks?format=json', '', 'GET');
+
+                $db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
+        		foreach($tracks as $track) {
+                    $db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$track->id.",'".$track->permalink."','".$track->title."','".$track->user->username."')");
+	            }
+
+
                 //SAVE PATTERN IN `shared_patterns` TABLE
                 $patternAPI = new Pattern();
                 $patternAPI->share($user, $sequence, $hash);
-
-
-                //IMPORT LATEST TRACKS
-                //THIS EVENTUALLY NEEDS TO BE MOVED OUT OF HERE!
-                $db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
-        	    $data = '';
-        		$ch = curl_init();
-        	  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        	  	curl_setopt($ch, CURLOPT_POST, 1);
-        	  	curl_setopt($ch, CURLOPT_URL, 'http://api.soundcloud.com/groups/20839/tracks?consumer_key=jwtest');
-        	  	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        	  	$result = curl_exec($ch);
-        		curl_close($ch);	
-
-        		$xml = new SimpleXMLElement($result, LIBXML_NOCDATA);
-        		foreach($xml as $x) {
-                    $db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$x->id.",'".$x->permalink."','".$x->title."','".$x->user->username."')");
-	            }
 
 
                 //DELETE TRACK FROM DISK AND CLEAR SESSION VARIABLES
