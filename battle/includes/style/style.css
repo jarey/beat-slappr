@@ -1,0 +1,74 @@
+body {
+    background: #efefef;
+}
+
+a {
+    color: #000;
+}
+
+#body {
+    width: 800px;
+    margin: 50px auto;
+}
+
+#title {
+    background: url(../includes/images/ps-logo-trans.png) no-repeat 0 0px;
+    font-size: 60px;
+    margin-bottom: 80px;
+    padding-left: 130px;
+    height: 120px;
+}
+
+input {
+    border: none;
+    background: #fff;
+    border: 1px solid #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    margin: 30px 0 0 80px;
+    cursor: pointer;
+}
+
+input:hover {
+    background: #efefef;
+}
+
+#track-1 {
+    float: left;
+    width: 310px;
+}
+
+h1 {
+    float: left;
+    margin-left: 40px;
+    font-size: 90px;
+    color: #999 ;
+}
+
+#track-2 {
+    float: right;
+}
+#lower {
+    clear: both;
+}
+
+#lower h1 {
+    border-top: 1px solid #000;
+    width: 800px;
+    float: none;
+    margin-top: 20px;
+    font-size: 20px;
+    margin-left: 0px;
+    color: #000;
+}
+
+#credit {
+    margin-top: 100px;
+    border-top: 1px solid #ccc;
+    padding-top:10px;
+    color: #777;
+    font-size: 12px;
+    font-family: helvetica;
+}
