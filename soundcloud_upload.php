@@ -63,6 +63,7 @@
             require_once('config.php');
             require_once('api/soundcloud.php');
             require_once('api/classes/db.inc.php');
+            require_once('api/classes/battle.inc.php');
             require_once('api/classes/pattern.inc.php');
 
             $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
@@ -93,18 +94,13 @@
                 $permalink = $result->permalink_url;
 
 
+                //ADD NEWLY UPLOADED TRACK INFO TO DB
+                //$tracks = $soundcloud->execute('groups/20839/tracks?format=json', '', 'GET');
+                $battle = new Battle();
+                $battle->addTrack($result);
+
                 //ASSOCIATE NEWLY UPLOADED TRACK WITH GROUP
-                $result = $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
-
-
-                //IMPORT LATEST TRACKS
-                //THIS EVENTUALLY NEEDS TO BE MOVED OUT OF HERE!
-                $tracks = $soundcloud->execute('groups/20839/tracks?format=json', '', 'GET');
-
-                $db = new DB(DB_HOSTNAME, DB_NAME, DB_USERNAME, DB_PASSWORD);
-        		foreach($tracks as $track) {
-                    $db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$track->id.",'".$track->permalink."','".$track->title."','".$track->user->username."')");
-	            }
+                $soundcloud->execute('groups/20839/contributions/' . $result->id, '', 'PUT');
 
 
                 //SAVE PATTERN IN `shared_patterns` TABLE

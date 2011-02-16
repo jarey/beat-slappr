@@ -17,7 +17,9 @@
         }
         
         public function query($query) {
-            if(!$this->result = mysql_query($query, $this->connection)) {
+            if($this->result = mysql_query($query, $this->connection)) {
+                return true;
+            }else {
                 return false;
             }
         }
