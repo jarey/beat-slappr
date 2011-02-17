@@ -19,10 +19,11 @@
             function loadResponse(obj) {
                 var response = obj.response.split('-----');
                 $('divMainWrapper').innerHTML = response[0];
-                $('tblLeaderBoard').innerHTML = response[1];            
+                $('tblLeaderBoard').innerHTML = response[1];
             }
 
             function vote(winner, loser) {
+                $('divMainWrapper').innerHTML = "<img src='../includes/images/ajax-loader-large.gif' />";
                  ajax.request({
                     url:    'includes/api/battle.inc.php',
                     method: 'post',
@@ -71,7 +72,9 @@
     <body>
         <div id="body">
             <div id="title"><h1>Soundcloud Beat Battle</h1></div>
-            <div id="divMainWrapper"></div>
+            <div id="divMainWrapper">
+                <img src="../includes/images/ajax-loader-large.gif" />
+            </div>
             <div id='lower'>
                 <div id='divJoinMesg'>Join the battle by <a href='<?php echo APP_URL; ?>'>submitting your own beat</a>!</div>
                 <br />
