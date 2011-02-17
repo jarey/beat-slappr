@@ -83,6 +83,11 @@ h1 {
     color: #000;
 }
 
+#lower th {
+    font-weight: bold;
+    text-align: left;
+}
+
 #credit {
     margin-top: 100px;
     border-top: 1px solid #ccc;

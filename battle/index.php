@@ -89,10 +89,19 @@
                 <br />
                 <h1>Leaderboard</h1>
                 <table>
-                    <tr><td style='width:50px'>Score</td><td style='width:150px'>Title</td><td style='width:150px'>Soundcloud User</td></tr>
+                    <tr>
+                        <th style='width:100px'>Score</td>
+                        <th style='width:350px'>Title</td>
+                        <th style='width:250px'>Soundcloud User</td>
+                    </tr>
                     <?php
                         foreach($leader as $data) {
-                            echo "<tr><td >".$data['wins']."0</td><td><a href='http://soundcloud.com/".$data['username']."/".$data['permalink']."'>".$data['title']."</a></td><td><a href='http://soundcloud.com/".$data['username']."'>".$data['username']."</a></td></tr>";
+                            echo "
+                            <tr>
+                                <td>" . $data['wins'] . "0</td>
+                                <td><a href='http://soundcloud.com/" . $data['username'] . "/" . $data['permalink'] . "'>" . $data['title'] . "</a></td>
+                                <td><a href='http://soundcloud.com/" . $data['username'] . "'>" . $data['username'] . "</a></td>
+                            </tr>";
                         }                
                     ?>
                 </table>
