@@ -89,10 +89,11 @@ h1 {
 }
 
 #credit {
+    font-family: helvetica;
+    font-size: 12px;
+    text-align: center;
     margin-top: 100px;
     border-top: 1px solid #ccc;
     padding-top:10px;
     color: #777;
-    font-size: 12px;
-    font-family: helvetica;
 }
