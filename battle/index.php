@@ -1,25 +1,5 @@
 <?php
- 
     require_once('../config.php');
-    require_once('../api/soundcloud.php');
-    require_once('../api/classes/db.inc.php');
-    require_once('../api/classes/battle.inc.php');
-
-    $soundcloud = new Soundcloud(SOUNDCLOUD_API_CLIENT_ID, SOUNDCLOUD_API_CLIENT_SECRET, SOUNDCLOUD_API_REDIRECT_URL);
-    $battleObj = new Battle();
-
-    $tracks = $soundcloud->execute('groups/20839/tracks?consumer_key=' . SOUNDCLOUD_API_CLIENT_ID . '&format=json', '', 'GET');
-    $battleObj->syncTracks($tracks);
-
-    if($_POST) {
-        $postArr = $_POST;
-        $battleObj->voteOnTrack($postArr);
-    }
-
-    $battle = $battleObj->loadBattle();
-    $leader = $battleObj->getLeaderBoard();
-    
-    
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -28,6 +8,42 @@
         <meta name="description" content="<?php echo APP_NAME; ?> - Beat Battle" />
         <title><?php echo APP_NAME; ?> - Beat Battle</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
+        <script src="includes/scripts/kodiak.js"></script>
+        <script type="text/javascript">
+            var ajax = new Kodiak.Data.Ajax();
+
+            function $(el) {
+                return document.getElementById(el);            
+            }
+
+            function loadResponse(obj) {
+                var response = obj.response.split('-----');
+                $('divMainWrapper').innerHTML = response[0];
+                $('tblLeaderBoard').innerHTML = response[1];            
+            }
+
+            function vote(winner, loser) {
+                 ajax.request({
+                    url:    'includes/api/battle.inc.php',
+                    method: 'post',
+                    parameters: {
+                        cmd: 'vote',
+                        winning_track_id: winner,
+                        losing_track_id: loser
+                    },
+                    handler: loadResponse
+                });
+            }
+
+            window.onload = function() {
+                 ajax.request({
+                    url:    'includes/api/battle.inc.php',
+                    method: 'post',
+                    parameters: {cmd: 'sync'},
+                    handler: loadResponse
+                });
+            };
+        </script>
         <?php if(!DEV) { ?>
             <script type="text/javascript">
                 var _gaq = _gaq || [];
@@ -55,55 +71,20 @@
     <body>
         <div id="body">
             <div id="title"><h1>Soundcloud Beat Battle</h1></div>
-            <div id="divMainWrapper">
-                <div id="track-1">
-                    <object height="81" width="300"> 
-                        <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[0]->track_id; ?>"></param> 
-                        <param name="allowscriptaccess" value="always"></param> 
-                        <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[0]->track_id;?>" type="application/x-shockwave-flash" width="300"></embed> 
-                    </object>
-                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[0]->user_permalink; ?>/<?php echo $battle[0]->track_permalink; ?>"><?php echo $battle[0]->track_name; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[0]->user_permalink;?>"><?php echo $battle[0]->user_name; ?></a></span>
-                    <form method="post">
-                        <input type="hidden" name="winning_track_id" value="<?php echo $battle[0]->track_id; ?>" />
-                        <input type="hidden" name="losing_track_id" value="<?php echo $battle[1]->track_id; ?>" />
-                        <input type="submit" value="Vote for this pattern" />
-                    </form>
-                </div>
-                <span id="vs">VS</span>
-                <div id="track-2">
-                    <object height="81" width="300">                 
-                        <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[1]->track_id;?>"></param> 
-                        <param name="allowscriptaccess" value="always"></param> 
-                        <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[1]->track_id;?>" type="application/x-shockwave-flash" width="300"></embed> 
-                    </object>
-                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[1]->user_permalink; ?>/<?php echo $battle[1]->track_permalink; ?>"><?php echo $battle[1]->track_name; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[1]->user_permalink; ?>"><?php echo $battle[1]->user_name; ?></a></span>
-                    <form method="post">
-                        <input type="hidden" name="winning_track_id" value="<?php echo $battle[1]->track_id; ?>" />
-                        <input type="submit" value="Vote for this pattern" />
-                    </form>            
-                </div>
-            </div>
+            <div id="divMainWrapper"></div>
             <div id='lower'>
                 <div id='divJoinMesg'>Join the battle by <a href='<?php echo APP_URL; ?>'>submitting your own beat</a>!</div>
-                        <input type="hidden" name="losing_track_id" value="<?php echo $battle[0]->track_id; ?>" />
                 <br />
                 <h1>Leaderboard</h1>
                 <table>
-                    <tr>
-                        <th style='width:100px'>Score</td>
-                        <th style='width:350px'>Title</td>
-                        <th style='width:250px'>Soundcloud User</td>
-                    </tr>
-                    <?php
-                        foreach($leader as $data) {
-                            echo "
-                            <tr>
-                                <td>" . $data->wins . "0</td>
-                                <td><a href='http://soundcloud.com/" . $data->user_permalink . "/" . $data->track_permalink . "'>" . $data->track_name . "</a></td>
-                                <td><a href='http://soundcloud.com/" . $data->user_permalink . "'>" . $data->user_name . "</a></td>
-                            </tr>";
-                        }                
-                    ?>
+                    <thead>
+                        <tr>
+                            <th style='width:100px'>Score</td>
+                            <th style='width:350px'>Title</td>
+                            <th style='width:250px'>Soundcloud User</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblLeaderBoard"></tbody>
                 </table>
             </div>
             <div id='credit'>Submitted by Haig Papaghanian and Miguel Senquiz for <a href='http://wiki.musichackday.org/index.php?title=PatternSketch'>#musichackday 2011</a></div>            
