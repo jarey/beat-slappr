@@ -13,7 +13,7 @@
         }
 
         function addTrack($track) {
-            $result = $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username) values (".$track->id.",'".addslashes($track->permalink)."','".addslashes($track->title)."','".addslashes($track->user->username)."')");
+            $result = $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,permalink,title,username,username_permalink) values (".$track->id.",'".addslashes($track->permalink)."','".addslashes($track->title)."','".addslashes($track->user->username)."', '" . addslashes($track->user->permalink) . "')");
             if($result) {
                 return true;
             }else {
@@ -22,7 +22,7 @@
         }
 
         function updateTrack($track) {
-            $result = $this->db->query("UPDATE `soundcloud_tracks` SET `permalink`='" . addslashes($track->permalink) . "', `title`='" . addslashes($track->title) . "', `username`='" . ($track->user->username) . "' WHERE `track_id`=" . $track->id);
+            $result = $this->db->query("UPDATE `soundcloud_tracks` SET `permalink`='" . addslashes($track->permalink) . "', `title`='" . addslashes($track->title) . "', `username`='" . addslashes($track->user->username) . "', `username_permalink`='" . addslashes($track->user->permalink) . "' WHERE `track_id`=" . $track->id);
             if($result) {
                 return true;
             }else {
@@ -69,7 +69,7 @@
         }
 
         public function getLeaderBoard() {
-            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 20');
+            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, title, username, username_permalink, permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 20');
             $result = $this->db->getAll($query);
             return $result;
         }        
