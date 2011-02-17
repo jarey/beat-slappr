@@ -32,6 +32,7 @@
 
         function deleteTrack($id) {
             $result = $this->db->query("DELETE FROM `soundcloud_tracks` WHERE `track_id`=$id");
+            $result = $this->db->query("DELETE FROM `soundcloud_battle` WHERE `winning_id`=$id");
             if($result) {
                 return true;
             }else {
@@ -47,7 +48,7 @@
                 if($track) {
                     $this->updateTrack($track);
                 }else {
-                    $this->deleteTrack($existingTrack['track_id']);
+                    $this->deleteTrack($existingTrack->track_id);
                 }
             }
 
