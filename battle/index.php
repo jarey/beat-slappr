@@ -23,7 +23,9 @@
             }
 
             function vote(winner, loser) {
+                $('divMesg').innerHTML = "You voted for " + $('trackTitle_' + winner).innerHTML;
                 $('divMainWrapper').innerHTML = "<img src='../includes/images/ajax-loader-large.gif' />";
+
                  ajax.request({
                     url:    'includes/api/battle.inc.php',
                     method: 'post',
@@ -72,6 +74,7 @@
     <body>
         <div id="body">
             <div id="title"><h1>Soundcloud Beat Battle</h1></div>
+            <div id="divMesg">&nbsp;</div>
             <div id="divMainWrapper">
                 <img src="../includes/images/ajax-loader-large.gif" />
             </div>

@@ -51,7 +51,7 @@
                 <param name='allowscriptaccess' value='always'></param> 
                 <embed allowscriptaccess='always' height='81' src='http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F" . $battle[0]->track_id . "' type='application/x-shockwave-flash' width='300'></embed> 
             </object>
-            <br /><span><a href='http://soundcloud.com/" . $battle[0]->user_permalink . "/" . $battle[0]->track_permalink . "'>" . $battle[0]->track_name . "</a> by <a href='http://soundcloud.com/" . $battle[0]->user_permalink . "'>" . $battle[0]->user_name . "</a></span><br />
+            <br /><span id='trackTitle_" . $battle[0]->track_id . "'><a href='http://soundcloud.com/" . $battle[0]->user_permalink . "/" . $battle[0]->track_permalink . "'>" . $battle[0]->track_name . "</a> by <a href='http://soundcloud.com/" . $battle[0]->user_permalink . "'>" . $battle[0]->user_name . "</a></span><br />
             <input type='button' onclick='vote(" . $battle[0]->track_id . ", " . $battle[1]->track_id . ");' value='Vote for this pattern' />
         </div>
         <span id='vs'>VS</span>
@@ -61,7 +61,7 @@
                 <param name='allowscriptaccess' value='always'></param> 
                 <embed allowscriptaccess='always' height='81' src='http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F" . $battle[1]->track_id . "' type='application/x-shockwave-flash' width='300'></embed> 
             </object>
-            <br /><span><a href='http://soundcloud.com/" . $battle[1]->user_permalink . "/" . $battle[1]->track_permalink . "'>" . $battle[1]->track_name . "</a> by <a href='http://soundcloud.com/" . $battle[1]->user_permalink . "'>" . $battle[1]->user_name . "</a></span><br />
+            <br /><span id='trackTitle_" . $battle[1]->track_id . "'><a href='http://soundcloud.com/" . $battle[1]->user_permalink . "/" . $battle[1]->track_permalink . "'>" . $battle[1]->track_name . "</a> by <a href='http://soundcloud.com/" . $battle[1]->user_permalink . "'>" . $battle[1]->user_name . "</a></span><br />
             <input type='button' onclick='vote(" . $battle[1]->track_id . ", " . $battle[0]->track_id . ");' value='Vote for this pattern' />
         </div>
         -----";
