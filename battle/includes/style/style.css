@@ -7,16 +7,19 @@ a {
 }
 
 #body {
-    width: 800px;
+    width: 960px;
     margin: 50px auto;
 }
 
 #title {
     background: url(../../../includes/images/ps-logo-trans.png) no-repeat 0 0px;
-    font-size: 60px;
     margin-bottom: 80px;
     padding-left: 130px;
     height: 120px;
+}
+
+#divMainWrapper {
+    overflow: hidden;
 }
 
 input {
@@ -41,10 +44,16 @@ input:hover {
 }
 
 h1 {
-    float: left;
-    margin-left: 40px;
+    font-size: 60px;
+    margin: 0;
+}
+
+#vs {
+    font-weight: bold;
+    margin-left: 105px;
     font-size: 90px;
-    color: #999 ;
+    line-height: 90px;
+    color: #888;
 }
 
 #track-2 {
@@ -54,12 +63,22 @@ h1 {
     clear: both;
 }
 
+#divJoinMesg {
+    text-align:center;
+    margin:20px auto 0 auto;
+    font-size:16px;
+    background:#ffffcc;
+    padding:5px;
+    width: 400px;
+}
+
 #lower h1 {
     border-top: 1px solid #000;
-    width: 800px;
+    width: 100%;
     float: none;
     margin-top: 20px;
     font-size: 20px;
+    line-height: 36px;
     margin-left: 0px;
     color: #000;
 }
