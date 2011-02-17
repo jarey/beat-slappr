@@ -38,7 +38,7 @@
         	if(!$row) {
                 return false;
         	}
-        	return $row;
+        	return (object) $row;
         }
         
         public function getAll($resultType='assoc') {

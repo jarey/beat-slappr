@@ -43,7 +43,7 @@
             $existingTracks = $this->getTracks();
 
             foreach($existingTracks as $existingTrack) {
-                $track = $this->_trackExistsInObj($tracks, $existingTrack['track_id']);
+                $track = $this->_trackExistsInObj($tracks, $existingTrack->track_id);
                 if($track) {
                     $this->updateTrack($track);
                 }else {
