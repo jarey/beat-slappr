@@ -92,13 +92,15 @@ CREATE TABLE IF NOT EXISTS `patterns` (
 *****************************************************/
 
 DROP TABLE IF EXISTS `soundcloud_tracks`;
-CREATE TABLE `soundcloud_tracks` (
+CREATE TABLE IF NOT EXISTS `soundcloud_tracks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `track_id` int(11) NOT NULL DEFAULT '0',
-  `permalink` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-PRIMARY KEY (`track_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `track_name` varchar(255) DEFAULT NULL,
+  `track_permalink` varchar(255) DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_permalink` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 
 /*****************************************************

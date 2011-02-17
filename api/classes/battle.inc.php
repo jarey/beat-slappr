@@ -13,7 +13,7 @@
         }
 
         function addTrack($track) {
-            $result = $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,track_permalink,track_title,user_name,user_permalink) values (".$track->id.",'".addslashes($track->permalink)."','".addslashes($track->title)."','".addslashes($track->user->username)."', '" . addslashes($track->user->permalink) . "')");
+            $result = $this->db->query("INSERT INTO `soundcloud_tracks` (track_id,track_permalink,track_name,user_name,user_permalink) values (".$track->id.",'".addslashes($track->permalink)."','".addslashes($track->title)."','".addslashes($track->user->username)."', '" . addslashes($track->user->permalink) . "')");
             if($result) {
                 return true;
             }else {
@@ -22,7 +22,7 @@
         }
 
         function updateTrack($track) {
-            $result = $this->db->query("UPDATE `soundcloud_tracks` SET `track_permalink`='" . addslashes($track->permalink) . "', `track_title`='" . addslashes($track->title) . "', `user_name`='" . addslashes($track->user->username) . "', `user_permalink`='" . addslashes($track->user->permalink) . "' WHERE `track_id`=" . $track->id);
+            $result = $this->db->query("UPDATE `soundcloud_tracks` SET `track_permalink`='" . addslashes($track->permalink) . "', `track_name`='" . addslashes($track->title) . "', `user_name`='" . addslashes($track->user->username) . "', `user_permalink`='" . addslashes($track->user->permalink) . "' WHERE `track_id`=" . $track->id);
             if($result) {
                 return true;
             }else {
@@ -69,7 +69,7 @@
         }
 
         public function getLeaderBoard() {
-            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, track_title, user_name, user_permalink, track_permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 20');
+            $query = $this->db->query('SELECT count(winning_id) as wins, winning_id, track_name, user_name, user_permalink, track_permalink  FROM `soundcloud_battle`, `soundcloud_tracks` WHERE `soundcloud_tracks`.track_id = `soundcloud_battle`.winning_id GROUP BY winning_id ORDER BY count(winning_id) DESC LIMIT 20');
             $result = $this->db->getAll($query);
             return $result;
         }        
