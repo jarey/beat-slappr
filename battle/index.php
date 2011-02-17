@@ -1,4 +1,4 @@
- <?php
+<?php
  
     require_once('../config.php');
     require_once('../api/soundcloud.php');
@@ -62,7 +62,7 @@
                         <param name="allowscriptaccess" value="always"></param> 
                         <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[0]['track_id'];?>" type="application/x-shockwave-flash" width="300"></embed> 
                     </object>
-                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[0]['username_permalink'];?>/<?php echo $battle[0]['permalink'];?>"><?php echo $battle[0]['title']; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[0]['username_permalink'];?>"><?php echo $battle[0]['username']; ?></a></span>
+                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[0]['user_permalink'];?>/<?php echo $battle[0]['track_permalink'];?>"><?php echo $battle[0]['track_title']; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[0]['user_permalink'];?>"><?php echo $battle[0]['user_name']; ?></a></span>
                     <form method="post">
                         <input type="hidden" name="winning_track_id" value="<?php echo $battle[0]['track_id']; ?>" />
                         <input type="hidden" name="losing_track_id" value="<?php echo $battle[1]['track_id']; ?>" />
@@ -76,7 +76,7 @@
                         <param name="allowscriptaccess" value="always"></param> 
                         <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F<?php echo $battle[1]['track_id'];?>" type="application/x-shockwave-flash" width="300"></embed> 
                     </object>
-                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[1]['username_permalink'];?>/<?php echo $battle[1]['permalink'];?>"><?php echo $battle[1]['title']; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[1]['username_permalink'];?>"><?php echo $battle[1]['username']; ?></a></span>
+                    <br /><span><a href="http://soundcloud.com/<?php echo $battle[1]['user_permalink'];?>/<?php echo $battle[1]['track_permalink'];?>"><?php echo $battle[1]['track_title']; ?></a> by <a href="http://soundcloud.com/<?php echo $battle[1]['user_permalink'];?>"><?php echo $battle[1]['user_name']; ?></a></span>
                     <form method="post">
                         <input type="hidden" name="winning_track_id" value="<?php echo $battle[1]['track_id']; ?>" />
                         <input type="submit" value="Vote for this pattern" />
@@ -99,8 +99,8 @@
                             echo "
                             <tr>
                                 <td>" . $data['wins'] . "0</td>
-                                <td><a href='http://soundcloud.com/" . $data['username_permalink'] . "/" . $data['permalink'] . "'>" . $data['title'] . "</a></td>
-                                <td><a href='http://soundcloud.com/" . $data['username_permalink'] . "'>" . $data['username'] . "</a></td>
+                                <td><a href='http://soundcloud.com/" . $data['user_permalink'] . "/" . $data['track_permalink'] . "'>" . $data['track_title'] . "</a></td>
+                                <td><a href='http://soundcloud.com/" . $data['user_permalink'] . "'>" . $data['user_name'] . "</a></td>
                             </tr>";
                         }                
                     ?>
